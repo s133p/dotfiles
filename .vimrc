@@ -107,7 +107,7 @@ if has("win32")
     set shellslash
     "set autochdir
     set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
+    set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
 
     " Fullscreen on app-start
     au GUIEnter * simalt ~x
@@ -209,6 +209,7 @@ nnoremap <c-j> <c-w><down>
 nnoremap gH :tabprevious<cr>
 nnoremap gL :tabnext<cr>
 nnoremap gw <c-w>
+nnoremap gb :b#<cr>
 
 " create splits/tabs
 nnoremap <leader>v :vnew<CR>
