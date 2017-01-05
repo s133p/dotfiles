@@ -262,8 +262,10 @@ function! OpenPersonalNotes(type)
         execute "Unite -path=" . g:personal_nv_notes_dir . " -start-insert -no-split file_rec"
     endif
 endfunction
-nnoremap <leader>n :call OpenPersonalNotes('n')<cr>
-nnoremap <leader>N :call OpenPersonalNotes('v')<cr>
+nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
+nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
+nnoremap <leader>nh :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
+" nnoremap <leader>N :call OpenPersonalNotes('v')<cr>
 
 " OSX shortcut to open the pretty-notes
 if has("osx")
@@ -387,19 +389,19 @@ autocmd FileType unite nmap <buffer> <esc> q
 call unite#filters#matcher_default#use(['matcher_glob'])
 call unite#filters#sorter_default#use(['sorter_selecta'])
 call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
-nmap <leader>f :call MyUniteSpecial()<cr>
-nmap <leader>F :UniteWithProjectDir -start-insert -no-split file tab<cr>
-nmap <leader>r :Unite -no-split -start-insert file_mru<cr>
-nmap <leader>U :UniteFirst resume<cr>
-nmap <leader>ut :Unite tab bookmark<cr>
-nmap <leader>ub :Unite -no-split buffer<cr>
-nmap <leader>uB :UniteBookmarkAdd<cr><cr>
-nmap <leader>uc :Unite change<cr>
-nmap <leader>uf :Unite qf locationlist<cr>
+nmap <silent> <leader>f :call MyUniteSpecial()<cr>
+nmap <silent> <leader>F :UniteWithProjectDir -start-insert -no-split file tab<cr>
+nmap <silent> <leader>r :Unite -no-split -start-insert file_mru<cr>
+nmap <silent> <leader>U :UniteFirst resume<cr>
+nmap <silent> <leader>ut :Unite tab bookmark<cr>
+nmap <silent> <leader>ub :Unite -no-split buffer<cr>
+nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
+nmap <silent> <leader>uc :Unite change<cr>
+nmap <silent> <leader>uf :Unite qf locationlist<cr>
 
-nmap <leader>ug :call MyUniteVimGrep(1)<cr>
+nmap <silent> <leader>ug :call MyUniteVimGrep(1)<cr>
 vmap <leader>ug y:let g:my_vim_grep_search=@"<cr>:call MyUniteVimGrep(0)<cr>
-nmap <leader>uG :call MyUniteVimGrep(0)<cr>
+nmap <silent> <leader>uG :call MyUniteVimGrep(0)<cr>
 " Replaces vimgrep in unite, saving to locationlist for easy access
 function! MyUniteVimGrep(clear_search)
     if !exists("g:my_vim_grep_search") || a:clear_search
