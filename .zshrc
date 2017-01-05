@@ -83,6 +83,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+autoload -U zmv
+
 bindkey -v
 
 bindkey '^P' up-history
@@ -109,5 +111,12 @@ alias spn="spotify next"
 alias spvu="spotify vol up"
 alias spvd="spotify vol down"
 DEFAULT_USER=`whoami`
+alias tmc="~/.tmuxgo"
 alias tma="tmux a"
 alias tmd="tmux detach-client"
+alias tmx="tmux kill-session"
+alias v='vim'
+alias q="exit"
+
+export GOPATH=$HOME/Documents/goproj
+export PATH=$PATH:$GOPATH/bin
