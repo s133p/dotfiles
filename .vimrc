@@ -82,6 +82,10 @@ set encoding=utf8
 set t_Co=256
 set switchbuf=usetab
 set shortmess=I
+set incsearch
+set ignorecase
+set smartcase
+set showmatch
 
 " TESTING!!
 set list                              " show whitespace
@@ -92,14 +96,6 @@ set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION M
 set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
 set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
 "======== [END Settings] ========}}}
-
-"======== [Search Settings] ========{{{
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-"map <leader><space> :let @/=''<cr>
-"======== [END Search Settings] ========}}}
 
 "======== [Gvim / MacVim] ========{{{
 if has("win32")
