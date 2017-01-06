@@ -83,10 +83,6 @@ set encoding=utf8
 set t_Co=256
 set switchbuf=usetab
 set shortmess=I
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
 
 " TESTING!!
 set list                              " show whitespace
@@ -98,13 +94,21 @@ set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MA
 set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
 "======== [END Settings] ========}}}
 
+"======== [Search Settings] ========{{{
+set incsearch
+set ignorecase
+set smartcase
+set showmatch
+"map <leader><space> :let @/=''<cr>
+"======== [END Search Settings] ========}}}
+
 "======== [Gvim / MacVim] ========{{{
 if has("win32")
     "gvim specific
     set shellslash
     "set autochdir
     set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
+    set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
 
     " Fullscreen on app-start
     au GUIEnter * simalt ~x
@@ -206,7 +210,6 @@ nnoremap <c-j> <c-w><down>
 nnoremap gH :tabprevious<cr>
 nnoremap gL :tabnext<cr>
 nnoremap gw <c-w>
-nnoremap gb :b#<cr>
 
 " create splits/tabs
 nnoremap <leader>v :vnew<CR>
@@ -447,6 +450,10 @@ nmap <leader>gp :Gpush<cr>
 nmap <leader>gu :Gpull<cr>
 nmap <leader>gb :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
+
+nmap <leader>dg :diffget<cr>
+nmap <leader>dp :diffput<cr>
+autocmd BufReadPost fugitive://* set bufhidden=delete
 " [END vim-fugitive] }}}
 
 " [neocomplcache.vim]{{{
@@ -510,6 +517,10 @@ endif
 " Use sparkup default mapping <c-e> in normal & insert mode
 let g:sparkupMapsNormal = 1
 " [END sparkup] }}}
+
+" [gundo.vim] {{{
+nmap <leader>gu :GundoToggle<cr>
+" [END gundo.vim] }}}
 
 " [vim-magic-template] {{{
 " Common menu
