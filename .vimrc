@@ -14,6 +14,7 @@ Plugin 'tpope/vim-sensible'                   " [vim-sensible]        = Sensible
 Plugin 'tpope/vim-abolish'                    " [vim-abolish]         = Coerce cases
 Plugin 'tpope/vim-surround'                   " [vim-surround]        = Does what it says on the tin
 Plugin 'tpope/vim-repeat'                     " [vim-repeat]          = Allow plugin mappings to be repeated w/ '.'
+Plugin 'tpope/vim-dispatch'                   " [vim-dispatch]        = Async commands w/ adaptors
 Plugin 'michaeljsmith/vim-indent-object'      " [vim-indent-object]   = Use indent levels as text objects
 Plugin 'tomtom/tcomment_vim'                  " [tcomment]            = Shortcuts for commenting
 Plugin 'spiiph/vim-space'                     " [vim-space]           = Use spacebar to repeat last movement
@@ -192,10 +193,10 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 
-nnoremap <c-left> <c-w><left>
-nnoremap <c-right> <c-w><right>
-nnoremap <c-up> <c-w><up>
-nnoremap <c-down> <c-w><down>
+" nnoremap <c-left> <c-w><left>
+" nnoremap <c-right> <c-w><right>
+" nnoremap <c-up> <c-w><up>
+" nnoremap <c-down> <c-w><down>
 
 nnoremap <c-h> <c-w><left>
 nnoremap <c-l> <c-w><right>
