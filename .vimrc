@@ -3,6 +3,7 @@ set exrc
 set secure
 
 let mapleader=';'
+set shellslash
 
 "======== [VUNDLE BEGIN] ========{{{
 filetype off                                  " required
@@ -375,8 +376,8 @@ augroup plugcpp
         autocmd FileType c,cpp highlight YcmErrorSection cterm=NONE ctermfg=white ctermbg=darkgrey
         autocmd FileType c,cpp highlight YcmWarningSection cterm=NONE ctermfg=white ctermbg=Darkblue
     elseif has("win32")
-        autocmd FileType c,cpp nmap <buffer> <leader>cb :make ./vs2013/local.sln<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>cr :make ./vs2013/local.sln /p:Configuration=Release<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>cb :Make ./vs2013/local.sln<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>cr :Make ./vs2013/local.sln /p:Configuration=Release<cr>
         " Convert visual studio solution for cinder to local version
         " combine this with a test to see if ./vs2013/local.sln exists,
         " creating it if it doesnt.
