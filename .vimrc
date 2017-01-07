@@ -434,10 +434,6 @@ set shellslash
         let g:sparkupMapsNormal = 1
     " [END sparkup] }}}
 
-    " [gundo.vim] {{{
-        nmap <leader>gu :GundoToggle<cr>
-    " [END gundo.vim] }}}
-
     " [vim-magic-template] {{{
         " " Common menu
         " let g:magicMenu={"VIM-NOTES":["~/Dropbox/vim-notes",".md",""], "NV-NOTES":["~/Dropbox/NV-Notes",".txt",""], "Magic-Template":["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]}
