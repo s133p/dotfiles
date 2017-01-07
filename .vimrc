@@ -439,18 +439,18 @@ set shellslash
     " [END gundo.vim] }}}
 
     " [vim-magic-template] {{{
-        " Common menu
-        let g:magicMenu={"VIM-NOTES":["~/Dropbox/vim-notes",".md",""], "NV-NOTES":["~/Dropbox/NV-Notes",".txt",""], "Magic-Template":["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]}
-        if has("osx")
-            let g:magicMenu["CODE"]=["~/Desktop/CODE",".cpp","*\/*"]
-            let g:magicMenu["SCRIPT"]=["~/Desktop/script", ".vim"]
-            let g:magicMenu[".VIM"]=["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]
-            let g:magicMenu["GO"]=["~/Documents/goproj/src/github.com", ".go", "*\/*"]
-            let g:magicMenu["MY_GO"]=["~/Documents/goproj/src/github.com/s133p", ".go", "*\/*"]
-        " elseif has("win32")
-        endif
-
-        nmap <leader>m :call MagicMenu()<cr>
+        " " Common menu
+        " let g:magicMenu={"VIM-NOTES":["~/Dropbox/vim-notes",".md",""], "NV-NOTES":["~/Dropbox/NV-Notes",".txt",""], "Magic-Template":["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]}
+        " if has("osx")
+        "     let g:magicMenu["CODE"]=["~/Desktop/CODE",".cpp","*\/*"]
+        "     let g:magicMenu["SCRIPT"]=["~/Desktop/script", ".vim"]
+        "     let g:magicMenu[".VIM"]=["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]
+        "     let g:magicMenu["GO"]=["~/Documents/goproj/src/github.com", ".go", "*\/*"]
+        "     let g:magicMenu["MY_GO"]=["~/Documents/goproj/src/github.com/s133p", ".go", "*\/*"]
+        " " elseif has("win32")
+        " endif
+        "
+        " nmap <leader>m :call MagicMenu()<cr>
     " [END vim-magic-template] }}}
 
 
