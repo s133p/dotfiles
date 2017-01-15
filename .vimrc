@@ -208,7 +208,7 @@ set shellslash
     " nnoremap <leader>N :call OpenPersonalNotes('v')<cr>
 
     " OSX shortcut to open the pretty-notes
-    if has("osx")
+    if has("mac")
         nnoremap <leader>gn :call system("open ~/Dropbox/vim-notes/index.html")<cr>
     endif
 
@@ -244,13 +244,15 @@ set shellslash
     " [END YouCompleteMe] }}}
 
     " [vim-airline] {{{
+        let g:airline_powerline_fonts = 1
         let g:airline#extensions#tabline#enabled = 1
         let g:airline#extensions#tabline#show_buffers = 0
         let g:airline#extensions#tabline#show_tabs = 1
-        let g:airline#extensions#tabline#show_splits = 0
+        let g:airline#extensions#tabline#show_splits = 1
         let g:airline#extensions#tabline#tab_nr_type = 1
-        let g:airline_powerline_fonts = 1
         let g:airline#extensions#whitespace#enabled = 0
+        let g:airline#extensions#wordcount#enabled = 0
+        let g:airline_section_z=''
         let g:airline#extensions#tabline#fnamemod = ':p:t'
     " [END vim-airline] }}}
 
@@ -437,7 +439,7 @@ set shellslash
     " [vim-magic-template] {{{
         " " Common menu
         " let g:magicMenu={"VIM-NOTES":["~/Dropbox/vim-notes",".md",""], "NV-NOTES":["~/Dropbox/NV-Notes",".txt",""], "Magic-Template":["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]}
-        " if has("osx")
+        " if has("mac")
         "     let g:magicMenu["CODE"]=["~/Desktop/CODE",".cpp","*\/*"]
         "     let g:magicMenu["SCRIPT"]=["~/Desktop/script", ".vim"]
         "     let g:magicMenu[".VIM"]=["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]
@@ -475,7 +477,7 @@ set shellslash
     augroup END
 
     function! MagicCompile(isRelease, isQuiet)
-        if has("osx")
+        if has("mac")
             setlocal makeprg=cd\ xcode;\ xcodebuild
             setlocal errorformat=
                         \%f:%l:%c:{%*[^}]}:\ error:\ %m,
