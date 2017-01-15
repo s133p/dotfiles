@@ -135,6 +135,7 @@ set shellslash
     nnoremap gj <C-W>j
     nnoremap gh <C-W>h
     nnoremap gl <C-W>l
+    nnoremap gb :b#<cr>
 
     " nnoremap <c-left> <c-w><left>
     " nnoremap <c-right> <c-w><right>
@@ -366,8 +367,8 @@ set shellslash
         augroup sqldb
             autocmd!
             autocmd FileType sql DBSetOption profile=mySqlite
-            autocmd FileType sql nmap > ,sejgjggjVGygk//;<cr>o<esc>kp:DBResultsClose<cr>
-            autocmd FileType sql nmap < ,selgjggjVGygko<esc>kp:DBResultsClose<cr>
+            "autocmd FileType sql nmap > ,sejgjggjVGygk//;<cr>o<esc>kp:DBResultsClose<cr>
+            "autocmd FileType sql nmap < ,selgjggjVGygko<esc>kp:DBResultsClose<cr>
         augroup END
     " [dbext.vim]}}}
 
