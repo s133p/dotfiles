@@ -472,16 +472,16 @@ set shellslash
     "       ;cr => Run last built executable
     augroup MagicCPPCompile
         autocmd!
-        autocmd FileType c,cpp nmap <buffer> <leader>b :call MagicCompile(0)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>B :call MagicCompile(1)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>R :call MagicRemote(g:magicToRun)<cr>
+        autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
+        autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
+        autocmd FileType c,cpp nmap <buffer><silent> <leader>R :call MagicJob(g:magicToRun)<cr>
         autocmd FileType c,cpp nmap <leader>co :copen<cr>
         autocmd FileType c,cpp nmap <leader>cc :cclose<cr>
         " Open project in correct dev-env
         if has("mac")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicRemote("open xcode/*.xcodeproj")<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
         elseif has("win32")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicRemote("devenv vs2013/*.sln")<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("devenv vs2013/*.sln")<cr>
         endif
     augroup END
 
@@ -490,10 +490,10 @@ set shellslash
             setlocal makeprg=make
             setlocal errorformat=[x]\ %f:%l:%c:\ %m,[x]%m
             if a:isRelease
-                exe "call MagicRemote(\"" . &makeprg . " release\")"
+                exe "call MagicJob(\"" . &makeprg . " release\")"
                 " exe "Focus open xcode/build/Release/*.app"
             else
-                exe "call MagicRemote(\"" . &makeprg . "\")"
+                exe "call MagicJob(\"" . &makeprg . "\")"
                 " exe "Focus open xcode/build/Debug/*.app"
             endif
 
@@ -512,11 +512,11 @@ set shellslash
             setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
 
             if a:isRelease
-                exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln /p:Configuration=Release\")"
+                exe "call MagicJob(\"" . &makeprg . " ./vs2013/local.sln /p:Configuration=Release\")"
                 " exe "Make ./vs2013/local.sln /p:Configuration=Release"
                 "exe "Focus vs2013/Release/" . split(getcwd(), '/')[-1] . ".exe"
             else
-                exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln\")"
+                exe "call MagicJob(\"" . &makeprg . " ./vs2013/local.sln\")"
                 " exe "Make ./vs2013/local.sln"
                 "exe "Focus vs2013/Debug/" . split(getcwd(), '/')[-1] . ".exe"
             endif
