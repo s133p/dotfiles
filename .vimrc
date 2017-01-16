@@ -494,10 +494,12 @@ set shellslash
             setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
 
             if a:isRelease
-                exe "Make ./vs2013/local.sln /p:Configuration=Release"
+                exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln /p:Configuration=Release\")"
+                " exe "Make ./vs2013/local.sln /p:Configuration=Release"
                 exe "Focus vs2013/Release/" . split(getcwd(), '/')[-1] . ".exe"
             else
-                exe "Make ./vs2013/local.sln"
+                exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln\")"
+                " exe "Make ./vs2013/local.sln"
                 exe "Focus vs2013/Debug/" . split(getcwd(), '/')[-1] . ".exe"
             endif
         endif
