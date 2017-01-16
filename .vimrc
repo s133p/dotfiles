@@ -205,7 +205,7 @@ set shellslash
     endfunction
     nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
-    nnoremap <leader>nh :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
+    nnoremap <leader>nV :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
     " nnoremap <leader>N :call OpenPersonalNotes('v')<cr>
 
     " OSX shortcut to open the pretty-notes
@@ -479,23 +479,13 @@ set shellslash
 
     function! MagicCompile(isRelease, isQuiet)
         if has("mac")
-            setlocal makeprg=cd\ xcode;\ xcodebuild
-            setlocal errorformat=
-                        \%f:%l:%c:{%*[^}]}:\ error:\ %m,
-                        \%f:%l:%c:{%*[^}]}:\ fatal\ error:\ %m,
-                        \%f:%l:%c:{%*[^}]}:\ warning:\ %m,
-                        \%f:%l:%c:\ error:\ %m,
-                        \%f:%l:%c:\ fatal\ error:\ %m,
-                        \%f:%l:%c:\ warning:\ %m,
-                        \%f:%l:\ Error:\ %m,
-                        \%f:%l:\ error:\ %m,
-                        \%f:%l:\ fatal\ error:\ %m,
-                        \%f:%l:\ warning:\ %m
+            setlocal makeprg=make
+            setlocal errorformat=[x]\ %f:%l:%c:\ %m,[x]%m
             if a:isRelease
-                exe "Make -configuration Release"
+                exe "call MagicRemote(\"" . &makeprg . " release\")"
                 exe "Focus open xcode/build/Release/*.app"
             else
-                exe "Make -configuration Debug"
+                exe "call MagicRemote(\"" . &makeprg . "\")"
                 exe "Focus open xcode/build/Debug/*.app"
             endif
         elseif has("win32")
