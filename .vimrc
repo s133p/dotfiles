@@ -240,8 +240,11 @@ set shellslash
     " [END nerdtree] }}}
 
     " [YouCompleteMe] {{{
-        let g:ycm_confirm_extra_conf = 0                              " Don't confirm on load
-        let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py' " provide some defaults
+        if has("mac") == 1
+            imap <expr> <CR> pumvisible() ? "\<c-y>" : "\<cr>"
+            let g:ycm_confirm_extra_conf = 0                              " Don't confirm on load
+            let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py' " provide some defaults
+        endif
     " [END YouCompleteMe] }}}
 
     " [vim-airline] {{{
@@ -327,7 +330,8 @@ set shellslash
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
         nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
         nmap <silent> <leader>uc :Unite change<cr>
-        nmap <silent> <leader>uf :Unite qf locationlist<cr>
+        nmap <silent> <leader>uf :Unite qf<cr>
+        nmap <silent> <leader>ul :Unite locationlist<cr>
 
         nmap <silent> <leader>ug :call MyUniteVimGrep(1)<cr>
         vmap <leader>ug y:let g:my_vim_grep_search=@"<cr>:call MyUniteVimGrep(0)<cr>
@@ -377,7 +381,8 @@ set shellslash
         nmap <leader>gc :Gcommit<cr>
         nmap <leader>gp :Gpush<cr>
         nmap <leader>gu :Gpull<cr>
-        nmap <leader>gb :Gblame<cr>
+        nmap <leader>gb :Gbrowse<cr>
+        nmap <leader>gB :Gblame<cr>
         nmap <leader>gd :Gdiff<cr>
 
         nmap <leader>dg :diffget<cr>
@@ -467,41 +472,60 @@ set shellslash
     "       ;cr => Run last built executable
     augroup MagicCPPCompile
         autocmd!
-        autocmd FileType c,cpp nmap <buffer> <leader>cc :call MagicCompile(0, 0)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>cb :call MagicCompile(1, 0)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>cr :Dispatch!<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>co :Copen<cr>
-        " Quiet versions
-        autocmd FileType c,cpp nmap <buffer> <leader>cqc :call MagicCompile(0, 1)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>cqb :call MagicCompile(1, 1)<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>cqo :Copen!<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>b :call MagicCompile(0)<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>B :call MagicCompile(1)<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>R :call MagicRemote(g:magicToRun)<cr>
+        autocmd FileType c,cpp nmap <leader>co :copen<cr>
+        autocmd FileType c,cpp nmap <leader>cc :cclose<cr>
+        " Open project in correct dev-env
+        if has("mac")
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicRemote("open xcode/*.xcodeproj")<cr>
+        elseif has("win32")
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicRemote("devenv vs2013/*.sln")<cr>
+        endif
     augroup END
 
-    function! MagicCompile(isRelease, isQuiet)
+    function! MagicCompile(isRelease)
         if has("mac")
             setlocal makeprg=make
             setlocal errorformat=[x]\ %f:%l:%c:\ %m,[x]%m
             if a:isRelease
                 exe "call MagicRemote(\"" . &makeprg . " release\")"
-                exe "Focus open xcode/build/Release/*.app"
+                " exe "Focus open xcode/build/Release/*.app"
             else
                 exe "call MagicRemote(\"" . &makeprg . "\")"
-                exe "Focus open xcode/build/Debug/*.app"
+                " exe "Focus open xcode/build/Debug/*.app"
             endif
+
+            let l:mode = a:isRelease ? "Release" : "Debug"
+            let l:appPath = expand(getcwd() . "/xcode/build/". l:mode ."/*.app")
+            let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z_0-9]+)\.app", "\\1", "g")
+
+            let l:runBG = l:appPath . "/Contents/MacOS/". l:appName ." &;"
+            let l:runSleep = "sleep 1;"
+            let l:runFG = "osascript -e 'tell application \"" . l:appName ."\" to activate'; return 1"
+
+            let g:magicToRun = l:runBG . l:runSleep . l:runFG
+
         elseif has("win32")
             compiler msbuild
-            " awkwardly use msvc errorformat rather than msbuild's
             setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
 
             if a:isRelease
                 exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln /p:Configuration=Release\")"
                 " exe "Make ./vs2013/local.sln /p:Configuration=Release"
-                exe "Focus vs2013/Release/" . split(getcwd(), '/')[-1] . ".exe"
+                "exe "Focus vs2013/Release/" . split(getcwd(), '/')[-1] . ".exe"
             else
                 exe "call MagicRemote(\"" . &makeprg . " ./vs2013/local.sln\")"
                 " exe "Make ./vs2013/local.sln"
-                exe "Focus vs2013/Debug/" . split(getcwd(), '/')[-1] . ".exe"
+                "exe "Focus vs2013/Debug/" . split(getcwd(), '/')[-1] . ".exe"
             endif
+            let l:mode = a:isRelease ? "Release" : "Debug"
+            let l:appPath = expand(getcwd() . "/vs2013/". l:mode ."/".  split(getcwd(), '/')[-1] .".exe")
+            let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z]+)\.exe", "\\1", "g")
+
+            let l:runBG = l:appPath
+            let g:magicToRun = l:runBG
         endif
     endfunction
 
