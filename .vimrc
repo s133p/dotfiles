@@ -15,7 +15,6 @@ set shellslash
     Plugin 'tpope/vim-abolish'                    " [vim-abolish]         = Coerce cases
     Plugin 'tpope/vim-surround'                   " [vim-surround]        = Does what it says on the tin
     Plugin 'tpope/vim-repeat'                     " [vim-repeat]          = Allow plugin mappings to be repeated w/ '.'
-    Plugin 'tpope/vim-dispatch'                   " [vim-dispatch]        = Async commands w/ adaptors
     Plugin 'michaeljsmith/vim-indent-object'      " [vim-indent-object]   = Use indent levels as text objects
     Plugin 'tomtom/tcomment_vim'                  " [tcomment]            = Shortcuts for commenting
     Plugin 'spiiph/vim-space'                     " [vim-space]           = Use spacebar to repeat last movement
