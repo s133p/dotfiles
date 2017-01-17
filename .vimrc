@@ -131,29 +131,22 @@ set shellslash
     nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
     " Movement between splits/windows/buffers
+    nnoremap gw <c-w>
+
     nnoremap gk <C-W>k
     nnoremap gj <C-W>j
     nnoremap gh <C-W>h
     nnoremap gl <C-W>l
     nnoremap gb :b#<cr>
 
-    " nnoremap <c-left> <c-w><left>
-    " nnoremap <c-right> <c-w><right>
-    " nnoremap <c-up> <c-w><up>
-    " nnoremap <c-down> <c-w><down>
-
     nnoremap <c-h> <c-w><left>
     nnoremap <c-l> <c-w><right>
     nnoremap <c-k> <c-w><up>
     nnoremap <c-j> <c-w><down>
 
-    nnoremap gH :tabprevious<cr>
-    nnoremap gL :tabnext<cr>
-    nnoremap gw <c-w>
-
     " create splits/tabs
-    nnoremap <leader>v :vnew<CR>
-    nnoremap <leader>V :new<CR>
+    nnoremap <leader>v :vs<CR>
+    nnoremap <leader>V :sp<CR>
     nnoremap <leader>t :tabnew<CR>
 
     " swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
@@ -168,12 +161,15 @@ set shellslash
     nnoremap <leader>J J
     nnoremap <leader>K K
 
-    " Execute current line or current selection as Vim EX commands.
-    " nnoremap <leader>e :exe getline(".")<CR>
-    " vnoremap <leader>e :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+    " <tab> & <s-tab> for tab switching
+    nnoremap <tab> gt
+    nnoremap <s-tab> gT
 
     " replace visual selection w/ <c-r>= itself; Mnemonic: calc
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
+
+    " Execute current line as Vim EX command
+    nnoremap <leader>C ^"cd$dd:<c-r>c<CR>
 
     augroup myfolding
         au!
