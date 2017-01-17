@@ -314,8 +314,7 @@ set shellslash
                 autocmd FileType c,cpp nmap <buffer> <leader>ct :YcmCompleter GetType<cr>
                 autocmd FileType c,cpp nmap <buffer> <leader>cf :YcmCompleter FixIt<cr>
                 autocmd FileType c,cpp nmap <buffer> <leader>cd :YcmCompleter GoToDeclaration<cr>
-                autocmd FileType c,cpp highlight YcmErrorSection cterm=NONE ctermfg=white ctermbg=darkgrey
-                autocmd FileType c,cpp highlight YcmWarningSection cterm=NONE ctermfg=white ctermbg=Darkblue
+                autocmd FileType c,cpp nmap <buffer> <leader>cD :YcmCompleter GoToDefinition<cr>
             endif
         augroup END
     " [a.vim]}}}
@@ -326,15 +325,16 @@ set shellslash
         call unite#filters#sorter_default#use(['sorter_selecta'])
         call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
-        nmap <silent> <leader>F :UniteWithProjectDir -start-insert -no-split file tab<cr>
+        nmap <silent> <leader>F :Unite -start-insert -no-split file<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
-        nmap <silent> <leader>U :UniteFirst resume<cr>
-        nmap <silent> <leader>ut :Unite tab bookmark<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
         nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
-        nmap <silent> <leader>uc :Unite change<cr>
         nmap <silent> <leader>uf :Unite qf<cr>
         nmap <silent> <leader>ul :Unite locationlist<cr>
+        nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
+        nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
+        nmap <silent> <leader>ud :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
+
 
         nmap <silent> <leader>ug :call MyUniteVimGrep(1)<cr>
         vmap <leader>ug y:let g:my_vim_grep_search=@"<cr>:call MyUniteVimGrep(0)<cr>
@@ -357,7 +357,7 @@ set shellslash
         " Dont try file_rec in my homedir, do file and mru instead
         function! MyUniteSpecial()
             if expand("%:p:h") == expand("~")
-                execute "UniteWithProjectDir -start-insert -no-split file file_mru"
+                execute "UniteWithProjectDir -start-insert -no-split file"
             else
                 execute "UniteWithProjectDir -start-insert -no-split file_rec"
             endif
@@ -502,7 +502,7 @@ set shellslash
             let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z_0-9]+)\.app", "\\1", "g")
 
             let l:runBG = l:appPath . "/Contents/MacOS/". l:appName ." &;"
-            let l:runSleep = "sleep 1;"
+            let l:runSleep = "sleep ". (a:isRelease ? "1" : "2") .";"
             let l:runFG = "osascript -e 'tell application \"" . l:appName ."\" to activate'; return 1"
 
             let g:magicToRun = l:runBG . l:runSleep . l:runFG
