@@ -41,6 +41,7 @@ set shellslash
     Plugin 'morhetz/gruvbox'                      " [gruvbox]             = Pretty theme!
 
     Plugin 's133p/vim-magic-template'             " [vim-magic-template]  = make .h/.cpp interactively from template (personal)
+    "                                                                     = Also a job_start() based task runner
 
     if has("win32")
         Plugin 'Shougo/neocomplcache.vim'         " [neocomplcache.vim]   = Autocomplete across buffers
