@@ -383,7 +383,8 @@ set shellslash
     " [vim-fugitive] {{{
         nmap <leader>gs :Gstatus<cr>/modified<cr>
         nmap <leader>gc :Gcommit<cr>
-        nmap <leader>gp :Gpush<cr>
+        " nmap <leader>gp :Gpush<cr>
+        nmap <leader>gp :call MagicJob("git push", 1)<cr>
         nmap <leader>gu :Gpull<cr>
         nmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
@@ -471,9 +472,7 @@ set shellslash
             " creating it if it doesnt.
             " execute "%s/%DS_PLATFORM_086%/". escape($DS_PLATFORM_086, '\\/.*$^~[]') ."\/g"
 
-    " Compile for OSX & Windows using Dispatch's :Make, setting :Focus
-    " Usage ;cc | ;cb => Make debug | Make release
-    "       ;cr => Run last built executable
+    " Compile for OSX & Windows using MagicJob()
     augroup MagicCPPCompile
         autocmd!
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
