@@ -169,8 +169,11 @@ set shellslash
     nnoremap <leader>K K
 
     " Execute current line or current selection as Vim EX commands.
-    nnoremap <leader>e :exe getline(".")<CR>
-    vnoremap <leader>e :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+    " nnoremap <leader>e :exe getline(".")<CR>
+    " vnoremap <leader>e :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+
+    " replace visual selection w/ <c-r>= itself; Mnemonic: calc
+    vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 
     augroup myfolding
         au!
@@ -324,7 +327,7 @@ set shellslash
         call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
         nmap <silent> <leader>F :UniteWithProjectDir -start-insert -no-split file tab<cr>
-        nmap <silent> <leader>r :Unite -no-split -start-insert file_mru<cr>
+        nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
         nmap <silent> <leader>U :UniteFirst resume<cr>
         nmap <silent> <leader>ut :Unite tab bookmark<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
@@ -474,9 +477,11 @@ set shellslash
         autocmd!
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
-        autocmd FileType c,cpp nmap <buffer><silent> <leader>R :call MagicJob(g:magicToRun)<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun)<cr>
         autocmd FileType c,cpp nmap <leader>co :copen<cr>
         autocmd FileType c,cpp nmap <leader>cc :cclose<cr>
+        autocmd FileType c,cpp nmap <leader>cn :cn<cr>
+        autocmd FileType c,cpp nmap <leader>cp :cp<cr>
         " Open project in correct dev-env
         if has("mac")
             autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
@@ -489,15 +494,10 @@ set shellslash
         if has("mac")
             setlocal makeprg=make
             setlocal errorformat=[x]\ %f:%l:%c:\ %m,[x]%m
-            if a:isRelease
-                exe "call MagicJob(\"" . &makeprg . " release\")"
-                " exe "Focus open xcode/build/Release/*.app"
-            else
-                exe "call MagicJob(\"" . &makeprg . "\")"
-                " exe "Focus open xcode/build/Debug/*.app"
-            endif
 
             let l:mode = a:isRelease ? "Release" : "Debug"
+            exe "call MagicJob(\"" . &makeprg . " ". l:mode ."\")"
+
             let l:appPath = expand(getcwd() . "/xcode/build/". l:mode ."/*.app")
             let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z_0-9]+)\.app", "\\1", "g")
 
@@ -508,19 +508,15 @@ set shellslash
             let g:magicToRun = l:runBG . l:runSleep . l:runFG
 
         elseif has("win32")
-            compiler msbuild
-            setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
-
-            if a:isRelease
-                exe "call MagicJob(\"" . &makeprg . " ./vs2013/local.sln /p:Configuration=Release\")"
-                " exe "Make ./vs2013/local.sln /p:Configuration=Release"
-                "exe "Focus vs2013/Release/" . split(getcwd(), '/')[-1] . ".exe"
-            else
-                exe "call MagicJob(\"" . &makeprg . " ./vs2013/local.sln\")"
-                " exe "Make ./vs2013/local.sln"
-                "exe "Focus vs2013/Debug/" . split(getcwd(), '/')[-1] . ".exe"
-            endif
+            compiler msvc
+            set makeprg=msbuild
+            " setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
+            let l:solution = "./vs2013/local.sln"
             let l:mode = a:isRelease ? "Release" : "Debug"
+            let l:configuration = "/p:Configuration=" . l:mode
+            let l:flags = "/m /verbosity:quiet /nologo"
+
+            exe "call MagicJob(\"" . &makeprg ." ". l:solution ." ".  l:configuration ." ". l:flags ."\")"
             let l:appPath = expand(getcwd() . "/vs2013/". l:mode ."/".  split(getcwd(), '/')[-1] .".exe")
             let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z]+)\.exe", "\\1", "g")
 
