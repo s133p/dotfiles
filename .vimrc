@@ -44,6 +44,8 @@ set shellslash
 
     if has("win32")
         Plugin 'Shougo/neocomplcache.vim'         " [neocomplcache.vim]   = Autocomplete across buffers
+        " Plugin 'Shougo/neosnippet'
+        " Plugin 'Shougo/neosnippet-snippets'
     elseif has("mac")
         Plugin 'Valloric/YouCompleteMe'           " [YouCompleteMe]       = Clang based completeion
         Plugin 'fatih/vim-go'                     " [vim-go]              = Lots of nice go features
@@ -347,7 +349,7 @@ set shellslash
             let g:my_vim_grep_search = input("Find> ", g:my_vim_grep_search)
             let g:my_vim_grep_pat = input("Where> ", g:my_vim_grep_pat)
             execute "lvimgrep /" . g:my_vim_grep_search . "/j " . g:my_vim_grep_pat
-            execute "Unite qf locationlist -default-action=switch"
+            execute "Unite locationlist"
         endfunction
 
         " Dont try file_rec in my homedir, do file and mru instead
@@ -434,6 +436,23 @@ set shellslash
             inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
             inoremap <expr><C-y>  neocomplcache#close_popup()
             inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+            " SNIPS
+            " Plugin key-mappings.
+            " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+            imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+            smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+            xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+            " SuperTab like snippets behavior.
+            " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+            imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+            "imap <expr><TAB>
+            " \ pumvisible() ? "\<C-n>" :
+            " \ neosnippet#expandable_or_jumpable() ?
+            " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+            smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
         endif
     " [neocomplcache.vim]}}}
 
@@ -472,7 +491,7 @@ set shellslash
         autocmd!
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
-        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun)<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun, 0)<cr>
         autocmd FileType c,cpp nmap <leader>co :copen<cr>
         autocmd FileType c,cpp nmap <leader>cc :cclose<cr>
         autocmd FileType c,cpp nmap <leader>cn :cn<cr>
@@ -511,7 +530,8 @@ set shellslash
             let l:configuration = "/p:Configuration=" . l:mode
             let l:flags = "/m /verbosity:quiet /nologo"
 
-            exe "call MagicJob(\"" . &makeprg ." ". l:solution ." ".  l:configuration ." ". l:flags ."\")"
+            exe "call MagicJob(\"" . &makeprg ." ". l:solution ." ".  l:configuration ." ". l:flags ."\", 1)"
+
             let l:appPath = expand(getcwd() . "/vs2013/". l:mode ."/".  split(getcwd(), '/')[-1] .".exe")
             let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z]+)\.exe", "\\1", "g")
 
