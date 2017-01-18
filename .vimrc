@@ -442,16 +442,4 @@ set shellslash
         let g:sparkupMapsNormal = 1
     " [END sparkup] }}}
 
-
 "======== [END Plugin mappings/settings] ========}}}
-
-"======== [EXPERIMENTAL mappings/functions] ========{{{
-    " NOTES FOR GETTING COMPILATION WORKING ON WINDOWS
-    " Convert visual studio solution for cinder to local version
-    " combine this with a test to see if ./vs2013/local.sln exists,
-    " creating it if it doesnt.
-    " execute "%s/%DS_PLATFORM_086%/". escape($DS_PLATFORM_086, '\\/.*$^~[]') ."\/g"
-
-
-
-"======== [END EXPERIMENTAL MAPPINGS] ========}}}
