@@ -98,6 +98,13 @@ set shellslash
     set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
     set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
     set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
+
+    augroup myfolding
+        au!
+        autocmd FileType vim setlocal fdm=marker
+        autocmd FileType c,cpp setlocal fdm=syntax
+        autocmd FileType c,cpp,vim setlocal nofoldenable
+    augroup END
 "======== [END Settings] ========}}}
 
 "======== [Gvim / MacVim] ========{{{
@@ -134,17 +141,11 @@ set shellslash
 
     " Movement between splits/windows/buffers
     nnoremap gw <c-w>
-
     nnoremap gk <C-W>k
     nnoremap gj <C-W>j
     nnoremap gh <C-W>h
     nnoremap gl <C-W>l
     nnoremap gb :b#<cr>
-
-    nnoremap <c-h> <c-w><left>
-    nnoremap <c-l> <c-w><right>
-    nnoremap <c-k> <c-w><up>
-    nnoremap <c-j> <c-w><down>
 
     " create splits/tabs
     nnoremap <leader>v :vs<CR>
@@ -163,57 +164,68 @@ set shellslash
     nnoremap <leader>J J
     nnoremap <leader>K K
 
-    " <tab> & <s-tab> for tab switching
-    nnoremap <tab> gt
-    nnoremap <s-tab> gT
+    " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
+    nnoremap <silent> <tab> :call TabOrSwitch(0)<cr>
+    nnoremap <silent> <s-tab> :call TabOrSwitch(1)<cr>
 
     " replace visual selection w/ <c-r>= itself; Mnemonic: calc
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
-
     " Execute current line as Vim EX command
     nnoremap <leader>C ^"cd$dd:<c-r>c<CR>
 
-    augroup myfolding
-        au!
-        autocmd FileType vim setlocal fdm=marker
-        autocmd FileType c,cpp setlocal fdm=syntax
-        autocmd FileType c,cpp,vim setlocal nofoldenable
+    " Compile for OSX & Windows using MagicJob()
+    augroup MagicCPPCompile
+        autocmd!
+        autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
+        autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun, 0)<cr>
+        autocmd FileType c,cpp nmap <leader>cn :cn<cr>
+        autocmd FileType c,cpp nmap <leader>cp :cp<cr>
+        " Open project in correct dev-env
+        if has("mac")
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
+        elseif has("win32")
+            " TODO: Fix this command to open visual studio
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("devenv vs2013/*.sln")<cr>
+        endif
     augroup END
 
+    " Custom operator-pending mappings & pairings
+    " stamp
+    nmap <silent> s :set opfunc=MagicStamp<CR>g@
+    vmap <silent> s :<C-U>call MagicStamp(visualmode())<CR>
+    nnoremap S v$h"0p
+    nnoremap <silent> ss V"0p
+    "- 'system-clipboard-yank'
+    nmap <silent> <leader>y :set opfunc=MagicClip<CR>g@
+    vmap <silent> <leader>y :<C-U>call MagicClip(visualmode())<CR>
+    "- 'system-clipboard-paste-stamp'
+    nmap <silent> <leader>s :set opfunc=MagicPaste<CR>g@
+    vmap <silent> <leader>s :<C-U>call MagicPaste(visualmode())<CR>
+    nnoremap <leader>p "*p
+    nnoremap <leader>P "*P
+    nnoremap <leader>ss V"*P
+
     " `<Tab>`/`<S-Tab>` to move between matches without leaving incremental search.
-    " Note dependency on `'wildcharm'` being set to `<C-z>` in order for this to
-    " work.
+    " Note dependency on `'wildcharm'` being set to `<C-z>` in order for this to work.
     set wildcharm=<c-z>
     cnoremap <expr> <Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>/<C-r>/' : '<C-z>'
     cnoremap <expr> <S-Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>?<C-r>/' : '<S-Tab>'
 
+
     " Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir
     " based on invocation
-    function! OpenPersonalNotes(type)
-        if !exists("g:personal_notes_dir")
-            let g:personal_notes_dir="~/Dropbox/vim-notes"
-        endif
-        if !exists("g:personal_nv_notes_dir")
-            let g:personal_nv_notes_dir="~/Dropbox/NV-Notes"
-        endif
-
-        " Open Unite in notes directory
-        if a:type == 'n'
-            execute "Unite -path=" . g:personal_notes_dir . " -start-insert -no-split file_rec"
-        elseif a:type == 'v'
-            execute "Unite -path=" . g:personal_nv_notes_dir . " -start-insert -no-split file_rec"
-        endif
-    endfunction
     nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nV :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
-    " nnoremap <leader>N :call OpenPersonalNotes('v')<cr>
 
     " OSX shortcut to open the pretty-notes
     if has("mac")
         nnoremap <leader>gn :call system("open ~/Dropbox/vim-notes/index.html")<cr>
     endif
 
+    " Quickfix Toggle
+    nmap <leader>uf :call QuickfixToggle()<cr>
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -221,14 +233,12 @@ set shellslash
     " [vim-easy-align] {{{
         " Start interactive EasyAlign in visual mode (e.g. vipga)
         xmap ga <Plug>(EasyAlign)
-
         " Start interactive EasyAlign for a motion/text object (e.g. gaip)
         nmap ga <Plug>(EasyAlign)
         if !exists('g:easy_align_delimiters')
             let g:easy_align_delimiters = {}
         endif
         let g:easy_align_delimiters['r'] = { 'pattern': '=', 'ignore_groups': ['String'], 'left_margin': 2  }
-
     " [END vim-easy-align] }}}
 
     " [gruvbox] {{{
@@ -241,7 +251,15 @@ set shellslash
     " [END nerdtree] }}}
 
     " [YouCompleteMe] {{{
-        if has("mac") == 1
+        if has("mac")
+            augroup ycmcpp
+                autocmd!
+                autocmd FileType c,cpp nmap <buffer> <leader>ct :YcmCompleter GetType<cr>
+                autocmd FileType c,cpp nmap <buffer> <leader>cf :YcmCompleter FixIt<cr>
+                autocmd FileType c,cpp nmap <buffer> <leader>cd :YcmCompleter GoToDeclaration<cr>
+                autocmd FileType c,cpp nmap <buffer> <leader>cD :YcmCompleter GoToDefinition<cr>
+            augroup END
+
             imap <expr> <CR> pumvisible() ? "\<c-y>" : "\<cr>"
             let g:ycm_confirm_extra_conf = 0                              " Don't confirm on load
             let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py' " provide some defaults
@@ -289,7 +307,7 @@ set shellslash
             autocmd BufEnter,BufnewFile *.md setlocal spell
             autocmd FileType markdown setlocal nofoldenable
 
-            autocmd FileType markdown nnoremap <buffer> <leader>mc :Toc<cr>
+            " Add another todo item
             autocmd FileType markdown nnoremap <buffer> <leader>a A<cr>**[ ]**<space>
             " Swap [ X ] and [ _ ] with space
             autocmd FileType markdown nnoremap <buffer> <silent> <leader><space> mz:.g/\[+\]/s/\[+\]/[*]/<cr>:.g/\[ \]/s/\[ \]/[+]/<cr>:.g/\[\*\]/s/\[\*\]/[ ]/<cr>`z:delmarks!<cr>
@@ -297,23 +315,15 @@ set shellslash
     " [vim-markdown] }}}
 
     " [a.vim]{{{
-        augroup clearimap
+        augroup avimmap
             autocmd!
-            autocmd VimEnter * iunmap <leader>ih
-            autocmd VimEnter * iunmap <leader>is
-            autocmd VimEnter * iunmap <leader>ihn
-        augroup END
-        augroup plugcpp
-            autocmd!
+            " Unmap insert mode mappings
+            " autocmd VimEnter * iunmap <leader>ih
+            " autocmd VimEnter * iunmap <leader>is
+            " autocmd VimEnter * iunmap <leader>ihn
+            " Map split commands
             autocmd FileType c,cpp nmap <buffer> <leader>cv :AV<cr>
             autocmd FileType c,cpp nmap <buffer> <leader>cV :AS<cr>
-            if has("mac")
-                " [YouComepleteMe]
-                autocmd FileType c,cpp nmap <buffer> <leader>ct :YcmCompleter GetType<cr>
-                autocmd FileType c,cpp nmap <buffer> <leader>cf :YcmCompleter FixIt<cr>
-                autocmd FileType c,cpp nmap <buffer> <leader>cd :YcmCompleter GoToDeclaration<cr>
-                autocmd FileType c,cpp nmap <buffer> <leader>cD :YcmCompleter GoToDefinition<cr>
-            endif
         augroup END
     " [a.vim]}}}
 
@@ -323,44 +333,15 @@ set shellslash
         call unite#filters#sorter_default#use(['sorter_selecta'])
         call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
-        nmap <silent> <leader>F :Unite -start-insert -no-split file<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
         nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
-        nmap <silent> <leader>uf :Unite qf<cr>
         nmap <silent> <leader>ul :Unite locationlist<cr>
         nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
         nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
         nmap <silent> <leader>ud :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
 
-
-        nmap <silent> <leader>ug :call MyUniteVimGrep(1)<cr>
-        vmap <leader>ug y:let g:my_vim_grep_search=@"<cr>:call MyUniteVimGrep(0)<cr>
-        nmap <silent> <leader>uG :call MyUniteVimGrep(0)<cr>
-        " Replaces vimgrep in unite, saving to locationlist for easy access
-        function! MyUniteVimGrep(clear_search)
-            if !exists("g:my_vim_grep_search") || a:clear_search
-                let g:my_vim_grep_search=""
-            endif
-            if !exists("g:my_vim_grep_pat")
-                let g:my_vim_grep_pat="%"
-            endif
-
-            let g:my_vim_grep_search = input("Find> ", g:my_vim_grep_search)
-            let g:my_vim_grep_pat = input("Where> ", g:my_vim_grep_pat)
-            execute "lvimgrep /" . g:my_vim_grep_search . "/j " . g:my_vim_grep_pat
-            execute "Unite locationlist"
-        endfunction
-
-        " Dont try file_rec in my homedir, do file and mru instead
-        function! MyUniteSpecial()
-            if expand("%:p:h") == expand("~")
-                execute "UniteWithProjectDir -start-insert -no-split file"
-            else
-                execute "UniteWithProjectDir -start-insert -no-split file_rec"
-            endif
-        endfunction
-
+        nmap <leader>ug :lvimgrep //j **/*<left><left><left><left><left><left><left>
     " [END unite.vim] }}}
 
     " [dbext.vim]{{{
@@ -382,13 +363,13 @@ set shellslash
         nmap <leader>gc :Gcommit<cr>
         " nmap <leader>gp :Gpush<cr>
         nmap <leader>gp :call MagicJob("git push", 1)<cr>
-        nmap <leader>gu :Gpull<cr>
+        nmap <leader>gu :call MagicJob("git pull", 1)<cr>
         nmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
         nmap <leader>gd :Gdiff<cr>
 
-        nmap <leader>dg :diffget<cr>
-        nmap <leader>dp :diffput<cr>
+        " nmap <leader>dg :diffget<cr>
+        " nmap <leader>dp :diffput<cr>
         autocmd BufReadPost fugitive://* set bufhidden=delete
     " [END vim-fugitive] }}}
 
@@ -451,8 +432,8 @@ set shellslash
             " \ pumvisible() ? "\<C-n>" :
             " \ neosnippet#expandable_or_jumpable() ?
             " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-            smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+            " smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            "     \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
         endif
     " [neocomplcache.vim]}}}
 
@@ -461,134 +442,16 @@ set shellslash
         let g:sparkupMapsNormal = 1
     " [END sparkup] }}}
 
-    " [vim-magic-template] {{{
-        " " Common menu
-        " let g:magicMenu={"VIM-NOTES":["~/Dropbox/vim-notes",".md",""], "NV-NOTES":["~/Dropbox/NV-Notes",".txt",""], "Magic-Template":["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]}
-        " if has("mac")
-        "     let g:magicMenu["CODE"]=["~/Desktop/CODE",".cpp","*\/*"]
-        "     let g:magicMenu["SCRIPT"]=["~/Desktop/script", ".vim"]
-        "     let g:magicMenu[".VIM"]=["~/.vim/bundle/vim-magic-template", ".vim", "*\/*"]
-        "     let g:magicMenu["GO"]=["~/Documents/goproj/src/github.com", ".go", "*\/*"]
-        "     let g:magicMenu["MY_GO"]=["~/Documents/goproj/src/github.com/s133p", ".go", "*\/*"]
-        " " elseif has("win32")
-        " endif
-        "
-        " nmap <leader>m :call MagicMenu()<cr>
-    " [END vim-magic-template] }}}
-
 
 "======== [END Plugin mappings/settings] ========}}}
 
 "======== [EXPERIMENTAL mappings/functions] ========{{{
-            " NOTES FOR GETTING COMPILATION WORKING ON WINDOWS
-            " Convert visual studio solution for cinder to local version
-            " combine this with a test to see if ./vs2013/local.sln exists,
-            " creating it if it doesnt.
-            " execute "%s/%DS_PLATFORM_086%/". escape($DS_PLATFORM_086, '\\/.*$^~[]') ."\/g"
+    " NOTES FOR GETTING COMPILATION WORKING ON WINDOWS
+    " Convert visual studio solution for cinder to local version
+    " combine this with a test to see if ./vs2013/local.sln exists,
+    " creating it if it doesnt.
+    " execute "%s/%DS_PLATFORM_086%/". escape($DS_PLATFORM_086, '\\/.*$^~[]') ."\/g"
 
-    " Compile for OSX & Windows using MagicJob()
-    augroup MagicCPPCompile
-        autocmd!
-        autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
-        autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
-        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun, 0)<cr>
-        autocmd FileType c,cpp nmap <leader>co :copen<cr>
-        autocmd FileType c,cpp nmap <leader>cc :cclose<cr>
-        autocmd FileType c,cpp nmap <leader>cn :cn<cr>
-        autocmd FileType c,cpp nmap <leader>cp :cp<cr>
-        " Open project in correct dev-env
-        if has("mac")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
-        elseif has("win32")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("devenv vs2013/*.sln")<cr>
-        endif
-    augroup END
 
-    function! MagicCompile(isRelease)
-        if has("mac")
-            setlocal makeprg=make
-            setlocal errorformat=[x]\ %f:%l:%c:\ %m,[x]%m
-
-            let l:mode = a:isRelease ? "Release" : "Debug"
-            exe "call MagicJob(\"" . &makeprg . " ". l:mode ."\")"
-
-            let l:appPath = expand(getcwd() . "/xcode/build/". l:mode ."/*.app")
-            let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z_0-9]+)\.app", "\\1", "g")
-
-            let l:runBG = l:appPath . "/Contents/MacOS/". l:appName ." &;"
-            let l:runSleep = "sleep ". (a:isRelease ? "1" : "2") .";"
-            let l:runFG = "osascript -e 'tell application \"" . l:appName ."\" to activate'; return 1"
-
-            let g:magicToRun = l:runBG . l:runSleep . l:runFG
-
-        elseif has("win32")
-            compiler msvc
-            set makeprg=msbuild
-            " setlocal errorformat=%f(%l)\ :\ %t%*\\D%n:\ %m,%*[^\"]\"%f\"%*\\D%l:\ %m,%f(%l)\ :\ %m,%*[^\ ]\ %f\ %l:\ %m,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,%f|%l|\ %m
-            let l:solution = "./vs2013/local.sln"
-            let l:mode = a:isRelease ? "Release" : "Debug"
-            let l:configuration = "/p:Configuration=" . l:mode
-            let l:flags = "/m /verbosity:quiet /nologo"
-
-            exe "call MagicJob(\"" . &makeprg ." ". l:solution ." ".  l:configuration ." ". l:flags ."\", 1)"
-
-            let l:appPath = expand(getcwd() . "/vs2013/". l:mode ."/".  split(getcwd(), '/')[-1] .".exe")
-            let l:appName = substitute( l:appPath, "\\v^.{-}([a-zA-Z]+)\.exe", "\\1", "g")
-
-            let l:runBG = l:appPath
-            let g:magicToRun = l:runBG
-        endif
-    endfunction
-
-    " Custom operator-pending mappings & pairings
-    "- operator pending for 'stamp'
-    nmap <silent> s :set opfunc=MagicStamp<CR>g@
-    vmap <silent> s :<C-U>call MagicStamp(visualmode())<CR>
-    " non-operator pending: stamp-to-eol
-    nnoremap S v$h"0p
-    " non-operator pending: stamp-entire-line
-    nnoremap <silent> ss V"0p
-
-    "- operator pending for 'system-clipboard-yank'
-    nmap <silent> <leader>y :set opfunc=MagicClip<CR>g@
-    vmap <silent> <leader>y :<C-U>call MagicClip(visualmode())<CR>
-
-    "- operator pending for 'system-clipboard-paste-stamp'
-    nmap <silent> <leader>s :set opfunc=MagicPaste<CR>g@
-    vmap <silent> <leader>s :<C-U>call MagicPaste(visualmode())<CR>
-    " non-operator echo: Paste fron system clipboard
-    nnoremap <leader>p "*p
-    nnoremap <leader>P "*P
-    " non-operator pending: stamp-entire-line-clipboard
-    nnoremap <leader>ss V"*P
-
-    function! MagicStamp(type, ...)
-        call MagicDo(a:type, "\"0p", a:000)
-    endfunction
-
-    function! MagicClip(type, ...)
-        call MagicDo(a:type, "\"*y", a:000)
-    endfunction
-
-    function! MagicPaste(type, ...)
-        call MagicDo(a:type, "\"*p", a:000)
-    endfunction
-
-    function! MagicDo(type, what_magic, ...)
-        let sel_save = &selection
-        let &selection = "inclusive"
-        let reg_save = @@
-
-        if a:type == 'v'  " Invoked from Visual mode, use gv command.
-            silent exe "normal! gv" . a:what_magic
-        elseif a:type == 'line'
-            silent exe "normal! '[V']" . a:what_magic
-        else
-            silent exe "normal! `[v`]" . a:what_magic
-        endif
-
-        let &selection = sel_save
-        let @@ = reg_save
-    endfunction
 
 "======== [END EXPERIMENTAL MAPPINGS] ========}}}
