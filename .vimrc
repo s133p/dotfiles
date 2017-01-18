@@ -25,7 +25,6 @@ set shellslash
 
     Plugin 'scrooloose/nerdtree'                  " [nerdtree]            = file tree
     Plugin 'Shougo/unite.vim'                     " [unite.vim]           = Fully replaces Ctrl-P & much more
-    Plugin 'sgur/unite-qf'                        " [unite-qf]            = Quickfix for unite
     Plugin 'shougo/neomru.vim'                    " [neomru]              = MRU for unite, replaces startify
     Plugin 'vim-scripts/a.vim'                    " [a.vim]               = Swap between cpp & hpp
     Plugin 'airblade/vim-rooter'                  " [vim-rooter]          = Change directory to root of projects
@@ -39,8 +38,7 @@ set shellslash
     Plugin 'vim-airline/vim-airline-themes'       " [vim-airline-themes]  = Themes for airline
     Plugin 'morhetz/gruvbox'                      " [gruvbox]             = Pretty theme!
 
-    Plugin 's133p/vim-magic-template'             " [vim-magic-template]  = make .h/.cpp interactively from template (personal)
-    "                                                                     = Also a job_start() based task runner
+    Plugin 's133p/personal-magic.vim'             " [personal-magic.vim]  = A collection of person vim functions
 
     if has("win32")
         Plugin 'Shougo/neocomplcache.vim'         " [neocomplcache.vim]   = Autocomplete across buffers
@@ -164,9 +162,6 @@ set shellslash
     nnoremap <leader>J J
     nnoremap <leader>K K
 
-    " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
-    nnoremap <silent> <tab> :call TabOrSwitch(0)<cr>
-    nnoremap <silent> <s-tab> :call TabOrSwitch(1)<cr>
 
     " replace visual selection w/ <c-r>= itself; Mnemonic: calc
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
@@ -212,7 +207,6 @@ set shellslash
     cnoremap <expr> <Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>/<C-r>/' : '<C-z>'
     cnoremap <expr> <S-Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>?<C-r>/' : '<S-Tab>'
 
-
     " Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir
     " based on invocation
     nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
@@ -226,6 +220,10 @@ set shellslash
 
     " Quickfix Toggle
     nmap <leader>uf :call QuickfixToggle()<cr>
+
+    " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
+    nmap <silent> <tab> :call TabOrSwitch(0)<cr>
+    nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -291,7 +289,7 @@ set shellslash
         augroup mkdownNotes
             au!
             " On osx-only (until I can get it working under windows):
-            " Call MakeHtmlPreview function from vim-magic-template on each write of
+            " Call MakeHtmlPreview function from personal-magic.vim on each write of
             " personal notes
             if has("mac")
                 autocmd BufWritePost ~/Dropbox/vim-notes/*.md silent call MakeHtmlPreview()
