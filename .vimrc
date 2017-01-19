@@ -228,6 +228,7 @@ set shellslash
     endif
 
     " Quickfix Toggle
+    nmap <leader>uf :call QuickfixToggle()<cr>
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
     augroup magictab
