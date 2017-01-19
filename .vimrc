@@ -368,8 +368,8 @@ set shellslash
         nmap <leader>gs :Gstatus<cr>/modified<cr>
         nmap <leader>gc :Gcommit<cr>
         " nmap <leader>gp :Gpush<cr>
-        nmap <leader>gp :MagicJob git push
-        nmap <leader>gu :MagicJob git pull
+        nmap <leader>gp :MagicJob git push<cr>
+        nmap <leader>gu :MagicJob git pull<cr>
         nmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
         nmap <leader>gd :Gdiff<cr>
