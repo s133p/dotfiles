@@ -101,7 +101,10 @@ set shellslash
         au!
         autocmd FileType vim setlocal fdm=marker
         autocmd FileType c,cpp setlocal fdm=syntax
-        set nofoldenable foldlevel=0 foldnestmax=2 foldopen=all foldclose=all
+        set nofoldenable foldopen=all foldclose=all foldnestmax=2
+
+        autocmd BufReadPost fugitive://* set foldopen=
+        autocmd BufDelete fugitive://* set foldopen=all
     augroup END
 "======== [END Settings] ========}}}
 
@@ -132,6 +135,13 @@ set shellslash
     nnoremap <leader>q :q<CR>
     nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
     nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+    if has("mac")
+        command! Vput call MagicJob("cp ~/.vimrc ~/Documents/git/dotfiles/.vimrc", 0)
+        command! Vget call MagicJob("cp ~/Documents/git/dotfiles/.vimrc ~/.vimrc", 0)
+    elseif has("win32")
+        command! Vput call MagicJob("cp ~/.vimrc ~/Documents/dotfiles/.vimrc", 0)
+        command! Vget call MagicJob("cp ~/Documents/dotfiles/.vimrc ~/.vimrc", 0)
+    endif
 
     " Movement between splits/windows/buffers
     nnoremap gw <c-w>
@@ -218,7 +228,6 @@ set shellslash
     endif
 
     " Quickfix Toggle
-    nmap <leader>uf :call QuickfixToggle()<cr>
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
     augroup magictab
@@ -352,8 +361,6 @@ set shellslash
         augroup sqldb
             autocmd!
             autocmd FileType sql DBSetOption profile=mySqlite
-            "autocmd FileType sql nmap > ,sejgjggjVGygk//;<cr>o<esc>kp:DBResultsClose<cr>
-            "autocmd FileType sql nmap < ,selgjggjVGygko<esc>kp:DBResultsClose<cr>
         augroup END
     " [dbext.vim]}}}
 
@@ -361,14 +368,12 @@ set shellslash
         nmap <leader>gs :Gstatus<cr>/modified<cr>
         nmap <leader>gc :Gcommit<cr>
         " nmap <leader>gp :Gpush<cr>
-        nmap <leader>gp :call MagicJob("git push", 1)<cr>
-        nmap <leader>gu :call MagicJob("git pull", 1)<cr>
+        nmap <leader>gp :MagicJob git push
+        nmap <leader>gu :MagicJob git pull
         nmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
         nmap <leader>gd :Gdiff<cr>
 
-        " nmap <leader>dg :diffget<cr>
-        " nmap <leader>dp :diffput<cr>
         autocmd BufReadPost fugitive://* set bufhidden=delete
     " [END vim-fugitive] }}}
 
