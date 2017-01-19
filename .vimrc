@@ -6,51 +6,51 @@ let mapleader=';'
 set shellslash
 
 "======== [VUNDLE BEGIN] ========{{{
-    filetype off                                  " required
-    set rtp+=~/.vim/bundle/Vundle.vim             " required
-    call vundle#begin()                           " required
+    filetype off                                " required
+    set rtp+=~/.vim/bundle/Vundle.vim           " required
+    call vundle#begin()                         " required
     Plugin 'VundleVim/Vundle.vim'
 
-    Plugin 'tpope/vim-sensible'                   " [vim-sensible]        = Sensible defaults
-    Plugin 'tpope/vim-abolish'                    " [vim-abolish]         = Coerce cases
-    Plugin 'tpope/vim-surround'                   " [vim-surround]        = Does what it says on the tin
-    Plugin 'tpope/vim-repeat'                     " [vim-repeat]          = Allow plugin mappings to be repeated w/ '.'
-    Plugin 'michaeljsmith/vim-indent-object'      " [vim-indent-object]   = Use indent levels as text objects
-    Plugin 'tomtom/tcomment_vim'                  " [tcomment]            = Shortcuts for commenting
-    Plugin 'spiiph/vim-space'                     " [vim-space]           = Use spacebar to repeat last movement
-    Plugin 'junegunn/vim-easy-align'              " [vim-easy-align]      = Replacees tabular, includes text-obj mappings
-    Plugin 'kshenoy/vim-signature'                " [vim-signature]       = marks in sidebar
-    Plugin 'cohama/lexima.vim'                    " [lexima-vim]          = Auto-create pair & jump to end if matching pair typed
-    Plugin 'wellle/targets.vim'                   " [targets.vim]         = Adds a beautiful slew of text-objects
+    Plugin 'tpope/vim-sensible'                 " [vim-sensible]        = Sensible defaults
+    Plugin 'tpope/vim-abolish'                  " [vim-abolish]         = Coerce cases
+    Plugin 'tpope/vim-surround'                 " [vim-surround]        = Does what it says on the tin
+    Plugin 'tpope/vim-repeat'                   " [vim-repeat]          = Allow plugin mappings to be repeated w/ '.'
+    Plugin 'michaeljsmith/vim-indent-object'    " [vim-indent-object]   = Use indent levels as text objects
+    Plugin 'tomtom/tcomment_vim'                " [tcomment]            = Shortcuts for commenting
+    Plugin 'spiiph/vim-space'                   " [vim-space]           = Use spacebar to repeat last movement
+    Plugin 'junegunn/vim-easy-align'            " [vim-easy-align]      = Replacees tabular, includes text-obj mappings
+    Plugin 'kshenoy/vim-signature'              " [vim-signature]       = marks in sidebar
+    Plugin 'cohama/lexima.vim'                  " [lexima-vim]          = Auto-create pair & jump to end if matching pair typed
+    Plugin 'wellle/targets.vim'                 " [targets.vim]         = Adds a beautiful slew of text-objects
 
-    Plugin 'scrooloose/nerdtree'                  " [nerdtree]            = file tree
-    Plugin 'Shougo/unite.vim'                     " [unite.vim]           = Fully replaces Ctrl-P & much more
-    Plugin 'shougo/neomru.vim'                    " [neomru]              = MRU for unite, replaces startify
-    Plugin 'vim-scripts/a.vim'                    " [a.vim]               = Swap between cpp & hpp
-    Plugin 'airblade/vim-rooter'                  " [vim-rooter]          = Change directory to root of projects
-    Plugin 'tpope/vim-fugitive'                   " [vim-fugitive]        = Git integration
+    Plugin 'scrooloose/nerdtree'                " [nerdtree]            = file tree
+    Plugin 'Shougo/unite.vim'                   " [unite.vim]           = Fully replaces Ctrl-P & much more
+    Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite, replaces startify
+    Plugin 'vim-scripts/a.vim'                  " [a.vim]               = Swap between cpp & hpp
+    Plugin 'airblade/vim-rooter'                " [vim-rooter]          = Change directory to root of projects
+    Plugin 'tpope/vim-fugitive'                 " [vim-fugitive]        = Git integration
 
-    Plugin 'plasticboy/vim-markdown'              " [vim-markdown]        = markdown highlighting
-    Plugin 'vim-scripts/dbext.vim'                " [dbext.vim]           = databases from within vim
-    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}    " [sparkup]             = shortcut format for generating html/xml
+    Plugin 'plasticboy/vim-markdown'            " [vim-markdown]        = markdown highlighting
+    Plugin 'vim-scripts/dbext.vim'              " [dbext.vim]           = databases from within vim
+    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " [sparkup]             = shortcut format for generating html/xml
 
-    Plugin 'vim-airline/vim-airline'              " [vim-airline]         = Better tab/status line
-    Plugin 'vim-airline/vim-airline-themes'       " [vim-airline-themes]  = Themes for airline
-    Plugin 'morhetz/gruvbox'                      " [gruvbox]             = Pretty theme!
+    Plugin 'vim-airline/vim-airline'            " [vim-airline]         = Better tab/status line
+    Plugin 'vim-airline/vim-airline-themes'     " [vim-airline-themes]  = Themes for airline
+    Plugin 'morhetz/gruvbox'                    " [gruvbox]             = Pretty theme!
 
-    Plugin 's133p/personal-magic.vim'             " [personal-magic.vim]  = A collection of person vim functions
+    Plugin 's133p/personal-magic.vim'           " [personal-magic.vim]  = A collection of person vim functions
 
     if has("win32")
-        Plugin 'Shougo/neocomplcache.vim'         " [neocomplcache.vim]   = Autocomplete across buffers
+        Plugin 'Shougo/neocomplcache.vim'       " [neocomplcache.vim]   = Autocomplete across buffers
         " Plugin 'Shougo/neosnippet'
         " Plugin 'Shougo/neosnippet-snippets'
     elseif has("mac")
-        Plugin 'Valloric/YouCompleteMe'           " [YouCompleteMe]       = Clang based completeion
-        Plugin 'fatih/vim-go'                     " [vim-go]              = Lots of nice go features
+        Plugin 'Valloric/YouCompleteMe'         " [YouCompleteMe]       = Clang based completeion
+        Plugin 'fatih/vim-go'                   " [vim-go]              = Lots of nice go features
     endif
 
-    call vundle#end()                             " required
-    filetype plugin indent on                     " required
+    call vundle#end()                           " required
+    filetype plugin indent on                   " required
 "======== [VUNDLE END] ========}}}
 
 "======== [Settings] ========{{{
@@ -101,7 +101,7 @@ set shellslash
         au!
         autocmd FileType vim setlocal fdm=marker
         autocmd FileType c,cpp setlocal fdm=syntax
-        autocmd FileType c,cpp,vim setlocal nofoldenable
+        set nofoldenable foldlevel=0 foldnestmax=2 foldopen=all foldclose=all
     augroup END
 "======== [END Settings] ========}}}
 
@@ -113,7 +113,6 @@ set shellslash
         au GUIEnter * simalt ~x
     elseif has("mac")
         set guioptions=c  "only console prompt, no other ui-chrome
-        "set guifont=Hack\ Regular:h12
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
     endif
 "======== [END Gvim / MacVim] ========}}}
@@ -121,9 +120,6 @@ set shellslash
 "======== [MAPPINGS] ========{{{
     " yank til EOL
     nnoremap Y y$
-
-    " Shorcuts for common actions
-    nnoremap <Leader><Leader> ^y$dd:<c-r>0<cr>
 
     "Replacements for vim-unimpaired
     nnoremap <silent> <leader>o o<esc>k
@@ -167,13 +163,14 @@ set shellslash
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
     " Execute current line as Vim EX command
     nnoremap <leader>C ^"cd$dd:<c-r>c<CR>
+    nnoremap <Leader><Leader> ^y$dd:<c-r>0<cr>
 
     " Compile for OSX & Windows using MagicJob()
     augroup MagicCPPCompile
         autocmd!
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
-        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun, 0)<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>r :call MagicCompileRun()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
         autocmd FileType c,cpp nmap <leader>cn :cn<cr>
@@ -194,10 +191,10 @@ set shellslash
     vmap <silent> s :<C-U>call MagicStamp(visualmode())<CR>
     nnoremap S v$h"0p
     nnoremap <silent> ss V"0p
-    "- 'system-clipboard-yank'
+    " system-clipboard-yank
     nmap <silent> <leader>y :set opfunc=MagicClip<CR>g@
     vmap <silent> <leader>y :<C-U>call MagicClip(visualmode())<CR>
-    "- 'system-clipboard-paste-stamp'
+    " system-clipboard-paste-stamp
     nmap <silent> <leader>s :set opfunc=MagicPaste<CR>g@
     vmap <silent> <leader>s :<C-U>call MagicPaste(visualmode())<CR>
     nnoremap <leader>p "*p
@@ -210,8 +207,7 @@ set shellslash
     cnoremap <expr> <Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>/<C-r>/' : '<C-z>'
     cnoremap <expr> <S-Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>?<C-r>/' : '<S-Tab>'
 
-    " Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir
-    " based on invocation
+    " Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
     nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nV :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
@@ -225,8 +221,10 @@ set shellslash
     nmap <leader>uf :call QuickfixToggle()<cr>
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
-    nmap <silent> <tab> :call TabOrSwitch(0)<cr>
-    nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
+    augroup magictab
+        autocmd VimEnter * nmap <silent> <tab> :call TabOrSwitch(0)<cr>
+        autocmd VimEnter * nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
+    augroup END
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -319,9 +317,9 @@ set shellslash
         augroup avimmap
             autocmd!
             " Unmap insert mode mappings
-            " autocmd VimEnter * iunmap <leader>ih
-            " autocmd VimEnter * iunmap <leader>is
-            " autocmd VimEnter * iunmap <leader>ihn
+            autocmd VimEnter * iunmap <leader>ih
+            autocmd VimEnter * iunmap <leader>is
+            autocmd VimEnter * iunmap <leader>ihn
             " Map split commands
             autocmd FileType c,cpp nmap <buffer> <leader>cv :AV<cr>
             autocmd FileType c,cpp nmap <buffer> <leader>cV :AS<cr>
