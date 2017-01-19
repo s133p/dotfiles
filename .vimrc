@@ -174,6 +174,8 @@ set shellslash
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
         autocmd FileType c,cpp nmap <silent> <leader>r :call MagicJob(g:magicToRun, 0)<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
         autocmd FileType c,cpp nmap <leader>cn :cn<cr>
         autocmd FileType c,cpp nmap <leader>cp :cp<cr>
         " Open project in correct dev-env
@@ -181,7 +183,8 @@ set shellslash
             autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
         elseif has("win32")
             " TODO: Fix this command to open visual studio
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("devenv vs2013/*.sln")<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
+
         endif
     augroup END
 
