@@ -1,5 +1,5 @@
 set nocompatible
-set exrc
+"set exrc
 set secure
 
 let mapleader=';'
@@ -19,11 +19,9 @@ set shellslash
     Plugin 'tomtom/tcomment_vim'                " [tcomment]            = Shortcuts for commenting
     Plugin 'spiiph/vim-space'                   " [vim-space]           = Use spacebar to repeat last movement
     Plugin 'junegunn/vim-easy-align'            " [vim-easy-align]      = Replacees tabular, includes text-obj mappings
-    Plugin 'kshenoy/vim-signature'              " [vim-signature]       = marks in sidebar
     Plugin 'cohama/lexima.vim'                  " [lexima-vim]          = Auto-create pair & jump to end if matching pair typed
     Plugin 'wellle/targets.vim'                 " [targets.vim]         = Adds a beautiful slew of text-objects
 
-    Plugin 'scrooloose/nerdtree'                " [nerdtree]            = file tree
     Plugin 'Shougo/unite.vim'                   " [unite.vim]           = Fully replaces Ctrl-P & much more
     Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite, replaces startify
     Plugin 'vim-scripts/a.vim'                  " [a.vim]               = Swap between cpp & hpp
@@ -254,10 +252,6 @@ set shellslash
         colorscheme gruvbox
         set background=dark
     " [END gruvbox] }}}
-
-    " [nerdtree] {{{
-        map <C-n> :NERDTreeToggle<CR>
-    " [END nerdtree] }}}
 
     " [YouCompleteMe] {{{
         if has("mac")
