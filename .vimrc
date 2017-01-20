@@ -233,6 +233,11 @@ set shellslash
         autocmd VimEnter * nmap <silent> <tab> :call TabOrSwitch(0)<cr>
         autocmd VimEnter * nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
     augroup END
+
+    " Make zj & zk land outside of the fold, since I'm using foldopen=all
+    nnoremap zj zjj
+    nnoremap zk zkzkj
+
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
