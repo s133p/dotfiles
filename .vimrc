@@ -179,6 +179,7 @@ set shellslash
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
         autocmd FileType c,cpp nmap <silent> <leader>r :call MagicCompileRun()<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>R :call MagicCompileRunInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
         autocmd FileType c,cpp nmap <leader>cn :cn<cr>
