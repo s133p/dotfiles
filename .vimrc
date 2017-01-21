@@ -188,9 +188,7 @@ set shellslash
         if has("mac")
             autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
         elseif has("win32")
-            " TODO: Fix this command to open visual studio
             autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
-
         endif
     augroup END
 
@@ -366,7 +364,7 @@ set shellslash
     " [dbext.vim]}}}
 
     " [vim-fugitive] {{{
-        nmap <leader>gs :Gstatus<cr>/modified<cr>
+        nmap <leader>gs :Gstatus<cr>
         nmap <leader>gc :Gcommit<cr>
         " nmap <leader>gp :Gpush<cr>
         nmap <leader>gp :MagicJob git push<cr>
@@ -376,6 +374,8 @@ set shellslash
         nmap <leader>gd :Gdiff<cr>
 
         autocmd BufReadPost fugitive://* set bufhidden=delete
+        autocmd BufEnter .git/index nmap <buffer> n <c-n>
+        autocmd BufEnter .git/index nmap <buffer> p <c-p>
     " [END vim-fugitive] }}}
 
     " [neocomplcache.vim]{{{
