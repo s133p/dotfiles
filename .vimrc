@@ -68,8 +68,7 @@ set shellslash
     set number
     set cul
     set scrolloff=6
-    set splitbelow
-    set splitright
+    set splitbelow splitright
     set shiftwidth=4
     set softtabstop=4
     set tabstop=4
@@ -122,6 +121,9 @@ set shellslash
     " yank til EOL
     nnoremap Y y$
 
+    " Redo..?
+    " nnoremap <leader>z <c-r>
+
     "Replacements for vim-unimpaired
     nnoremap <silent> <leader>o o<esc>k
     nnoremap <silent> <leader>O O<esc>j
@@ -169,9 +171,6 @@ set shellslash
 
     " replace visual selection w/ <c-r>= itself; Mnemonic: calc
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
-    " Execute current line as Vim EX command
-    nnoremap <leader>C ^"cd$dd:<c-r>c<CR>
-    nnoremap <Leader><Leader> ^y$dd:<c-r>0<cr>
 
     " Compile for OSX & Windows using MagicJob()
     augroup MagicCPPCompile
@@ -186,14 +185,13 @@ set shellslash
         autocmd FileType c,cpp nmap <leader>cp :cp<cr>
         " Open project in correct dev-env
         if has("mac")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj")<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
         elseif has("win32")
             autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
         endif
     augroup END
 
-    " Custom operator-pending mappings & pairings
-    " stamp
+    " Custom operator-pending mappings & pairings stamp
     nmap <silent> s :set opfunc=MagicStamp<CR>g@
     vmap <silent> s :<C-U>call MagicStamp(visualmode())<CR>
     nnoremap S v$h"0p
@@ -229,13 +227,10 @@ set shellslash
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
     augroup magictab
+        autocmd!
         autocmd VimEnter * nmap <silent> <tab> :call TabOrSwitch(0)<cr>
         autocmd VimEnter * nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
     augroup END
-
-    " Make zj & zk land outside of the fold, since I'm using foldopen=all
-    nnoremap zj zjj
-    nnoremap zk zkzkj
 
 "======== [END MAPPINGS] ========}}}
 
@@ -270,6 +265,8 @@ set shellslash
             imap <expr> <CR> pumvisible() ? "\<c-y>" : "\<cr>"
             let g:ycm_confirm_extra_conf = 0                              " Don't confirm on load
             let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py' " provide some defaults
+            let g:ycm_autoclose_preview_window_after_insertion = 1
+            let g:ycm_filepath_completion_use_working_dir = 1
         endif
     " [END YouCompleteMe] }}}
 
@@ -337,7 +334,8 @@ set shellslash
     " [unite.vim] & [unite-qf] {{{
         autocmd FileType unite nmap <buffer> <esc> q
         call unite#filters#matcher_default#use(['matcher_glob'])
-        call unite#filters#sorter_default#use(['sorter_selecta'])
+        call unite#filters#sorter_default#use(['sorter_rank'])
+        " call unite#filters#sorter_default#use(['sorter_selecta'])
         call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
@@ -370,12 +368,16 @@ set shellslash
         nmap <leader>gp :MagicJob git push<cr>
         nmap <leader>gu :MagicJob git pull<cr>
         nmap <leader>gb :Gbrowse<cr>
+        vmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
         nmap <leader>gd :Gdiff<cr>
 
-        autocmd BufReadPost fugitive://* set bufhidden=delete
-        autocmd BufEnter .git/index nmap <buffer> n <c-n>
-        autocmd BufEnter .git/index nmap <buffer> p <c-p>
+        augroup MyFugitive
+            autocmd!
+            autocmd BufReadPost fugitive://* set bufhidden=delete
+            autocmd BufEnter .git/index nmap <buffer> n <c-n>
+            autocmd BufEnter .git/index nmap <buffer> p <c-p>
+        augroup END
     " [END vim-fugitive] }}}
 
     " [neocomplcache.vim]{{{
