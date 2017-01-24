@@ -121,9 +121,6 @@ set shellslash
     " yank til EOL
     nnoremap Y y$
 
-    " Redo..?
-    " nnoremap <leader>z <c-r>
-
     "Replacements for vim-unimpaired
     nnoremap <silent> <leader>o o<esc>k
     nnoremap <silent> <leader>O O<esc>j
@@ -138,9 +135,6 @@ set shellslash
     if has("mac")
         command! Vput call MagicJob("cp ~/.vimrc ~/Documents/git/dotfiles/.vimrc", 0)
         command! Vget call MagicJob("cp ~/Documents/git/dotfiles/.vimrc ~/.vimrc", 0)
-    elseif has("win32")
-        command! Vput call MagicJob("cp ~/.vimrc ~/Documents/dotfiles/.vimrc", 0)
-        command! Vget call MagicJob("cp ~/Documents/dotfiles/.vimrc ~/.vimrc", 0)
     endif
 
     " Movement between splits/windows/buffers
@@ -168,7 +162,6 @@ set shellslash
     nnoremap <leader>J J
     nnoremap <leader>K K
 
-
     " replace visual selection w/ <c-r>= itself; Mnemonic: calc
     vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 
@@ -181,13 +174,11 @@ set shellslash
         autocmd FileType c,cpp nmap <silent> <leader>R :call MagicCompileRunInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
-        autocmd FileType c,cpp nmap <leader>cn :cn<cr>
-        autocmd FileType c,cpp nmap <leader>cp :cp<cr>
         " Open project in correct dev-env
         if has("mac")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
         elseif has("win32")
-            autocmd FileType c,cpp nmap <buffer> <leader>cx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
         endif
     augroup END
 
@@ -206,12 +197,6 @@ set shellslash
     nnoremap <leader>P "*P
     nnoremap <leader>ss V"*P
 
-    " `<Tab>`/`<S-Tab>` to move between matches without leaving incremental search.
-    " Note dependency on `'wildcharm'` being set to `<C-z>` in order for this to work.
-    set wildcharm=<c-z>
-    cnoremap <expr> <Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>/<C-r>/' : '<C-z>'
-    cnoremap <expr> <S-Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>?<C-r>/' : '<S-Tab>'
-
     " Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
     nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
     nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
@@ -223,14 +208,23 @@ set shellslash
     endif
 
     " Quickfix Toggle
-    nmap <leader>uf :call QuickfixToggle()<cr>
+    nnoremap cn :cn<cr>
+    nnoremap cp :cp<cr>
+    nmap <leader>z :call QuickfixToggle()<cr>
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
     augroup magictab
         autocmd!
-        autocmd VimEnter * nmap <silent> <tab> :call TabOrSwitch(0)<cr>
-        autocmd VimEnter * nmap <silent> <s-tab> :call TabOrSwitch(1)<cr>
+        autocmd VimEnter * nnoremap <silent> <tab> :call TabOrSwitch(0)<cr>
+        autocmd VimEnter * nnoremap <silent> <s-tab> :call TabOrSwitch(1)<cr>
     augroup END
+
+
+    " `<Tab>`/`<S-Tab>` to move between matches without leaving incremental search.
+    " Note dependency on `'wildcharm'` being set to `<C-z>` in order for this to work.
+    set wildcharm=<c-z>
+    cnoremap <expr> <Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>/<C-r>/' : '<C-z>'
+    cnoremap <expr> <S-Tab> getcmdtype() == '/' \|\| getcmdtype() == '?' ? '<CR>?<C-r>/' : '<S-Tab>'
 
 "======== [END MAPPINGS] ========}}}
 
@@ -326,8 +320,8 @@ set shellslash
             autocmd VimEnter * iunmap <leader>is
             autocmd VimEnter * iunmap <leader>ihn
             " Map split commands
-            autocmd FileType c,cpp nmap <buffer> <leader>cv :AV<cr>
-            autocmd FileType c,cpp nmap <buffer> <leader>cV :AS<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>iv :AV<cr>
+            autocmd FileType c,cpp nmap <buffer> <leader>iV :AS<cr>
         augroup END
     " [a.vim]}}}
 
