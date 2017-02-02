@@ -118,5 +118,9 @@ alias tmx="tmux kill-session"
 alias v='vim'
 alias q="exit"
 
+# Go Exports
 export GOPATH=$HOME/Documents/goproj
 export PATH=$PATH:$GOPATH/bin
+
+# FZF Export
+export FZF_DEFAULT_OPTS='--reverse'
