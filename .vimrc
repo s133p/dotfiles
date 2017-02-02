@@ -36,6 +36,8 @@ set shellslash
     Plugin 'vim-airline/vim-airline-themes'     " [vim-airline-themes]  = Themes for airline
     Plugin 'morhetz/gruvbox'                    " [gruvbox]             = Pretty theme!
 
+    Plugin 'octol/vim-cpp-enhanced-highlight'
+
     Plugin 's133p/personal-magic.vim'           " [personal-magic.vim]  = A collection of person vim functions
 
     if has("win32")
@@ -211,6 +213,7 @@ set shellslash
     nnoremap cn :cn<cr>
     nnoremap cp :cp<cr>
     nmap <leader>z :call QuickfixToggle()<cr>
+    nmap <leader>Z :call MagicBufferOpen()<cr>
 
     " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
     augroup magictab
