@@ -21,6 +21,7 @@ set shellslash
     Plugin 'junegunn/vim-easy-align'            " [vim-easy-align]      = Replacees tabular, includes text-obj mappings
     Plugin 'cohama/lexima.vim'                  " [lexima-vim]          = Auto-create pair & jump to end if matching pair typed
     Plugin 'wellle/targets.vim'                 " [targets.vim]         = Adds a beautiful slew of text-objects
+    Plugin 'octol/vim-cpp-enhanced-highlight'   " [vim-cpp-highlight]   = Better highlighting for c++
 
     Plugin 'Shougo/unite.vim'                   " [unite.vim]           = Fully replaces Ctrl-P & much more
     Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite, replaces startify
@@ -36,17 +37,16 @@ set shellslash
     Plugin 'vim-airline/vim-airline-themes'     " [vim-airline-themes]  = Themes for airline
     Plugin 'morhetz/gruvbox'                    " [gruvbox]             = Pretty theme!
 
-    Plugin 'octol/vim-cpp-enhanced-highlight'
 
     Plugin 's133p/personal-magic.vim'           " [personal-magic.vim]  = A collection of person vim functions
 
     if has("win32")
         Plugin 'Shougo/neocomplcache.vim'       " [neocomplcache.vim]   = Autocomplete across buffers
-        " Plugin 'Shougo/neosnippet'
-        " Plugin 'Shougo/neosnippet-snippets'
     elseif has("mac")
         Plugin 'Valloric/YouCompleteMe'         " [YouCompleteMe]       = Clang based completeion
         Plugin 'fatih/vim-go'                   " [vim-go]              = Lots of nice go features
+        Plugin 'junegunn/fzf'
+        Plugin 'junegunn/fzf.vim'
     endif
 
     call vundle#end()                           " required
