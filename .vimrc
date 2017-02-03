@@ -127,16 +127,13 @@ set shellslash
     nnoremap <silent> <leader>O O<esc>j
     nnoremap <silent> coh :set hlsearch!<cr>
     nnoremap <silent> cos :set spell!<cr>
+    nnoremap <silent> cow :CleanWhitespace<cr>
 
     nnoremap <Leader>w :w<CR>
     nnoremap <leader>x :q<CR>
     nnoremap <leader>q :q<CR>
     nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
     nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
-    if has("mac")
-        command! Vput call MagicJob("cp ~/.vimrc ~/Documents/git/dotfiles/.vimrc", 0)
-        command! Vget call MagicJob("cp ~/Documents/git/dotfiles/.vimrc ~/.vimrc", 0)
-    endif
 
     " Movement between splits/windows/buffers
     nnoremap gw <c-w>
@@ -172,7 +169,7 @@ set shellslash
         autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
         autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
         autocmd FileType c,cpp nmap <silent> <leader>r :call MagicCompileRun()<cr>
-        autocmd FileType c,cpp nmap <silent> <leader>R :call MagicCompileRunInfo()<cr>
+        autocmd FileType c,cpp nmap <silent> <leader>R :call MagicCompileRun(1)<cr>
         autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
         autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
         " Open project in correct dev-env
@@ -336,6 +333,8 @@ set shellslash
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
+        nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
+        nmap <silent> <leader>ul :Unite locationlist<cr>
         nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
         nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
         nmap <silent> <leader>ud :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
@@ -358,9 +357,8 @@ set shellslash
     " [vim-fugitive] {{{
         nmap <leader>gs :Gstatus<cr>
         nmap <leader>gc :Gcommit<cr>
-        " nmap <leader>gp :Gpush<cr>
-        nmap <leader>gp :MagicJob git push<cr>
-        nmap <leader>gu :MagicJob git pull<cr>
+        nmap <leader>gp :MagicJob! git push<cr>
+        nmap <leader>gu :MagicJob! git pull<cr>
         nmap <leader>gb :Gbrowse<cr>
         vmap <leader>gb :Gbrowse<cr>
         nmap <leader>gB :Gblame<cr>
