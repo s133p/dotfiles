@@ -24,7 +24,7 @@ set shellslash
     Plugin 'octol/vim-cpp-enhanced-highlight'   " [vim-cpp-highlight]   = Better highlighting for c++
 
     Plugin 'Shougo/unite.vim'                   " [unite.vim]           = Fully replaces Ctrl-P & much more
-    Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite, replaces startify
+    Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite
     Plugin 'vim-scripts/a.vim'                  " [a.vim]               = Swap between cpp & hpp
     Plugin 'airblade/vim-rooter'                " [vim-rooter]          = Change directory to root of projects
     Plugin 'tpope/vim-fugitive'                 " [vim-fugitive]        = Git integration
@@ -36,7 +36,6 @@ set shellslash
     Plugin 'vim-airline/vim-airline'            " [vim-airline]         = Better tab/status line
     Plugin 'vim-airline/vim-airline-themes'     " [vim-airline-themes]  = Themes for airline
     Plugin 'morhetz/gruvbox'                    " [gruvbox]             = Pretty theme!
-
 
     Plugin 's133p/personal-magic.vim'           " [personal-magic.vim]  = A collection of person vim functions
 
@@ -328,7 +327,7 @@ set shellslash
         augroup END
     " [a.vim]}}}
 
-    " [unite.vim] & [unite-qf] {{{
+    " [unite.vim]  {{{
         autocmd FileType unite nmap <buffer> <esc> q
         call unite#filters#matcher_default#use(['matcher_glob'])
         call unite#filters#sorter_default#use(['sorter_rank'])
@@ -337,13 +336,11 @@ set shellslash
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
-        nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
-        nmap <silent> <leader>ul :Unite locationlist<cr>
         nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
         nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
         nmap <silent> <leader>ud :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
 
-        nmap <leader>ug :lvimgrep //j **/*<left><left><left><left><left><left><left>
+        nmap <leader>ug :vimgrep //j src/**/*<left><left><left><left><left><left><left><left><left><left><left>
     " [END unite.vim] }}}
 
     " [dbext.vim]{{{
