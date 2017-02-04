@@ -5,15 +5,17 @@ set secure
 let mapleader=';'
 set shellslash
 
-" Install vim-plug if needed
-" if empty(glob('~/.vim/autoload/plug.vim'))
-"   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-" endif
+function! InstallPlug()
+    " Install vim-plug if needed
+    if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+endfunction
+command! InstallPlug call InstallPlug()
 
 "======== [PLUGINS BEGIN] ========{{{
-command! PU PlugUpdate | PlugUpgrade
 call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
 Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
