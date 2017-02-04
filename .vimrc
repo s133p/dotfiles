@@ -5,49 +5,52 @@ set secure
 let mapleader=';'
 set shellslash
 
-"======== [VUNDLE BEGIN] ========{{{
-filetype off                               " required
-set rtp+=~/.vim/bundle/Vundle.vim          " required
-call vundle#begin()                        " required
-Plugin 'VundleVim/Vundle.vim'
+" Install vim-plug if needed
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
 
-Plugin 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
-Plugin 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
-Plugin 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
-Plugin 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
-Plugin 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
+"======== [PLUGINS BEGIN] ========{{{
+command! PU PlugUpdate | PlugUpgrade
+call plug#begin('~/.vim/bundle')
+Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
+Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
+Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
+Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
 
-Plugin 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
-Plugin 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
-Plugin 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
-Plugin 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
-Plugin 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
-Plugin 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
+Plug 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
+Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
+Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
+Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
+Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+Plug 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
 
-Plugin 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
-Plugin 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
-Plugin 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
-Plugin 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
+Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
+Plug 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
+Plug 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
+Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 
-Plugin 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
-Plugin 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
-Plugin 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
-Plugin 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
+Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
+Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
+Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
+Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 
-Plugin 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
-Plugin 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
-Plugin 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
+Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
+Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
+Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 
-Plugin 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
+Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
 
 if has("mac")
- Plugin 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
+ Plug 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
 endif
 
-call vundle#end()                          " required
-filetype plugin indent on                  " required
-"======== [VUNDLE END] ========}}}
+call plug#end()
+"======== [PLUGINS END] ========}}}
 
 "======== [Settings] ========{{{
 filetype indent plugin on
