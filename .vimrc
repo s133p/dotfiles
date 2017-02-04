@@ -6,101 +6,74 @@ let mapleader=';'
 set shellslash
 
 "======== [VUNDLE BEGIN] ========{{{
-filetype off                                " required
-set rtp+=~/.vim/bundle/Vundle.vim           " required
-call vundle#begin()                         " required
+filetype off                               " required
+set rtp+=~/.vim/bundle/Vundle.vim          " required
+call vundle#begin()                        " required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'tpope/vim-sensible'                 " [vim-sensible]        = Sensible defaults
-Plugin 'tpope/vim-abolish'                  " [vim-abolish]         = Coerce cases
-Plugin 'tpope/vim-surround'                 " [vim-surround]        = Does what it says on the tin
-Plugin 'tpope/vim-repeat'                   " [vim-repeat]          = Allow plugin mappings to be repeated w/ '.'
-Plugin 'michaeljsmith/vim-indent-object'    " [vim-indent-object]   = Use indent levels as text objects
-Plugin 'tomtom/tcomment_vim'                " [tcomment]            = Shortcuts for commenting
-Plugin 'spiiph/vim-space'                   " [vim-space]           = Use spacebar to repeat last movement
-Plugin 'junegunn/vim-easy-align'            " [vim-easy-align]      = Replacees tabular, includes text-obj mappings
-Plugin 'cohama/lexima.vim'                  " [lexima-vim]          = Auto-create pair & jump to end if matching pair typed
-Plugin 'wellle/targets.vim'                 " [targets.vim]         = Adds a beautiful slew of text-objects
-Plugin 'octol/vim-cpp-enhanced-highlight'   " [vim-cpp-highlight]   = Better highlighting for c++
+Plugin 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
+Plugin 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
+Plugin 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
+Plugin 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+Plugin 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
 
-Plugin 'Shougo/unite.vim'                   " [unite.vim]           = Fully replaces Ctrl-P & much more
-Plugin 'shougo/neomru.vim'                  " [neomru]              = MRU for unite
-Plugin 'vim-scripts/a.vim'                  " [a.vim]               = Swap between cpp & hpp
-Plugin 'airblade/vim-rooter'                " [vim-rooter]          = Change directory to root of projects
-Plugin 'tpope/vim-fugitive'                 " [vim-fugitive]        = Git integration
+Plugin 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
+Plugin 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
+Plugin 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
+Plugin 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
+Plugin 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+Plugin 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
 
-Plugin 'plasticboy/vim-markdown'            " [vim-markdown]        = markdown highlighting
-Plugin 'vim-scripts/dbext.vim'              " [dbext.vim]           = databases from within vim
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " [sparkup]             = shortcut format for generating html/xml
+Plugin 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
+Plugin 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
+Plugin 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
+Plugin 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 
-Plugin 'vim-airline/vim-airline'            " [vim-airline]         = Better tab/status line
-Plugin 'vim-airline/vim-airline-themes'     " [vim-airline-themes]  = Themes for airline
-Plugin 'morhetz/gruvbox'                    " [gruvbox]             = Pretty theme!
+Plugin 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
+Plugin 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
+Plugin 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
+Plugin 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 
-Plugin 's133p/personal-magic.vim'           " [personal-magic.vim]  = A collection of person vim functions
+Plugin 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
+Plugin 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
+Plugin 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 
-if has("win32")
-    Plugin 'Shougo/neocomplcache.vim'       " [neocomplcache.vim]   = Autocomplete across buffers
-elseif has("mac")
-    Plugin 'Valloric/YouCompleteMe'         " [YouCompleteMe]       = Clang based completeion
-    Plugin 'fatih/vim-go'                   " [vim-go]              = Lots of nice go features
-    Plugin 'junegunn/fzf'
-    Plugin 'junegunn/fzf.vim'
+Plugin 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
+
+if has("mac")
+ Plugin 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
 endif
 
-call vundle#end()                           " required
-filetype plugin indent on                   " required
+call vundle#end()                          " required
+filetype plugin indent on                  " required
 "======== [VUNDLE END] ========}}}
 
 "======== [Settings] ========{{{
 filetype indent plugin on
 syntax on
-set hidden
-set showcmd
-set nohlsearch
+set hidden noswapfile
+set showcmd confirm cmdheight=2
 set nostartofline
-set confirm
-set novisualbell
-set t_vb=
+set novisualbell t_vb=
 set mouse=a
-set cmdheight=2
 set notimeout ttimeout ttimeoutlen=200
-set relativenumber
-set number
-set cul
-set scrolloff=6
 set splitbelow splitright
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-set expandtab
-set noswapfile
-set nowrap
+set switchbuf=usetab
 set lazyredraw
 set encoding=utf8
 set t_Co=256
-set switchbuf=usetab
 set shortmess=Ia
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
 
-set list                              " show whitespace
-set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
-set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-" + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+set relativenumber number
+set cursorline
+set scrolloff=6
+set nowrap
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+set nohlsearch incsearch ignorecase smartcase showmatch
 
-
-" Disables cursorline for inactive windows
-augroup cline
-    autocmd!
-    autocmd WinLeave * set nocursorline
-    autocmd WinEnter * set cursorline
-augroup END
+" show whitespace
+set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:▷┅
 
 augroup myfolding
     au!
@@ -113,21 +86,11 @@ augroup myfolding
 augroup END
 "======== [END Settings] ========}}}
 
-"======== [Gvim / MacVim] ========{{{
-if has("win32")
-    set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
-    " Fullscreen on app-start
-    au GUIEnter * simalt ~x
-elseif has("mac")
-    set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
-endif
-"======== [END Gvim / MacVim] ========}}}
-
 "======== [MAPPINGS] ========{{{
 " yank til EOL
 nnoremap Y y$
+nnoremap <leader><leader> q:
+nnoremap - :20Lexplore<cr>
 
 "Replacements for vim-unimpaired
 nnoremap <silent> <leader>o o<esc>k
@@ -171,7 +134,7 @@ nnoremap <leader>K K
 " replace visual selection w/ <c-r>= itself; Mnemonic: calc
 vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 map <leader>C <Plug>MagicCalc
-" this, is a, 5000, seperated list, of things "
+
 " Compile for OSX & Windows using MagicJob()
 augroup MagicCPPCompile
     autocmd!
@@ -189,7 +152,7 @@ augroup MagicCPPCompile
     endif
 augroup END
 
-" Custom operator-pending mappings & pairings stamp
+" Custom operator-pending mappings & pairings
 map s <Plug>MagicStamp
 nmap S v$h<Plug>MagicStamp
 nmap ss V<Plug>MagicStamp
@@ -218,16 +181,25 @@ nnoremap cp :cp<cr>
 nmap <leader>z :call QuickfixToggle()<cr>
 nmap <leader>Z :call MagicBufferOpen()<cr>
 
-" " <tab> & <s-tab> : switch tabs if more than one tab is open, otherwise switch splits
-" augroup magictab
-"     autocmd!
-"     autocmd VimEnter * nnoremap <silent> <tab> :call TabOrSwitch(0)<cr>
-"     autocmd VimEnter * nnoremap <silent> <s-tab> :call TabOrSwitch(1)<cr>
-" augroup END
-
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
+
+" [vim-polyglot] {{{
+let g:jsx_ext_required = 1
+" [END vim-polyglot] }}}
+
+" [netrw] {{{
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_browse_split=4
+let g:netrw_browsex_viewer="open"
+let g:netrw_banner = 0
+augroup netrwmaps
+    autocmd!
+    autocmd FileType netrw nnoremap <buffer> <esc> :bd<cr>
+    autocmd FileType netrw setlocal bufhidden=wipe
+augroup END
+" [END netrw] }}}
 
 " [vim-easy-align] {{{
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -250,19 +222,14 @@ colorscheme gruvbox
 set background=dark
 " [END gruvbox] }}}
 
-" [YouCompleteMe] {{{
+" [completor.vim] {{{
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 if has("mac")
-    augroup ycmcpp
-        autocmd!
-        autocmd FileType c,cpp nmap <buffer> <leader>it :YcmCompleter GetType<cr>
-        autocmd FileType c,cpp nmap <buffer> <leader>if :YcmCompleter FixIt<cr>
-    augroup END
-
-    imap <expr> <CR> pumvisible() ? "\<c-y>" : "\<cr>"
-    let g:ycm_confirm_extra_conf = 0                              " Don't confirm on load
-    let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py' " provide some defaults
-    let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_filepath_completion_use_working_dir = 1
+    let g:completor_clang_binary = '/usr/bin/clang'
+    let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
+    " let g:completor_node_binary = '/usr/local/bin/node'
 endif
 " [END YouCompleteMe] }}}
 
@@ -284,16 +251,6 @@ let g:rooter_targets = '/,*'
 " [END vim-rooter] (auto cd to project roots) }}}
 
 " [vim-markdown] {{{
-let g:vim_markdown_fenced_languages = ['c=c']
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_folding_level = 6
-augroup mkdownNotes
-    au!
-    " Call MakeHtmlPreview function from personal-magic.vim
-    if has("mac")
-        autocmd BufWritePost ~/Dropbox/vim-notes/*.md silent call MakeHtmlPreview()
-    endif
-augroup END
 augroup markdown
     au!
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -308,6 +265,10 @@ augroup markdown
     autocmd FileType markdown nnoremap <buffer> <leader>a A<cr>**[ ]**<space>
     " Swap [ X ] and [ _ ] with space
     autocmd FileType markdown nnoremap <buffer> <silent> <leader><space> mz:.g/\[+\]/s/\[+\]/[*]/<cr>:.g/\[ \]/s/\[ \]/[+]/<cr>:.g/\[\*\]/s/\[\*\]/[ ]/<cr>`z:delmarks!<cr>
+    " Call MakeHtmlPreview function from personal-magic.vim
+    if has("mac")
+        autocmd BufWritePost ~/Dropbox/vim-notes/*.md silent call MakeHtmlPreview()
+    endif
 augroup END
 " [vim-markdown] }}}
 
@@ -369,37 +330,21 @@ augroup MyFugitive
 augroup END
 " [END vim-fugitive] }}}
 
-" [neocomplcache.vim]{{{
-if has("win32")
-    " Disable AutoComplPop.
-    let g:acp_enableAtStartup = 0
-    " Use neocomplcache.
-    let g:neocomplcache_enable_at_startup = 1
-    " Use smartcase.
-    let g:neocomplcache_enable_smart_case = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplcache_min_syntax_length = 3
-
-    " Define keyword.
-    if !exists('g:neocomplcache_keyword_patterns')
-        let g:neocomplcache_keyword_patterns = {}
-    endif
-    let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-    " <CR>: close popup and save indent.
-    inoremap <expr> <CR> pumvisible() ? neocomplcache#close_popup() : "\<cr>"
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-endif
-" [neocomplcache.vim]}}}
-
 " [sparkup] {{{
 " Use sparkup default mapping <c-e> in normal & insert mode
 let g:sparkupMapsNormal = 1
 " [END sparkup] }}}
 
 "======== [END Plugin mappings/settings] ========}}}
+
+"======== [Gvim / MacVim] ========{{{
+if has("win32")
+    set guioptions=c  "only console prompt, no other ui-chrome
+    set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
+    " Fullscreen on app-start
+    au GUIEnter * simalt ~x
+elseif has("mac")
+    set guioptions=c  "only console prompt, no other ui-chrome
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+endif
+"======== [END Gvim / MacVim] ========}}}
