@@ -344,8 +344,6 @@ set shellslash
         nmap <silent> <leader>f :call MyUniteSpecial()<cr>
         nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
         nmap <silent> <leader>ub :Unite -no-split buffer<cr>
-        nmap <silent> <leader>uB :UniteBookmarkAdd<cr><cr>
-        nmap <silent> <leader>ul :Unite locationlist<cr>
         nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
         nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
         nmap <silent> <leader>ud :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
