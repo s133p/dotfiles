@@ -2,8 +2,8 @@ set nocompatible
 "set exrc
 set secure
 
-let mapleader=';'
 set shellslash
+let mapleader=';'
 
 function! InstallPlug()
     " Install vim-plug if needed
@@ -62,6 +62,7 @@ set showcmd confirm cmdheight=2
 set nostartofline
 set novisualbell t_vb=
 set mouse=a
+set backspace=2
 set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright
 set switchbuf=usetab
@@ -228,13 +229,20 @@ set background=dark
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+augroup MyCompletor
+    autocmd!
+    autocmd VimEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    autocmd VimEnter * inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    autocmd VimEnter * imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+augroup END
+
+let g:completor_completion_delay=40
 if has("mac")
     let g:completor_clang_binary = '/usr/bin/clang'
     let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
     " let g:completor_node_binary = '/usr/local/bin/node'
+elseif has("win32")
+    let g:completor_clang_binary = "clang"
 endif
 " [END YouCompleteMe] }}}
 
