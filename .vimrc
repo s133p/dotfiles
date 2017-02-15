@@ -55,6 +55,7 @@ set showcmd confirm cmdheight=2
 set nostartofline
 set novisualbell t_vb=
 set mouse=a
+set backspace=2
 set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright
 set switchbuf=usetab
