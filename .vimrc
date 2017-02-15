@@ -5,16 +5,6 @@ set secure
 set shellslash
 let mapleader=';'
 
-function! InstallPlug()
-    " Install vim-plug if needed
-    if empty(glob('~/.vim/autoload/plug.vim'))
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
-endfunction
-command! InstallPlug call InstallPlug()
-
 "======== [PLUGINS BEGIN] ========{{{
 call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
@@ -47,6 +37,9 @@ Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 
 Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
 
+Plug 'dzeban/vim-log-syntax'
+Plug 'rhysd/vim-clang-format'
+
 if has("mac")
  Plug 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
 endif
@@ -62,7 +55,6 @@ set showcmd confirm cmdheight=2
 set nostartofline
 set novisualbell t_vb=
 set mouse=a
-set backspace=2
 set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright
 set switchbuf=usetab
@@ -191,6 +183,26 @@ nmap <leader>Z :call MagicBufferOpen()<cr>
 
 "======== [Plugin mappings/settings] ========{{{
 
+" [vim-clang-format] {{{
+let g:clang_format#style_options = {
+            \ "BasedOnStyle" : "Google",
+            \ "TabWidth" : 4,
+            \ "IndentWidth" : 4,
+            \ "ColumnLimit" : 120,
+            \ "MaxEmptyLinesToKeep" : 2,
+            \ "AccessModifierOffset" : -2,
+            \ "ConstructorInitializerIndentWidth" : 2,
+            \ "UseTab" : "Never",
+            \ "ContinuationIndentWidth" : 8,
+            \ "IndentWrappedFunctionNames" : "true",
+            \ "AlignConsecutiveAssignments" : "true",
+            \ "AlignConsecutiveDeclarations" : "true",
+            \ "BreakConstructorInitializersBeforeComma" : "true",
+            \ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "false",
+            \ "AllowShortFunctionsOnASingleLine" : "false",
+            \ "Standard" : "Cpp11"}
+" [END vim-clang-format] }}}
+
 " [vim-polyglot] {{{
 let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
@@ -229,20 +241,17 @@ set background=dark
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
-augroup MyCompletor
-    autocmd!
-    autocmd VimEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    autocmd VimEnter * inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    autocmd VimEnter * imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-augroup END
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-let g:completor_completion_delay=40
 if has("mac")
-    let g:completor_clang_binary = '/usr/bin/clang'
+    " let g:completor_clang_binary = '/Library/Developer/CommandLineTools/usr/bin/clang'
+    let g:completor_completion_delay=20
     let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
-    " let g:completor_node_binary = '/usr/local/bin/node'
+    let g:completor_node_binary = '/usr/local/bin/node'
 elseif has("win32")
-    let g:completor_clang_binary = "clang"
+    let g:completor_clang_binary = 'clang'
 endif
 " [END YouCompleteMe] }}}
 
@@ -306,21 +315,16 @@ call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/
 nmap <silent> <leader>f :call MyUniteSpecial()<cr>
 nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
 nmap <silent> <leader>ub :Unite -no-split buffer<cr>
-nmap <silent> <leader>us :Unite file_rec -input=src/\  -start-insert -no-split<cr>
-nmap <silent> <leader>uS :Unite file_rec -input=settings/\  -start-insert -no-split<cr>
-nmap <silent> <leader>ul :Unite file_rec -input=data/layout/\  -start-insert -no-split<cr>
-
-nmap <leader>ug :vimgrep //j src/**/*<left><left><left><left><left><left><left><left><left><left><left>
 " [END unite.vim] }}}
 
 " [dbext.vim]{{{
-if has("mac")
-    let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite'
-elseif has("win32")
-    let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite:bin_path=/Users/luke.purcell/Desktop/Misc/sqlite'
-endif
 augroup sqldb
     autocmd!
+    if has("mac")
+        let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite'
+    elseif has("win32")
+        let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite:bin_path=/Users/luke.purcell/Desktop/Misc/sqlite'
+    endif
     autocmd FileType sql DBSetOption profile=mySqlite
 augroup END
 " [dbext.vim]}}}
@@ -343,21 +347,20 @@ augroup MyFugitive
 augroup END
 " [END vim-fugitive] }}}
 
-" [sparkup] {{{
-" Use sparkup default mapping <c-e> in normal & insert mode
-let g:sparkupMapsNormal = 1
-" [END sparkup] }}}
-
 "======== [END Plugin mappings/settings] ========}}}
 
 "======== [Gvim / MacVim] ========{{{
-if has("win32")
-    set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
-    " Fullscreen on app-start
-    au GUIEnter * simalt ~x
-elseif has("mac")
-    set guioptions=c  "only console prompt, no other ui-chrome
-    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
-endif
+augroup GuiVim
+    au!
+    if has("win32")
+        set guioptions=c  "only console prompt, no other ui-chrome
+        set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
+        " Fullscreen on app-start
+        au GUIEnter * simalt ~x
+        au GUIEnter * set visualbell t_vb=
+    elseif has("mac")
+        set guioptions=c  "only console prompt, no other ui-chrome
+        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+    endif
+augroup END
 "======== [END Gvim / MacVim] ========}}}
