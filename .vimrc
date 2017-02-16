@@ -269,13 +269,10 @@ let g:rooter_targets = '/,*'
 augroup markdown
     au!
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-    autocmd BufNewFile,BufReadPost *.md setlocal wrap
-    autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
+    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=80
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
-    autocmd BufNewFile,BufReadPost *.md setlocal linebreak
-    autocmd BufEnter,BufnewFile *.md setlocal spell
-    autocmd FileType markdown setlocal nofoldenable
+    autocmd BufNewFile,BufReadPost *.md setlocal linebreak spell nofoldenable
 
     " Add another todo item
     autocmd FileType markdown nnoremap <buffer> <leader>a A<cr>**[ ]**<space>
