@@ -12,38 +12,38 @@ Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
 Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
 Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
 Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
+Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
 
-Plug 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
-Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
 Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
-Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
+Plug 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
 Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
+Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
-Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
+" Quick file navigation
 Plug 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
 Plug 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
-Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 
-Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
-Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
-Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
-Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
-
+" Syntax & Visual
 Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
 Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
 Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
+Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
+Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
 
-Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
-
-Plug 'dzeban/vim-log-syntax'
-Plug 'rhysd/vim-clang-format'
-
+" Code / Language specific
+Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
+Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
+Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
+Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 if has("mac")
  Plug 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
 endif
 
+" Personal functions
+Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
@@ -140,9 +140,10 @@ augroup MagicCPPCompile
     autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
     autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
     autocmd FileType c,cpp nmap <silent> <leader>r :call MagicCompileRun()<cr>
-    autocmd FileType c,cpp nmap <silent> <leader>R :call MagicCompileRun(1)<cr>
     autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
     autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
+    " Reformat code
+    autocmd FileType c,cpp,js nmap <buffer><silent> <leader>R :CFormat<cr>
     " Open project in correct dev-env
     if has("mac")
         autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
@@ -183,26 +184,6 @@ nmap <leader>Z :call MagicBufferOpen()<cr>
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
-
-" [vim-clang-format] {{{
-let g:clang_format#style_options = {
-            \ "BasedOnStyle" : "Google",
-            \ "TabWidth" : 4,
-            \ "IndentWidth" : 4,
-            \ "ColumnLimit" : 120,
-            \ "MaxEmptyLinesToKeep" : 2,
-            \ "AccessModifierOffset" : -2,
-            \ "ConstructorInitializerIndentWidth" : 2,
-            \ "UseTab" : "Never",
-            \ "ContinuationIndentWidth" : 8,
-            \ "IndentWrappedFunctionNames" : "true",
-            \ "AlignConsecutiveAssignments" : "true",
-            \ "AlignConsecutiveDeclarations" : "true",
-            \ "BreakConstructorInitializersBeforeComma" : "true",
-            \ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "false",
-            \ "AllowShortFunctionsOnASingleLine" : "false",
-            \ "Standard" : "Cpp11"}
-" [END vim-clang-format] }}}
 
 " [vim-polyglot] {{{
 let g:jsx_ext_required = 1
@@ -246,15 +227,15 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
+let g:completor_completion_delay=20
 if has("mac")
     " let g:completor_clang_binary = '/Library/Developer/CommandLineTools/usr/bin/clang'
-    let g:completor_completion_delay=20
     let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
     let g:completor_node_binary = '/usr/local/bin/node'
 elseif has("win32")
     let g:completor_clang_binary = 'clang'
 endif
-" [END YouCompleteMe] }}}
+" [END completor.vim] }}}
 
 " [vim-airline] {{{
 let g:airline_powerline_fonts = 1

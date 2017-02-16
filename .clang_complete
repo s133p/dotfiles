@@ -1,0 +1,8 @@
+-std=c++11
+-I/Applications/Xcode.app/Contents/Developer/Headers
+-iquote /Users/lukepurcell/Downloads/cinder_0.9.0_mac/include
+-iquote /Users/lukepurcell/Documents/git/test-engine/include
+-iquote /Users/lukepurcell/Documents/git/test-engine/src
+-iquote /Users/lukepurcell/Downloads/cinder_0.9.0_mac/blocks/FMOD/include
+-I/Users/lukepurcell/Documents/git/test-engine/xcode/build/Release/include
+-I/Users/lukepurcell/Downloads/cinder_0.9.0_mac/include
