@@ -86,6 +86,16 @@ augroup END
 "======== [END Settings] ========}}}
 
 "======== [MAPPINGS] ========{{{
+" Abbreviations for common flubs
+iabbrev ture true
+iabbrev flase false
+iabbrev teh the
+
+" Useful Commands
+command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
+command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
+command! -nargs=1 -complete=buffer VGother echo "vimgrep /" . <q-args> . "/j data/layout/**/* settings/**/* \| copen"
+
 " yank til EOL
 nnoremap Y y$
 nnoremap <leader><leader> q:
