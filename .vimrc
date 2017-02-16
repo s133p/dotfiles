@@ -69,6 +69,7 @@ set cursorline
 set scrolloff=6
 set nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+set textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
@@ -269,6 +270,7 @@ augroup markdown
     au!
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
     autocmd BufNewFile,BufReadPost *.md setlocal wrap
+    autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
     autocmd BufNewFile,BufReadPost *.md setlocal linebreak
