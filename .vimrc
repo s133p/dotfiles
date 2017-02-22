@@ -109,6 +109,7 @@ nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
 nnoremap col :call ListTabToggle()<cr>
+nnoremap cof :CFormat!<cr>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>x :q<CR>
@@ -244,7 +245,7 @@ if has("mac")
     let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
     let g:completor_node_binary = '/usr/local/bin/node'
 elseif has("win32")
-    let g:completor_clang_binary = 'clang'
+    " let g:completor_clang_binary = 'clang'
 endif
 " [END completor.vim] }}}
 
