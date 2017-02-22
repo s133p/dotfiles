@@ -235,18 +235,14 @@ set background=dark
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+augroup myCompletor
+    au!
+    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+augroup END
 
-let g:completor_completion_delay=20
-if has("mac")
-    " let g:completor_clang_binary = '/Library/Developer/CommandLineTools/usr/bin/clang'
-    let g:completor_gocode_binary = '/Users/lukepurcell/Documents/goproj/bin/gocode'
-    let g:completor_node_binary = '/usr/local/bin/node'
-elseif has("win32")
-    " let g:completor_clang_binary = 'clang'
-endif
+let g:completor_completion_delay=40
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
