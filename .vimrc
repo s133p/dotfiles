@@ -23,6 +23,8 @@ Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabu
 " Quick file navigation
 Plug 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
 Plug 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
+Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_map = ';f'
 
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
@@ -297,10 +299,10 @@ augroup END
 
 " [unite.vim]  {{{
 autocmd FileType unite nmap <buffer> <esc> q
-call unite#filters#matcher_default#use(['matcher_glob'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
-nmap <silent> <leader>f :call MyUniteSpecial()<cr>
+" call unite#filters#matcher_default#use(['matcher_glob'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
+" nmap <silent> <leader>f :call MyUniteSpecial()<cr>
 nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
 nmap <silent> <leader>ub :Unite -no-split buffer<cr>
 " [END unite.vim] }}}
