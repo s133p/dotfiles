@@ -28,7 +28,6 @@ Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/sta
 Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
 Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
 
@@ -37,6 +36,7 @@ Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for 
 Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 if has("mac")
     Plug 'fatih/vim-go'                  " [vim-go]             = Lots of nice go features
 endif
