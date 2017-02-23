@@ -28,6 +28,7 @@ Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/sta
 Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
 Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
 
@@ -36,7 +37,6 @@ Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for 
 Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 if has("mac")
     Plug 'fatih/vim-go'                  " [vim-go]             = Lots of nice go features
 endif
@@ -233,10 +233,10 @@ set background=dark
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
+inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 augroup myCompletor
     au!
-    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 augroup END
 
@@ -349,7 +349,7 @@ augroup GuiVim
         au GUIEnter * set visualbell t_vb=
     elseif has("mac")
         set guioptions=c  "only console prompt, no other ui-chrome
-        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+        set guifont=Hack\ Regular:h12
     endif
 augroup END
 "======== [END Gvim / MacVim] ========}}}
