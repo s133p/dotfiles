@@ -21,10 +21,7 @@ Plug 'wellle/targets.vim'                " [targets.vim]        = Adds a beautif
 Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
 " Quick file navigation
-Plug 'Shougo/unite.vim'                  " [unite.vim]          = Fully replaces Ctrl-P & much more
-Plug 'shougo/neomru.vim'                 " [neomru]             = MRU for unite
-Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_map = ';f'
+Plug 'ctrlpvim/ctrlp.vim'                " [ctrlp.vim]          = Fuzzy file finding
 
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
@@ -41,7 +38,7 @@ Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 if has("mac")
- Plug 'fatih/vim-go'                     " [vim-go]             = Lots of nice go features
+    Plug 'fatih/vim-go'                  " [vim-go]             = Lots of nice go features
 endif
 
 " Personal functions
@@ -179,10 +176,9 @@ nmap <leader>S v$h<Plug>MagicPaste
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
 
-" Personal notes: Opens unite in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
-nnoremap <leader>nn :call OpenPersonalNotes('n')<cr>
-nnoremap <leader>nv :vsplit<cr>:vertical resize 100<cr>:call OpenPersonalNotes('n')<cr>
-nnoremap <leader>nV :split<cr>:resize 16<cr>:call OpenPersonalNotes('n')<cr>
+" Personal notes: Opens CtrlP in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
+let g:personal_notes_dir='~/Dropbox/vim-notes'
+nnoremap <leader>nn :CtrlP <c-r>=g:personal_notes_dir<cr><cr>
 
 " OSX shortcut to open the pretty-notes
 if has("mac")
@@ -239,9 +235,9 @@ set background=dark
 " [completor.vim] {{{
 augroup myCompletor
     au!
-    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    au Filetype c,cpp,js,xml inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 augroup END
 
 let g:completor_completion_delay=40
@@ -297,15 +293,18 @@ augroup avimmap
 augroup END
 " [a.vim]}}}
 
-" [unite.vim]  {{{
-autocmd FileType unite nmap <buffer> <esc> q
-" call unite#filters#matcher_default#use(['matcher_glob'])
-" call unite#filters#sorter_default#use(['sorter_rank'])
-" call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(xcode\/build\|\.xcodeproj\|\.DS_Store\|node_modules\|data\/fonts\|data\/images\|DSNode\/node\|install\|vs2013\/Debug\|vs2013\/Release\)')
-" nmap <silent> <leader>f :call MyUniteSpecial()<cr>
-nmap <silent> <leader>ur :Unite -no-split -start-insert file_mru<cr>
-nmap <silent> <leader>ub :Unite -no-split buffer<cr>
-" [END unite.vim] }}}
+" [ctrlp.vim]  {{{
+let g:ctrlp_map = '<leader>f'
+nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
+nmap <silent> <leader>ub :CtrlPBuffer<cr>
+
+let g:ctrlp_custom_ignore = {
+            \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode))$',
+            \ 'file': '\v\.(exe|so|dll)$'
+            \ }
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+let g:ctrlp_match_current_file = 1
+" [END ctrlp.vim] }}}
 
 " [dbext.vim]{{{
 augroup sqldb
