@@ -102,8 +102,6 @@ nnoremap <leader><leader> q:
 nnoremap - :20Lexplore<cr>
 
 "Replacements for vim-unimpaired
-nnoremap <silent> <leader>o o<esc>k
-nnoremap <silent> <leader>O O<esc>j
 nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
@@ -159,7 +157,7 @@ augroup MagicCPPCompile
     if has("mac")
         autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start /Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
     endif
 augroup END
 
@@ -190,6 +188,13 @@ nnoremap cn :cn<cr>
 nnoremap cp :cp<cr>
 nmap <leader>z :call QuickfixToggle()<cr>
 nmap <leader>Z :call MagicBufferOpen()<cr>
+
+" Open cwd or file directory
+if has("mac")
+    nnoremap <silent> <leader>o :J open .<cr>
+    nnoremap <silent> <leader>O :J open <c-r>=expand("%:h")<cr><cr>
+elseif has("win32")
+endif
 
 "======== [END MAPPINGS] ========}}}
 
@@ -233,8 +238,8 @@ set background=dark
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
-inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-inoremap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 augroup myCompletor
     au!
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -298,6 +303,7 @@ let g:ctrlp_map = '<leader>f'
 nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
 nmap <silent> <leader>ub :CtrlPBuffer<cr>
 
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|.git/.*'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode))$',
             \ 'file': '\v\.(exe|so|dll)$'
