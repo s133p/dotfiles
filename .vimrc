@@ -26,11 +26,15 @@ Plug 'ctrlpvim/ctrlp.vim'                " [ctrlp.vim]          = Fuzzy file fin
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
 Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
-Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
 Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
+
+" Themes
+Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
+Plug 'KeitaNakamura/neodark.vim'         " [gruvbox]            = Pretty theme!
+Plug 'tyrannicaltoucan/vim-quantum'      " [gruvbox]            = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
@@ -235,8 +239,10 @@ let g:easy_align_delimiters['v'] = { 'pattern': '\S\+;$', 'delimiter_align': 'l'
 " [END vim-easy-align] }}}
 
 " [gruvbox] {{{
-colorscheme gruvbox
 set background=dark
+let g:quantum_black=1
+let g:neodark#background='gray'
+colorscheme gruvbox
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
