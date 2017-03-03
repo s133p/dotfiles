@@ -303,7 +303,7 @@ let g:ctrlp_map = '<leader>f'
 nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
 nmap <silent> <leader>ub :CtrlPBuffer<cr>
 
-let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|.git/.*'
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|.git/*'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode))$',
             \ 'file': '\v\.(exe|so|dll)$'
