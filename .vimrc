@@ -157,7 +157,7 @@ augroup MagicCPPCompile
     if has("mac")
         autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start /Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 12.0/Common7/IDE/devenv.exe", 0)<cr>
+        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
     endif
 augroup END
 
@@ -194,6 +194,8 @@ if has("mac")
     nnoremap <silent> <leader>o :J open .<cr>
     nnoremap <silent> <leader>O :J open <c-r>=expand("%:h")<cr><cr>
 elseif has("win32")
+    nnoremap <silent> <leader>o :J start explorer .<cr>
+    nnoremap <silent> <leader>O :J start explorer <c-r>=expand("%:h")<cr><cr>
 endif
 
 "======== [END MAPPINGS] ========}}}
