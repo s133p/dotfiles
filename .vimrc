@@ -100,7 +100,8 @@ iabbrev teh the
 " Useful Commands
 command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGother echo "vimgrep /" . <q-args> . "/j data/layout/**/* settings/**/* \| copen"
+command! -nargs=1 -complete=buffer VGlay echo "vimgrep /" . <q-args> . "/j data/layout/**/* \| copen"
+command! -nargs=1 -complete=buffer VGset echo "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 
 " yank til EOL
 nnoremap Y y$
