@@ -77,7 +77,8 @@ set textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
-set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:▷┅
+" set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:▷┅
+set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|┅
 
 augroup myfolding
     au!
