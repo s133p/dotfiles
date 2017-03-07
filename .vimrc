@@ -65,6 +65,7 @@ set switchbuf=usetab
 set lazyredraw
 set encoding=utf8
 set t_Co=256
+set termguicolors
 set shortmess=Ia
 
 set relativenumber number
