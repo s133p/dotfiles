@@ -151,15 +151,13 @@ vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 map <leader>C <Plug>MagicCalc
 
 " Compile for OSX & Windows using MagicJob()
+nmap <silent> <leader>b :call MagicCompile("DEBUG")<cr>
+nmap <silent> <leader>B :call MagicCompile("RELEASE")<cr>
+nmap <silent> <leader>r :call MagicCompileRun()<cr>
+nmap <silent> <leader>R :call MagicCompileRun("hidden")<cr>
+nmap <silent> <leader>jk :call MagicJobKill()<cr>
 augroup MagicCPPCompile
     autocmd!
-    autocmd FileType c,cpp nmap <buffer><silent> <leader>b :call MagicCompile(0)<cr>
-    autocmd FileType c,cpp nmap <buffer><silent> <leader>B :call MagicCompile(1)<cr>
-    autocmd FileType c,cpp nmap <silent> <leader>r :call MagicCompileRun()<cr>
-    autocmd FileType c,cpp nmap <silent> <leader>ji :call MagicJobInfo()<cr>
-    autocmd FileType c,cpp nmap <silent> <leader>jk :call MagicJobKill()<cr>
-    " Reformat code
-    autocmd FileType c,cpp,js nmap <buffer><silent> <leader>R :CFormat<cr>
     " Open project in correct dev-env
     if has("mac")
         autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
@@ -338,8 +336,8 @@ augroup END
 " [vim-fugitive] {{{
 nmap <leader>gs :Gstatus<cr>
 nmap <leader>gc :Gcommit<cr>
-nmap <leader>gp :MagicJob! git push<cr>
-nmap <leader>gu :MagicJob! git pull<cr>
+nmap <leader>gp :MagicJob git push<cr>
+nmap <leader>gu :MagicJob git pull<cr>
 nmap <leader>gb :Gbrowse<cr>
 vmap <leader>gb :Gbrowse<cr>
 nmap <leader>gB :Gblame<cr>
