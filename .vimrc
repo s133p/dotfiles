@@ -112,7 +112,7 @@ nnoremap - :20Lexplore<cr>
 nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
-nnoremap col :call ListTabToggle()<cr>
+nnoremap col :ListTabToggle<cr>
 nnoremap cof :CFormat!<cr>
 
 nnoremap <Leader>w :w<CR>
@@ -151,10 +151,11 @@ vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 map <leader>C <Plug>MagicCalc
 
 " Compile for OSX & Windows using MagicJob()
-nmap <silent> <leader>b :call MagicCompile("DEBUG")<cr>
-nmap <silent> <leader>B :call MagicCompile("RELEASE")<cr>
-nmap <silent> <leader>r :call MagicCompileRun()<cr>
-nmap <silent> <leader>R :call MagicCompileRun("hidden")<cr>
+nmap <silent> <leader>b :MCompile DEBUG<cr>
+nmap <silent> <leader>B :MCompile RELEASE<cr>
+" nmap <silent> <leader>B :call MagicCompile("RELEASE")<cr>
+nmap <silent> <leader>r :MCRun<cr>
+nmap <silent> <leader>R :MCRun!<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
 augroup MagicCPPCompile
     autocmd!
