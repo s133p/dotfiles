@@ -192,16 +192,16 @@ endif
 " Quickfix
 nnoremap cn :cn<cr>
 nnoremap cp :cp<cr>
-nmap <leader>z :call QuickfixToggle()<cr>
+nmap <leader>z :QfToggle<cr>
 nmap <leader>Z :call MagicBufferOpen()<cr>
 
 " Open cwd or file directory
 if has("mac")
     nnoremap <silent> <leader>o :J open .<cr>
-    nnoremap <silent> <leader>O :J open <c-r>=expand("%:h")<cr><cr>
+    nnoremap <silent> <leader>O :J open <c-r>=expand("%:p:h")<cr><cr>
 elseif has("win32")
     nnoremap <silent> <leader>o :J start explorer .<cr>
-    nnoremap <silent> <leader>O :J start explorer <c-r>=expand("%:h")<cr><cr>
+    nnoremap <silent> <leader>O :J start explorer "<c-r>=substitute(expand("%:p:h"), '/', '\', 'g')<cr>"<cr>
 endif
 
 "======== [END MAPPINGS] ========}}}
