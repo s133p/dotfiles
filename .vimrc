@@ -12,6 +12,7 @@ Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
 Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
 Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
 Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
+Plug 'tpope/vim-sleuth'                  " [vim-sleuth]         = Guess shiftwidth/tabstop heuristically
 Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
 
 Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
@@ -72,13 +73,13 @@ set relativenumber number
 set cursorline
 set scrolloff=6
 set nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+" set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 set textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
-" set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:▷┅
-set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
+set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\ \ 
+" set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
 augroup myfolding
     au!
@@ -100,7 +101,7 @@ iabbrev teh the
 " Useful Commands
 command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGlay echo "vimgrep /" . <q-args> . "/j data/layout/**/* \| copen"
+command! -nargs=1 -complete=buffer VGlay echo "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
 command! -nargs=1 -complete=buffer VGset echo "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 
 " yank til EOL
