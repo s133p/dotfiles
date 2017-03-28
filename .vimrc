@@ -88,6 +88,11 @@ augroup myfolding
     autocmd BufReadPost fugitive://* set foldopen=
     autocmd BufDelete fugitive://* set foldopen=all
 augroup END
+
+augroup riotjs
+    au!
+    autocmd BufNewFile,BufReadPost *.tag set ft=html
+augroup END
 "======== [END Settings] ========}}}
 
 "======== [MAPPINGS] ========{{{
@@ -113,6 +118,9 @@ nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
 nnoremap col :ListTabToggle<cr>
 nnoremap cof :CFormat!<cr>
+
+" after c{motion}, <leader>. jumps to next instance of text and replaces
+nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <leader>x :q<CR>
@@ -203,6 +211,17 @@ elseif has("win32")
     nnoremap <silent> <leader>O :J start explorer "<c-r>=substitute(expand("%:p:h"), '/', '\', 'g')<cr>"<cr>
 endif
 
+
+augroup MagicCPPCompile
+    autocmd!
+    " Open project in correct dev-env
+    if has("mac")
+        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
+    elseif has("win32")
+        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+    endif
+augroup END
+
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -247,14 +266,14 @@ colorscheme gruvbox
 " [END gruvbox] }}}
 
 " [completor.vim] {{{
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 augroup myCompletor
     au!
-    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 
-let g:completor_completion_delay=40
+" let g:completor_completion_delay=40
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
@@ -314,7 +333,7 @@ nmap <silent> <leader>ub :CtrlPBuffer<cr>
 
 let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|.git/*'
 let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode))$',
+            \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules))$',
             \ 'file': '\v\.(exe|so|dll)$'
             \ }
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
