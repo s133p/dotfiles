@@ -273,7 +273,7 @@ augroup myCompletor
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 
-" let g:completor_completion_delay=40
+"let g:completor_completion_delay=40
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
@@ -289,7 +289,7 @@ let g:airline#extensions#tabline#fnamemod = ':p:t'
 " [END vim-airline] }}}
 
 " [vim-rooter] (auto cd to project roots) {{{
-let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_change_directory_for_non_project_files = '~'
 let g:rooter_targets = '/,*'
 " [END vim-rooter] (auto cd to project roots) }}}
 
