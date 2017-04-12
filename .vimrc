@@ -1,7 +1,5 @@
 set nocompatible
-"set exrc
 set secure
-
 set shellslash
 let mapleader=';'
 
@@ -104,8 +102,8 @@ iabbrev teh the
 " Useful Commands
 command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGlay echo "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
-command! -nargs=1 -complete=buffer VGset echo "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
+command! -nargs=1 -complete=buffer VGlay exe "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
+command! -nargs=1 -complete=buffer VGset exe "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 
 " yank til EOL
 nnoremap Y y$
@@ -117,7 +115,7 @@ nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
 nnoremap col :ListTabToggle<cr>
-nnoremap cof :CFormat!<cr>
+nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
 
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
@@ -258,12 +256,12 @@ let g:easy_align_delimiters['f'] = { 'pattern': '[a-z:_-]\+(.\{-})\(;\|.\+}\)$',
 let g:easy_align_delimiters['v'] = { 'pattern': '\S\+;$', 'delimiter_align': 'l', 'left_margin': 2  }
 " [END vim-easy-align] }}}
 
-" [gruvbox] {{{
+" [Themes] {{{
 set background=dark
 let g:quantum_black=1
 let g:neodark#background='gray'
 colorscheme gruvbox
-" [END gruvbox] }}}
+" [END Themes] }}}
 
 " [completor.vim] {{{
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -273,7 +271,7 @@ augroup myCompletor
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 
-"let g:completor_completion_delay=40
+let g:completor_completion_delay=60
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
@@ -302,10 +300,6 @@ augroup markdown
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
     autocmd BufNewFile,BufReadPost *.md setlocal linebreak spell nofoldenable
 
-    " Add another todo item
-    autocmd FileType markdown nnoremap <buffer> <leader>a A<cr>**[ ]**<space>
-    " Swap [ X ] and [ _ ] with space
-    autocmd FileType markdown nnoremap <buffer> <silent> <leader><space> mz:.g/\[+\]/s/\[+\]/[*]/<cr>:.g/\[ \]/s/\[ \]/[+]/<cr>:.g/\[\*\]/s/\[\*\]/[ ]/<cr>`z:delmarks!<cr>
     " Call MakeHtmlPreview function from personal-magic.vim
     if has("mac")
         autocmd BufWritePost ~/Dropbox/vim-notes/*.md silent call MakeHtmlPreview()
@@ -375,14 +369,13 @@ augroup END
 "======== [Gvim / MacVim] ========{{{
 augroup GuiVim
     au!
+    set guioptions=c  "only console prompt, no other ui-chrome
     if has("win32")
-        set guioptions=c  "only console prompt, no other ui-chrome
         set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
         au GUIEnter * simalt ~x
         au GUIEnter * set visualbell t_vb=
     elseif has("mac")
-        set guioptions=c  "only console prompt, no other ui-chrome
         set guifont=Hack\ Regular:h12
     endif
 augroup END
