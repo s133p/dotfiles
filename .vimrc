@@ -28,6 +28,7 @@ Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highl
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
+Plug 'google/vim-searchindex'            " [vim-searchindex]    = Show current match # + total match count during search
 
 " Themes
 Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
@@ -325,12 +326,12 @@ let g:ctrlp_map = '<leader>f'
 nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
 nmap <silent> <leader>ub :CtrlPBuffer<cr>
 
-let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|.git/*'
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules))$',
             \ 'file': '\v\.(exe|so|dll)$'
             \ }
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
 let g:ctrlp_match_current_file = 1
 " [END ctrlp.vim] }}}
 
@@ -371,7 +372,7 @@ augroup GuiVim
     au!
     set guioptions=c  "only console prompt, no other ui-chrome
     if has("win32")
-        set guifont=Sauce_Code_powerline:h10:cANSI:qDRAFT
+        set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
         au GUIEnter * simalt ~x
         au GUIEnter * set visualbell t_vb=
