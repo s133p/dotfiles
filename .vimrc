@@ -37,7 +37,6 @@ Plug 'tyrannicaltoucan/vim-quantum'      " [gruvbox]            = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
-Plug 'vim-scripts/dbext.vim'             " [dbext.vim]          = databases from within vim
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 if has("mac")
@@ -88,9 +87,11 @@ augroup myfolding
     autocmd BufDelete fugitive://* set foldopen=all
 augroup END
 
-augroup riotjs
+augroup JsJsx
     au!
-    autocmd BufNewFile,BufReadPost *.tag set ft=html
+    autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
+    "autocmd BufNewFile,BufReadPost *.tag setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+    autocmd FileType javascript,javascript.jsx,css,less setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 augroup END
 "======== [END Settings] ========}}}
 
@@ -226,11 +227,12 @@ augroup END
 "======== [Plugin mappings/settings] ========{{{
 
 " [vim-polyglot] {{{
-let g:jsx_ext_required = 1
+" let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
 
 " [netrw] {{{
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_liststyle=3
 let g:netrw_browse_split=4
 let g:netrw_browsex_viewer="open"
 let g:netrw_banner = 0
@@ -334,18 +336,6 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
 let g:ctrlp_match_current_file = 1
 " [END ctrlp.vim] }}}
-
-" [dbext.vim]{{{
-augroup sqldb
-    autocmd!
-    if has("mac")
-        let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite'
-    elseif has("win32")
-        let g:dbext_default_profile_mySqlite = 'type=SQLITE:user=:passwd=:dbname=./db.sqlite:bin_path=/Users/luke.purcell/Desktop/Misc/sqlite'
-    endif
-    autocmd FileType sql DBSetOption profile=mySqlite
-augroup END
-" [dbext.vim]}}}
 
 " [vim-fugitive] {{{
 nmap <leader>gs :Gstatus<cr>
