@@ -274,7 +274,10 @@ augroup myCompletor
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 
-let g:completor_completion_delay=60
+let g:completor_completion_delay=40
+if has("win32")
+    let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
+endif
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
