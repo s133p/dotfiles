@@ -168,9 +168,16 @@ augroup MagicCPPCompile
     autocmd!
     " Open project in correct dev-env
     if has("mac")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+    endif
+augroup END
+
+augroup YamlGenerator
+    autocmd!
+    if has("win32")
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/yaml_importer.exe %<cr>
     endif
 augroup END
 
