@@ -157,10 +157,19 @@ nnoremap <leader>K K
 vmap <leader>c c<c-r>=<c-r>"<cr><esc>
 map <leader>C <Plug>MagicCalc
 
+" Windows convienence for making local visual studio solution
+function! MakeLocalSln()
+    let projName = (split(getcwd(), '/')[-1])
+    let currsln = "vs2013/" . projName . ".sln"
+    silent exec "vs " . currsln
+    silent exec "sav vs2013/local.sln"
+    silent exec 'g/%/norm! f%xct%=$"lx'
+    silent exec 'write'
+endfunction
+
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
-" nmap <silent> <leader>B :call MagicCompile("RELEASE")<cr>
 nmap <silent> <leader>r :MCRun<cr>
 nmap <silent> <leader>R :MCRun!<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
@@ -171,6 +180,7 @@ augroup MagicCPPCompile
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+        command! MakeSln call MakeLocalSln()
     endif
 augroup END
 
