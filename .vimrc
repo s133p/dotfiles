@@ -45,6 +45,7 @@ endif
 
 " Personal functions
 Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
+Plug 'junegunn/gv.vim'
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
