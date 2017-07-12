@@ -9,11 +9,11 @@ Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defau
 Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
 Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
 Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
-Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
 Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
+Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
+Plug 'junegunn/gv.vim'                   " [gv]                 = Git log viewing
 
 Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
-Plug 'michaeljsmith/vim-indent-object'   " [vim-indent-object]  = Use indent levels as text objects
 Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
@@ -25,27 +25,34 @@ Plug 'ctrlpvim/ctrlp.vim'                " [ctrlp.vim]          = Fuzzy file fin
 Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
 Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
 Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " [sparkup]            = shortcut format for generating html/xml
 Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
 Plug 'google/vim-searchindex'            " [vim-searchindex]    = Show current match # + total match count during search
 
 " Themes
 Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
-Plug 'KeitaNakamura/neodark.vim'         " [gruvbox]            = Pretty theme!
-Plug 'tyrannicaltoucan/vim-quantum'      " [gruvbox]            = Pretty theme!
+Plug 'KeitaNakamura/neodark.vim'         " [neodark]            = Pretty theme!
+Plug 'tyrannicaltoucan/vim-quantum'      " [vim-quantum]        = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
+"Plug 'tpope/vim-projectionist'
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
+
 if has("mac")
     Plug 'fatih/vim-go'                  " [vim-go]             = Lots of nice go features
 endif
 
 " Personal functions
 Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
-Plug 'junegunn/gv.vim'
+
+" TESTING
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'                    " [gist-vim]           = Gists from within vim
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
+let g:gist_open_browser_after_post = 1
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
@@ -292,7 +299,7 @@ augroup myCompletor
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 
-let g:completor_completion_delay=40
+let g:completor_completion_delay=20
 if has("win32")
     let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
 endif
