@@ -9,9 +9,14 @@ Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defau
 Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
 Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
 Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+
+" Git / project
 Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
 Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
 Plug 'junegunn/gv.vim'                   " [gv]                 = Git log viewing
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'                    " [gist-vim]           = Gists from within vim
+"Plug 'tpope/vim-projectionist'
 
 Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
 Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
@@ -37,7 +42,6 @@ Plug 'tyrannicaltoucan/vim-quantum'      " [vim-quantum]        = Pretty theme!
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
 Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
-"Plug 'tpope/vim-projectionist'
 Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
 
 if has("mac")
@@ -47,12 +51,6 @@ endif
 " Personal functions
 Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
 
-" TESTING
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'                    " [gist-vim]           = Gists from within vim
-let g:gist_post_private = 1
-let g:gist_show_privates = 1
-let g:gist_open_browser_after_post = 1
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
@@ -250,9 +248,14 @@ augroup END
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
+" [gist-vim] {{{
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
+let g:gist_open_browser_after_post = 1
+" }}}
 
 " [vim-polyglot] {{{
-" let g:jsx_ext_required = 1
+ let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
 
 " [netrw] {{{
