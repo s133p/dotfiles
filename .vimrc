@@ -16,7 +16,6 @@ Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integratio
 Plug 'junegunn/gv.vim'                   " [gv]                 = Git log viewing
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'                    " [gist-vim]           = Gists from within vim
-"Plug 'tpope/vim-projectionist'
 
 Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
 Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
@@ -128,7 +127,7 @@ nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
-nnoremap <Leader>w :w<CR>
+nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -333,11 +332,6 @@ augroup markdown
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
     autocmd BufNewFile,BufReadPost *.md setlocal linebreak spell nofoldenable
-
-    " Call MakeHtmlPreview function from personal-magic.vim
-    if has("mac")
-        autocmd BufWritePost ~/Dropbox/vim-notes/*.md silent call MakeHtmlPreview()
-    endif
 augroup END
 " [vim-markdown] }}}
 
