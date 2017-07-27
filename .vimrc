@@ -5,50 +5,50 @@ let mapleader=';'
 
 "======== [PLUGINS BEGIN] ========{{{
 call plug#begin('~/.vim/bundle')
-Plug 'tpope/vim-sensible'                " [vim-sensible]       = Sensible defaults
-Plug 'tpope/vim-abolish'                 " [vim-abolish]        = Coerce cases
-Plug 'tpope/vim-surround'                " [vim-surround]       = Does what it says on the tin
-Plug 'tpope/vim-repeat'                  " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+Plug 'tpope/vim-sensible'             " [vim-sensible]       = Sensible defaults
+Plug 'tpope/vim-abolish'              " [vim-abolish]        = Coerce cases
+Plug 'tpope/vim-surround'             " [vim-surround]       = Does what it says on the tin
+Plug 'tpope/vim-repeat'               " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
 
 " Git / project
-Plug 'airblade/vim-rooter'               " [vim-rooter]         = Change directory to root of projects
-Plug 'tpope/vim-fugitive'                " [vim-fugitive]       = Git integration
-Plug 'junegunn/gv.vim'                   " [gv]                 = Git log viewing
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'                    " [gist-vim]           = Gists from within vim
+Plug 'airblade/vim-rooter'            " [vim-rooter]         = Change directory to root of projects
+Plug 'tpope/vim-fugitive'             " [vim-fugitive]       = Git integration
+Plug 'junegunn/gv.vim'                " [gv]                 = Git log viewing
+Plug 'mattn/webapi-vim'               " [webapi-vim]         = Required for [gist-vim]
+Plug 'mattn/gist-vim'                 " [gist-vim]           = Gists from within vim
 
-Plug 'spiiph/vim-space'                  " [vim-space]          = Use spacebar to repeat last movement
-Plug 'cohama/lexima.vim'                 " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
-Plug 'wellle/targets.vim'                " [targets.vim]        = Adds a beautiful slew of text-objects
-Plug 'junegunn/vim-easy-align'           " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
+Plug 'spiiph/vim-space'               " [vim-space]          = Use spacebar to repeat last movement
+Plug 'cohama/lexima.vim'              " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+Plug 'wellle/targets.vim'             " [targets.vim]        = Adds a beautiful slew of text-objects
+Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
 " Quick file navigation
-Plug 'ctrlpvim/ctrlp.vim'                " [ctrlp.vim]          = Fuzzy file finding
+Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
 
 " Syntax & Visual
-Plug 'vim-airline/vim-airline'           " [vim-airline]        = Better tab/status line
-Plug 'vim-airline/vim-airline-themes'    " [vim-airline-themes] = Themes for airline
-Plug 'plasticboy/vim-markdown'           " [vim-markdown]       = markdown highlighting
-Plug 'sheerun/vim-polyglot'              " [vim-polyglot]       = Better FT/Syntax plugins
-Plug 'dzeban/vim-log-syntax'             " [vim-log-syntax]     = Syntax highlighting for log files
-Plug 'google/vim-searchindex'            " [vim-searchindex]    = Show current match # + total match count during search
+Plug 'vim-airline/vim-airline'        " [vim-airline]        = Better tab/status line
+Plug 'vim-airline/vim-airline-themes' " [vim-airline-themes] = Themes for airline
+Plug 'plasticboy/vim-markdown'        " [vim-markdown]       = markdown highlighting
+Plug 'sheerun/vim-polyglot'           " [vim-polyglot]       = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'          " [vim-log-syntax]     = Syntax highlighting for log files
+Plug 'google/vim-searchindex'         " [vim-searchindex]    = Show current match # + total match count during search
 
 " Themes
-Plug 'morhetz/gruvbox'                   " [gruvbox]            = Pretty theme!
-Plug 'KeitaNakamura/neodark.vim'         " [neodark]            = Pretty theme!
-Plug 'tyrannicaltoucan/vim-quantum'      " [vim-quantum]        = Pretty theme!
+Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
+Plug 'KeitaNakamura/neodark.vim'      " [neodark]            = Pretty theme!
+Plug 'tyrannicaltoucan/vim-quantum'   " [vim-quantum]        = Pretty theme!
 
-" Code / Language specific
-Plug 'tomtom/tcomment_vim'               " [tcomment]           = Shortcuts for commenting
-Plug 'vim-scripts/a.vim'                 " [a.vim]              = Swap between cpp & hpp
-Plug 'maralla/completor.vim'             " [completor.vim]      = Autocomplete
+                                      " Code / Language specific
+Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
+Plug 'vim-scripts/a.vim'              " [a.vim]              = Swap between cpp & hpp
+Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
 
 if has("mac")
-    Plug 'fatih/vim-go'                  " [vim-go]             = Lots of nice go features
+    Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
 endif
 
 " Personal functions
-Plug 's133p/personal-magic.vim'          " [personal-magic.vim] = A collection of person vim functions
+Plug 's133p/personal-magic.vim'       " [personal-magic.vim] = A collection of person vim functions
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -57,11 +57,8 @@ call plug#end()
 filetype indent plugin on
 syntax on
 set hidden noswapfile
-set showcmd confirm cmdheight=2
-set nostartofline
-set novisualbell t_vb=
-set mouse=a
-set backspace=2
+set showcmd confirm cmdheight=2 nostartofline
+set novisualbell t_vb= mouse=a backspace=2
 set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright
 set switchbuf=usetab
@@ -72,28 +69,20 @@ set termguicolors
 set shortmess=Ia
 
 set relativenumber number
-set cursorline
-set scrolloff=6
-set nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-set textwidth=120
+set cursorline scrolloff=6 nowrap
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
-augroup myfolding
+augroup myFileTypes
     au!
     autocmd FileType vim setlocal fdm=marker
     autocmd FileType c,cpp setlocal fdm=syntax
     set nofoldenable foldopen=all foldclose=all foldnestmax=2
 
-    autocmd BufReadPost fugitive://* set foldopen=
-    autocmd BufDelete fugitive://* set foldopen=all
-augroup END
-
-augroup JsJsx
-    au!
+    autocmd BufReadPost fugitive://* setlocal foldopen=
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
     "autocmd BufNewFile,BufReadPost *.tag setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
     autocmd FileType javascript,javascript.jsx,css,less setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
@@ -104,9 +93,10 @@ augroup END
 " Abbreviations for common flubs
 iabbrev ture true
 iabbrev flase false
+iabbrev fales false
 iabbrev teh the
 
-" Useful Commands
+" Vimgrep shorcuts for ds_cinder projects
 command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
@@ -121,7 +111,6 @@ nnoremap - :20Lexplore<cr>
 nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
-nnoremap col :ListTabToggle<cr>
 nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
 
 " after c{motion}, <leader>. jumps to next instance of text and replaces
@@ -158,10 +147,6 @@ vnoremap K <c-u>
 nnoremap <leader>J J
 nnoremap <leader>K K
 
-" replace visual selection w/ <c-r>= itself; Mnemonic: calc
-vmap <leader>c c<c-r>=<c-r>"<cr><esc>
-map <leader>C <Plug>MagicCalc
-
 " Windows convienence for making local visual studio solution
 function! MakeLocalSln()
     let projName = (split(getcwd(), '/')[-1])
@@ -176,7 +161,6 @@ endfunction
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
 nmap <silent> <leader>r :MCRun<cr>
-nmap <silent> <leader>R :MCRun!<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
 augroup MagicCPPCompile
     autocmd!
@@ -189,12 +173,12 @@ augroup MagicCPPCompile
     endif
 augroup END
 
-augroup YamlGenerator
-    autocmd!
-    if has("win32")
+if has("win32")
+    augroup YamlGenerator
+        autocmd!
         autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/yaml_importer.exe %<cr>
-    endif
-augroup END
+    augroup END
+endif
 
 " Custom operator-pending mappings & pairings
 map s <Plug>MagicStamp
@@ -208,6 +192,9 @@ map <leader>s <Plug>MagicPaste
 nmap <leader>S v$h<Plug>MagicPaste
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
+
+map <leader>c <Plug>MagicCalc
+nmap <leader>C v$h<Plug>MagicCalc
 
 " Personal notes: Opens CtrlP in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
 let g:personal_notes_dir='~/Dropbox/vim-notes'
@@ -278,12 +265,6 @@ nmap ga <Plug>(EasyAlign)
 if !exists('g:easy_align_delimiters')
     let g:easy_align_delimiters = {}
 endif
-
-" Personal delimiters:
-" i-'initilizer list' f-'function prototypes'  v-'variable definions'
-let g:easy_align_delimiters['i'] = { 'pattern': '\(:\|,\) .\+', 'delimiter_align': 'l', 'left_margin': 2  }
-let g:easy_align_delimiters['f'] = { 'pattern': '[a-z:_-]\+(.\{-})\(;\|.\+}\)$', 'delimiter_align': 'l', 'left_margin': 2  }
-let g:easy_align_delimiters['v'] = { 'pattern': '\S\+;$', 'delimiter_align': 'l', 'left_margin': 2  }
 " [END vim-easy-align] }}}
 
 " [Themes] {{{
@@ -303,7 +284,7 @@ augroup END
 
 let g:completor_completion_delay=20
 if has("win32")
-    let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
+    "let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
 endif
 " [END completor.vim] }}}
 
@@ -328,7 +309,7 @@ let g:rooter_targets = '/,*'
 augroup markdown
     au!
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=80
+    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=100
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
     autocmd BufNewFile,BufReadPost *.md setlocal linebreak spell nofoldenable
@@ -368,9 +349,9 @@ nmap <leader>gc :Gcommit<cr>
 nmap <leader>gp :MagicJob git push<cr>
 nmap <leader>gu :MagicJob git pull<cr>
 nmap <leader>gb :Gbrowse<cr>
-vmap <leader>gb :Gbrowse<cr>
 nmap <leader>gB :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
+nmap <leader>gl :GV<cr>
 
 augroup MyFugitive
     autocmd!
