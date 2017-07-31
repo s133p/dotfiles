@@ -13,6 +13,7 @@ Plug 'tpope/vim-repeat'               " [vim-repeat]         = Allow plugin mapp
 " Git / project
 Plug 'airblade/vim-rooter'            " [vim-rooter]         = Change directory to root of projects
 Plug 'tpope/vim-fugitive'             " [vim-fugitive]       = Git integration
+Plug 'tpope/vim-rhubarb'              " [vim-rhubarb]        = GitHub Specific git integration (for :Gbrowse)
 Plug 'junegunn/gv.vim'                " [gv]                 = Git log viewing
 Plug 'mattn/webapi-vim'               " [webapi-vim]         = Required for [gist-vim]
 Plug 'mattn/gist-vim'                 " [gist-vim]           = Gists from within vim
@@ -176,7 +177,7 @@ augroup END
 if has("win32")
     augroup YamlGenerator
         autocmd!
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/yaml_importer.exe %<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
     augroup END
 endif
 
@@ -234,12 +235,7 @@ augroup END
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
-" [gist-vim] {{{
-let g:gist_post_private = 1
-let g:gist_show_privates = 1
-let g:gist_open_browser_after_post = 1
-" }}}
-
+"
 " [vim-polyglot] {{{
  let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
@@ -343,7 +339,7 @@ let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
 let g:ctrlp_match_current_file = 1
 " [END ctrlp.vim] }}}
 
-" [vim-fugitive] {{{
+" [vim-fugitive] & [gist-vim] {{{
 nmap <leader>gs :Gstatus<cr>
 nmap <leader>gc :Gcommit<cr>
 nmap <leader>gp :MagicJob git push<cr>
@@ -359,6 +355,12 @@ augroup MyFugitive
     autocmd BufEnter .git/index nmap <buffer> n <c-n>
     autocmd BufEnter .git/index nmap <buffer> p <c-p>
 augroup END
+
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
+let g:gist_open_browser_after_post = 0
+nmap <leader>Gl :Gist -l<cr>
+nmap <leader>Gb :Gist -b<cr>
 " [END vim-fugitive] }}}
 
 "======== [END Plugin mappings/settings] ========}}}
