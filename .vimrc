@@ -238,7 +238,7 @@ augroup END
 "======== [Plugin mappings/settings] ========{{{
 "
 " [vim-polyglot] {{{
- let g:jsx_ext_required = 1
+let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
 
 " [netrw] {{{
@@ -278,7 +278,7 @@ augroup myCompletor
     au!
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
-
+let g:completor_node_binary = '/usr/local/bin/node'
 let g:completor_completion_delay=20
 if has("win32")
     "let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
