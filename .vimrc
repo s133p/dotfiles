@@ -3,7 +3,7 @@ set secure
 set shellslash
 let mapleader=';'
 
-"======== [PLUGINS BEGIN] ========{{{
+"======== [PLUGINS] ========{{{
 call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-sensible'             " [vim-sensible]       = Sensible defaults
 Plug 'tpope/vim-abolish'              " [vim-abolish]        = Coerce cases
@@ -39,7 +39,7 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 Plug 'KeitaNakamura/neodark.vim'      " [neodark]            = Pretty theme!
 Plug 'tyrannicaltoucan/vim-quantum'   " [vim-quantum]        = Pretty theme!
 
-                                      " Code / Language specific
+" Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
 Plug 'vim-scripts/a.vim'              " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
@@ -81,7 +81,8 @@ augroup myFileTypes
     au!
     autocmd FileType vim setlocal fdm=marker
     autocmd FileType c,cpp setlocal fdm=syntax
-    set nofoldenable foldopen=all foldclose=all foldnestmax=2
+    autocmd FileType vim,c,cpp set nofoldenable foldopen=all foldclose=all foldnestmax=10
+    autocmd BufNewFile,BufReadPost *.log.txt set ft=log
 
     autocmd BufReadPost fugitive://* setlocal foldopen=
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
