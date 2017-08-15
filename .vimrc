@@ -25,6 +25,7 @@ Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular
 
 " Quick file navigation
 Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
+Plug 'yssl/QFEnter'                   " [QFEnter]            = Better QF handling
 
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'        " [vim-airline]        = Better tab/status line
@@ -36,8 +37,6 @@ Plug 'google/vim-searchindex'         " [vim-searchindex]    = Show current matc
 
 " Themes
 Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
-Plug 'KeitaNakamura/neodark.vim'      " [neodark]            = Pretty theme!
-Plug 'tyrannicaltoucan/vim-quantum'   " [vim-quantum]        = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
