@@ -125,11 +125,13 @@ nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Movement between splits/windows/buffers
 nnoremap gw <c-w>
+nnoremap g= <c-w>=
 nnoremap gk <C-W>k
 nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
+nnoremap <C-t> gt
 
 " create splits/tabs
 nnoremap <leader>v :vs<CR>
@@ -141,10 +143,10 @@ noremap ' `
 noremap ` '
 
 " J & K as page-up/page-down, orginal functions shadowed on <leader>
-nnoremap J <c-d>
-vnoremap J <c-d>
-nnoremap K <c-u>
-vnoremap K <c-u>
+nnoremap J 16j
+vnoremap J 16j
+nnoremap K 16k
+vnoremap K 16k
 nnoremap <leader>J J
 nnoremap <leader>K K
 
