@@ -87,6 +87,7 @@ augroup myFileTypes
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
     "autocmd BufNewFile,BufReadPost *.tag setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
     autocmd FileType javascript,javascript.jsx,css,less setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+    autocmd FileType yaml setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 augroup END
 "======== [END Settings] ========}}}
 
@@ -179,7 +180,7 @@ augroup END
 if has("win32")
     augroup YamlGenerator
         autocmd!
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/vs2013/Release/yaml_importer.exe %<cr>
     augroup END
 endif
 
@@ -279,11 +280,9 @@ augroup myCompletor
     au!
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
-let g:completor_node_binary = '/usr/local/bin/node'
-let g:completor_completion_delay=20
-if has("win32")
-    "let g:completor_clang_binary = '/Program Files/LLVM/bin/clang.exe'
-endif
+"let g:completor_node_binary = '/usr/local/bin/node'
+let g:completor_completion_delay=60
+let g:completor_refresh_always=0
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
