@@ -47,6 +47,11 @@ if has("mac")
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
 endif
 
+if has("mac") || has("unix")
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+endif
+
 " Personal functions
 Plug 's133p/personal-magic.vim'       " [personal-magic.vim] = A collection of person vim functions
 
@@ -281,7 +286,7 @@ augroup myCompletor
     au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
 "let g:completor_node_binary = '/usr/local/bin/node'
-let g:completor_completion_delay=60
+let g:completor_completion_delay=40
 let g:completor_refresh_always=0
 " [END completor.vim] }}}
 
@@ -327,18 +332,29 @@ augroup END
 " [a.vim]}}}
 
 " [ctrlp.vim]  {{{
-let g:ctrlp_map = '<leader>f'
-nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
-nmap <silent> <leader>ub :CtrlPBuffer<cr>
+if has("win32")
+    let g:ctrlp_map = '<leader>f'
+    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
+    nmap <silent> <leader>ub :CtrlPBuffer<cr>
 
-let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules))$',
-            \ 'file': '\v\.(exe|so|dll)$'
-            \ }
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
-let g:ctrlp_match_current_file = 1
-" [END ctrlp.vim] }}}
+    let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
+    let g:ctrlp_custom_ignore = {
+                \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules))$',
+                \ 'file': '\v\.(exe|so|dll)$'
+                \ }
+    let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
+    let g:ctrlp_match_current_file = 1
+    " [END ctrlp.vim] }}}
+endif
+
+" [fzf.vim]  {{{
+if has("mac") || has("unix")
+    let g:fzf_layout = { 'down': '~40%' }
+    nmap <silent> <leader>f :Files<cr>
+    nmap <silent> <leader>ur :History<cr>
+    nmap <silent> <leader>ub :Buffers<cr>
+endif
+" [fzf.vim] }}}
 
 " [vim-fugitive] & [gist-vim] {{{
 nmap <leader>gs :Gstatus<cr>
