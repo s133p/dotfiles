@@ -17,15 +17,13 @@ Plug 'tpope/vim-rhubarb'              " [vim-rhubarb]        = GitHub Specific g
 Plug 'junegunn/gv.vim'                " [gv]                 = Git log viewing
 Plug 'mattn/webapi-vim'               " [webapi-vim]         = Required for [gist-vim]
 Plug 'mattn/gist-vim'                 " [gist-vim]           = Gists from within vim
+Plug 'yssl/QFEnter'                   " [QFEnter]            = Better QF handling
 
 Plug 'spiiph/vim-space'               " [vim-space]          = Use spacebar to repeat last movement
 Plug 'cohama/lexima.vim'              " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'             " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
-" Quick file navigation
-Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
-Plug 'yssl/QFEnter'                   " [QFEnter]            = Better QF handling
 
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'        " [vim-airline]        = Better tab/status line
@@ -47,9 +45,12 @@ if has("mac")
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
 endif
 
+" Quick file navigation
 if has("mac") || has("unix")
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+elseif has("win32")
+    Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
 endif
 
 " Personal functions
@@ -273,9 +274,13 @@ endif
 
 " [Themes] {{{
 set background=dark
-let g:quantum_black=1
-let g:neodark#background='gray'
+set termguicolors     " enable true colors support
+let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
+" let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+" colorscheme ayu
 " [END Themes] }}}
 
 " [completor.vim] {{{
