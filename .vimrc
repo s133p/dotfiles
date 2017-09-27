@@ -40,8 +40,10 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
-Plug 'vim-scripts/a.vim'              " [a.vim]              = Swap between cpp & hpp
 Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
+
+" Plug 'vim-scripts/a.vim'              " [a.vim]              = Swap between cpp & hpp
+Plug 'tpope/vim-projectionist'
 
 if has("mac")
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
@@ -224,6 +226,9 @@ nmap <leader>Z :call MagicBufferOpen()<cr>
 if has("mac")
     nnoremap <silent> <leader>o :J open .<cr>
     nnoremap <silent> <leader>O :J open <c-r>=expand("%:p:h")<cr><cr>
+elseif has("unix")
+    nnoremap <silent> <leader>o :J exec caja .<cr>
+    nnoremap <silent> <leader>O :J exec caja <c-r>=expand("%:p:h")<cr><cr>
 elseif has("win32")
     nnoremap <silent> <leader>o :J start explorer .<cr>
     nnoremap <silent> <leader>O :J start explorer "<c-r>=substitute(expand("%:p:h"), '/', '\', 'g')<cr>"<cr>
@@ -319,15 +324,27 @@ augroup END
 " [vim-markdown] }}}
 
 " [a.vim]{{{
+let g:projectionist_heuristics = {
+      \   "*": {
+      \     "src/*.cpp": {
+      \        "type": "source",
+      \        "alternate": "src/{}.h",
+      \     },
+      \     "src/*.h": {
+      \        "type": "header",
+      \        "alternate": "src/{}.cpp",
+      \     },
+      \     "data/layouts/*.xml": {
+      \        "type": "layout",
+      \        "alternate": "src/{}.cpp",
+      \     }
+      \   }
+      \ }
 augroup avimmap
     autocmd!
-    " Unmap insert mode mappings
-    autocmd VimEnter * iunmap <leader>ih
-    autocmd VimEnter * iunmap <leader>is
-    autocmd VimEnter * iunmap <leader>ihn
     " Map split commands
-    autocmd FileType c,cpp nmap <buffer> <leader>iv :AV<cr>
-    autocmd FileType c,cpp nmap <buffer> <leader>iV :AS<cr>
+    autocmd FileType c,cpp,xml nmap <buffer> <leader>iv :AV<cr>
+    autocmd FileType c,cpp,xml nmap <buffer> <leader>iV :AS<cr>
 augroup END
 " [a.vim]}}}
 
