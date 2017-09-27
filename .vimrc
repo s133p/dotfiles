@@ -76,7 +76,7 @@ set shortmess=Ia
 
 set relativenumber number
 set cursorline scrolloff=6 nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
+set shiftwidth=0 softtabstop=-1 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
@@ -91,9 +91,8 @@ augroup myFileTypes
 
     autocmd BufReadPost fugitive://* setlocal foldopen=
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
-    "autocmd BufNewFile,BufReadPost *.tag setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-    autocmd FileType javascript,javascript.jsx,css,less setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-    autocmd FileType yaml setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+    autocmd FileType javascript,javascript.jsx,css,less setlocal tabstop=2
+    autocmd FileType yaml setlocal softtabstop=4 tabstop=4 expandtab
 augroup END
 "======== [END Settings] ========}}}
 
@@ -112,7 +111,6 @@ command! -nargs=1 -complete=buffer VGset exe "vimgrep /" . <q-args> . "/j settin
 
 " yank til EOL
 nnoremap Y y$
-nnoremap <leader><leader> q:
 nnoremap - :20Lexplore<cr>
 
 "Replacements for vim-unimpaired
@@ -179,16 +177,10 @@ augroup MagicCPPCompile
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/vs2013/Release/yaml_importer.exe %<cr>
         command! MakeSln call MakeLocalSln()
     endif
 augroup END
-
-if has("win32")
-    augroup YamlGenerator
-        autocmd!
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/vs2013/Release/yaml_importer.exe %<cr>
-    augroup END
-endif
 
 " Custom operator-pending mappings & pairings
 map s <Plug>MagicStamp
@@ -206,18 +198,7 @@ nnoremap <leader>P "*P
 map <leader>c <Plug>MagicCalc
 nmap <leader>C v$h<Plug>MagicCalc
 
-" Personal notes: Opens CtrlP in g:personal_notes_dir or g:personal_nv_notes_dir based on invocation
-let g:personal_notes_dir='~/Dropbox/vim-notes'
-nnoremap <leader>nn :CtrlP <c-r>=g:personal_notes_dir<cr><cr>
-
-" OSX shortcut to open the pretty-notes
-if has("mac")
-    nnoremap <leader>gn :call system("open ~/Dropbox/vim-notes/index.html")<cr>
-endif
-
-" Quickfix
-nnoremap cn :cn<cr>
-nnoremap cp :cp<cr>
+" Quickfix / MagicJob output
 nmap <leader>z :QfToggle<cr>
 nmap <leader>Z :call MagicBufferOpen()<cr>
 
@@ -229,17 +210,6 @@ elseif has("win32")
     nnoremap <silent> <leader>o :J start explorer .<cr>
     nnoremap <silent> <leader>O :J start explorer "<c-r>=substitute(expand("%:p:h"), '/', '\', 'g')<cr>"<cr>
 endif
-
-
-augroup MagicCPPCompile
-    autocmd!
-    " Open project in correct dev-env
-    if has("mac")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
-    elseif has("win32")
-        autocmd FileType c,cpp nmap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
-    endif
-augroup END
 
 "======== [END MAPPINGS] ========}}}
 
@@ -263,9 +233,7 @@ augroup END
 " [END netrw] }}}
 
 " [vim-easy-align] {{{
-" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 if !exists('g:easy_align_delimiters')
     let g:easy_align_delimiters = {}
@@ -277,20 +245,16 @@ set background=dark
 set termguicolors     " enable true colors support
 let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
-" let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-" let ayucolor="dark"   " for dark version of theme
-" colorscheme ayu
 " [END Themes] }}}
 
 " [completor.vim] {{{
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup myCompletor
     au!
-    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <s-cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup END
-"let g:completor_node_binary = '/usr/local/bin/node'
 let g:completor_completion_delay=40
 let g:completor_refresh_always=0
 " [END completor.vim] }}}
@@ -308,7 +272,7 @@ let g:airline#extensions#tabline#fnamemod = ':p:t'
 " [END vim-airline] }}}
 
 " [vim-rooter] (auto cd to project roots) {{{
-let g:rooter_change_directory_for_non_project_files = '~'
+let g:rooter_change_directory_for_non_project_files = '.'
 let g:rooter_targets = '/,*'
 " [END vim-rooter] (auto cd to project roots) }}}
 
