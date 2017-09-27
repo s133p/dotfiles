@@ -319,7 +319,9 @@ endif
 " [fzf.vim]  {{{
 if has("mac") || has("unix")
     let g:fzf_layout = { 'down': '~40%' }
+    let g:fzf_buffers_jump = 1
     nmap <silent> <leader>f :Files<cr>
+    nmap <silent> <leader>/ :Lines<cr>
     nmap <silent> <leader>ur :History<cr>
     nmap <silent> <leader>ub :Buffers<cr>
 endif
