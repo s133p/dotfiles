@@ -110,6 +110,7 @@ command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \
 command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
 command! -nargs=1 -complete=buffer VGset exe "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
+command! -nargs=1 -complete=buffer VGcin exe "vimgrep /" . <q-args> . "/j ~/code/ds_cinder/src/** ~/code/ds_cinder/projects/*/src/** \| copen"
 
 " yank til EOL
 nnoremap Y y$
