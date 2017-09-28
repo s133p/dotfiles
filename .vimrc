@@ -78,7 +78,8 @@ set shortmess=Ia
 
 set relativenumber number
 set cursorline scrolloff=6 nowrap
-set shiftwidth=0 softtabstop=-1 tabstop=4 expandtab textwidth=120
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+set textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
@@ -93,7 +94,6 @@ augroup myFileTypes
 
     autocmd BufReadPost fugitive://* setlocal foldopen=
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
-    autocmd FileType javascript,javascript.jsx,css,less setlocal tabstop=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 expandtab
 augroup END
 "======== [END Settings] ========}}}
