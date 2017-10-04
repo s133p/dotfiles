@@ -76,7 +76,7 @@ set shortmess=Ia
 
 set relativenumber number
 set cursorline scrolloff=6 nowrap
-set shiftwidth=0 softtabstop=-1 tabstop=4 expandtab textwidth=120
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
