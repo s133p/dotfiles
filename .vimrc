@@ -165,6 +165,13 @@ function! MakeLocalSln()
     silent exec 'write'
 endfunction
 
+nmap <silent> <leader>gf :EFile<cr>
+nmap <silent> <leader>gv :VFile<cr>
+
+" Insert empty lines on either side of visual selection / current line
+nnoremap ;<space> <esc>o<esc>kO<esc>j
+vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
+
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
@@ -177,7 +184,10 @@ augroup MagicCPPCompile
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/vs2013/Release/yaml_importer.exe %<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
+
+        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DstFConifg<cr>
+        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DstSConifg<cr>
         command! MakeSln call MakeLocalSln()
     endif
 augroup END
