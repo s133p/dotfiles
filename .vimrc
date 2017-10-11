@@ -104,10 +104,18 @@ iabbrev fales false
 iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
-command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
-command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGlay exe "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
-command! -nargs=1 -complete=buffer VGset exe "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
+set grepprg=grep
+command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
+command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
+command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
+command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
+command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/src/**/* \| copen"
+
+" Put all trailing '>' | '/>' back on previous line
+function! XmlCleaner()
+    norm! gg=G'
+    exec 'g/^\s\+\(>\|\/>\)/norm! kJ'
+endfunction
 
 " yank til EOL
 nnoremap Y y$
@@ -207,6 +215,12 @@ nnoremap <leader>P "*P
 
 map <leader>c <Plug>MagicCalc
 nmap <leader>C v$h<Plug>MagicCalc
+
+map <leader>ms <Plug>MagicSearch
+nmap <leader>mS v$h<Plug>MagicSearch
+
+map <leader>mc <Plug>MagicCinderSearch
+nmap <leader>mC v$h<Plug>MagicCinderSearch
 
 " Quickfix / MagicJob output
 nmap <leader>z :QfToggle<cr>
