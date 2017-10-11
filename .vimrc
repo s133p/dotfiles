@@ -111,12 +111,6 @@ command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . 
 command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/src/**/* \| copen"
 
-" Put all trailing '>' | '/>' back on previous line
-function! XmlCleaner()
-    norm! gg=G'
-    exec 'g/^\s\+\(>\|\/>\)/norm! kJ'
-endfunction
-
 " yank til EOL
 nnoremap Y y$
 nnoremap - :20Lexplore<cr>
