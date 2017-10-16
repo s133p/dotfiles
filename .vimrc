@@ -88,12 +88,16 @@ augroup myFileTypes
     au!
     autocmd FileType vim setlocal fdm=marker
     autocmd FileType c,cpp setlocal fdm=syntax
+    " Transform path-names for 'gf' in cpp files
+    autocmd FileType c,cpp setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
     autocmd FileType vim,c,cpp set nofoldenable foldopen=all foldclose=all foldnestmax=10
-    autocmd BufNewFile,BufReadPost *.log.txt set ft=log
 
+    autocmd BufReadPost *.log.txt set ft=log
     autocmd BufReadPost fugitive://* setlocal foldopen=
+
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
-    autocmd FileType yaml setlocal softtabstop=4 tabstop=4 expandtab
+    autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2
+    autocmd FileType yaml setlocal softtabstop=4 tabstop=4
 augroup END
 "======== [END Settings] ========}}}
 
@@ -106,11 +110,12 @@ iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
 set grepprg=grep
+
 command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
 command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
-command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/src/**/* \| copen"
+command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/**/*.{cpp,h} \| copen"
 
 " yank til EOL
 nnoremap Y y$
@@ -127,7 +132,6 @@ nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
-nnoremap <leader>q :q<CR>
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
@@ -156,20 +160,9 @@ vnoremap J 16j
 nnoremap K 16k
 vnoremap K 16k
 nnoremap <leader>J J
+vnoremap <leader>J J
 nnoremap <leader>K K
-
-" Windows convienence for making local visual studio solution
-function! MakeLocalSln()
-    let projName = (split(getcwd(), '/')[-1])
-    let currsln = "vs2013/" . projName . ".sln"
-    silent exec "vs " . currsln
-    silent exec "sav vs2013/local.sln"
-    silent exec 'g/%/norm! f%xct%=$"lx'
-    silent exec 'write'
-endfunction
-
-nmap <silent> <leader>gf :EFile<cr>
-nmap <silent> <leader>gv :VFile<cr>
+vnoremap <leader>K K
 
 " Insert empty lines on either side of visual selection / current line
 nnoremap ;<space> <esc>o<esc>kO<esc>j
@@ -180,19 +173,20 @@ nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
 nmap <silent> <leader>r :MCRun<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
-augroup MagicCPPCompile
+augroup DsAutoCmd
     autocmd!
     " Open project in correct dev-env
     if has("mac")
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
     elseif has("win32")
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!start devenv<cr>
         autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
 
-        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DstFConifg<cr>
-        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DstSConifg<cr>
-        command! MakeSln call MakeLocalSln()
     endif
+
+    " Mappings for ease ds_cinder engine resizing
+    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DsFillEngine<cr>
+    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DsScaleEngine<cr>
 augroup END
 
 " Custom operator-pending mappings & pairings
@@ -212,10 +206,7 @@ map <leader>c <Plug>MagicCalc
 nmap <leader>C v$h<Plug>MagicCalc
 
 map <leader>ms <Plug>MagicSearch
-nmap <leader>mS v$h<Plug>MagicSearch
-
 map <leader>mc <Plug>MagicCinderSearch
-nmap <leader>mC v$h<Plug>MagicCinderSearch
 
 " Quickfix / MagicJob output
 nmap <leader>z :QfToggle<cr>
@@ -270,23 +261,24 @@ colorscheme gruvbox
 " [END Themes] }}}
 
 " [completor.vim] {{{
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-augroup myCompletor
-    au!
-    au Filetype c,cpp,js,xml,vim inoremap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-augroup END
 let g:completor_completion_delay=40
 let g:completor_refresh_always=0
+
+imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+augroup myCompletor
+    au!
+    au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+augroup END
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline_section_z=''
@@ -347,8 +339,8 @@ if has("win32")
                 \ }
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
     let g:ctrlp_match_current_file = 1
-    " [END ctrlp.vim] }}}
 endif
+" [END ctrlp.vim] }}}
 
 " [fzf.vim]  {{{
 if has("mac") || has("unix")
