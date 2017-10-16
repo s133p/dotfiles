@@ -78,8 +78,7 @@ set shortmess=Ia
 
 set relativenumber number
 set cursorline scrolloff=6 nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-set textwidth=120
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 
 " show whitespace
@@ -106,11 +105,12 @@ iabbrev fales false
 iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
-command! -nargs=1 -complete=buffer VGall exe "vimgrep /" . <q-args> . "/j **/* \| copen"
-command! -nargs=1 -complete=buffer VGsrc exe "vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGlay exe "vimgrep /" . <q-args> . "/j data/layouts/**/* \| copen"
-command! -nargs=1 -complete=buffer VGset exe "vimgrep /" . <q-args> . "/j settings/**/* \| copen"
-command! -nargs=1 -complete=buffer VGcin exe "vimgrep /" . <q-args> . "/j ~/code/ds_cinder/src/** ~/code/ds_cinder/projects/*/src/** \| copen"
+set grepprg=grep
+command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
+command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
+command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
+command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
+command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/src/**/* \| copen"
 
 " yank til EOL
 nnoremap Y y$
@@ -168,6 +168,13 @@ function! MakeLocalSln()
     silent exec 'write'
 endfunction
 
+nmap <silent> <leader>gf :EFile<cr>
+nmap <silent> <leader>gv :VFile<cr>
+
+" Insert empty lines on either side of visual selection / current line
+nnoremap ;<space> <esc>o<esc>kO<esc>j
+vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
+
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
@@ -180,7 +187,10 @@ augroup MagicCPPCompile
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("open xcode/*.xcodeproj", 0)<cr>
     elseif has("win32")
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :call MagicJob("start devenv", 0)<cr>
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder_090/utility/yaml_importer/vs2013/Release/yaml_importer.exe %<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
+
+        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DstFConifg<cr>
+        autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DstSConifg<cr>
         command! MakeSln call MakeLocalSln()
     endif
 augroup END
@@ -200,6 +210,12 @@ nnoremap <leader>P "*P
 
 map <leader>c <Plug>MagicCalc
 nmap <leader>C v$h<Plug>MagicCalc
+
+map <leader>ms <Plug>MagicSearch
+nmap <leader>mS v$h<Plug>MagicSearch
+
+map <leader>mc <Plug>MagicCinderSearch
+nmap <leader>mC v$h<Plug>MagicCinderSearch
 
 " Quickfix / MagicJob output
 nmap <leader>z :QfToggle<cr>
