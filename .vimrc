@@ -1,4 +1,3 @@
-set nocompatible
 set secure
 set shellslash
 let mapleader=';'
@@ -24,7 +23,6 @@ Plug 'cohama/lexima.vim'              " [lexima-vim]         = Auto-create pair 
 Plug 'wellle/targets.vim'             " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
-
 " Syntax & Visual
 Plug 'vim-airline/vim-airline'        " [vim-airline]        = Better tab/status line
 Plug 'vim-airline/vim-airline-themes' " [vim-airline-themes] = Themes for airline
@@ -40,8 +38,7 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
 Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
 
-" Plug 'vim-scripts/a.vim'              " [a.vim]              = Swap between cpp & hpp
-Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
 
 if has("mac")
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
@@ -89,7 +86,7 @@ augroup myFileTypes
     autocmd FileType vim setlocal fdm=marker
     autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
-    autocmd FileType c,cpp setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
+    autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
     autocmd FileType vim,c,cpp set nofoldenable foldopen=all foldclose=all foldnestmax=10
 
     autocmd BufReadPost *.log.txt set ft=log
@@ -130,6 +127,9 @@ nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
+nnoremap <leader><leader> :cn<cr>
+nnoremap <leader>: :cp<cr>
+
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -143,7 +143,8 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
-nnoremap <C-t> gt
+nnoremap <C-l> gt
+nnoremap <C-h> gT
 
 " create splits/tabs
 nnoremap <leader>v :vs<CR>
@@ -171,7 +172,8 @@ vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
-nmap <silent> <leader>r :MCRun<cr>
+nmap <silent> <leader>r :MCRun!<cr>
+nmap <silent> <leader>R :MCRun<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
 augroup DsAutoCmd
     autocmd!
@@ -179,7 +181,7 @@ augroup DsAutoCmd
     if has("mac")
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
     elseif has("win32")
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!start devenv<cr>
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :J start devenv<cr>
         autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
 
     endif
@@ -285,36 +287,43 @@ let g:airline_section_z=''
 let g:airline#extensions#tabline#fnamemod = ':p:t'
 " [END vim-airline] }}}
 
-" [vim-rooter] (auto cd to project roots) {{{
+" [vim-rooter] {{{
 let g:rooter_change_directory_for_non_project_files = '.'
 let g:rooter_targets = '/,*'
-" [END vim-rooter] (auto cd to project roots) }}}
+" [END vim-rooter] }}}
 
 " [vim-markdown] {{{
 augroup markdown
     au!
-    autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=100
+    autocmd BufNewFile,BufReadPost *.md set ft=markdown
+    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=100 linebreak spell nofoldenable
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
     autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
-    autocmd BufNewFile,BufReadPost *.md setlocal linebreak spell nofoldenable
 augroup END
 " [vim-markdown] }}}
 
-" [a.vim]{{{
+" [vim-projectionist]{{{
 let g:projectionist_heuristics = {
       \   "*": {
       \     "src/*.cpp": {
-      \        "type": "source",
+      \        "type": "cpp",
       \        "alternate": "src/{}.h",
       \     },
       \     "src/*.h": {
-      \        "type": "header",
+      \        "type": "hpp",
       \        "alternate": "src/{}.cpp",
       \     },
       \     "data/layouts/*.xml": {
-      \        "type": "layout",
+      \        "type": "lay",
       \        "alternate": "src/{}.cpp",
+      \     },
+      \     "settings/*.xml": {
+      \        "type": "set",
+      \        "template": ["<interface>","", "</interface>"]
+      \     },
+      \     "*.sh": {
+      \        "type": "script",
+      \        "template": ["#!/bin/bash",""]
       \     }
       \   }
       \ }
@@ -324,7 +333,7 @@ augroup avimmap
     autocmd FileType c,cpp,xml nmap <buffer> <leader>iv :AV<cr>
     autocmd FileType c,cpp,xml nmap <buffer> <leader>iV :AS<cr>
 augroup END
-" [a.vim]}}}
+" [vim-projectionist]}}}
 
 " [ctrlp.vim]  {{{
 if has("win32")
