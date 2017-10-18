@@ -107,90 +107,22 @@ iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
 set grepprg=grep
-
 command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
 command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/**/*.{cpp,h} \| copen"
-
-" yank til EOL
-nnoremap Y y$
-nnoremap - :20Lexplore<cr>
-
-"Replacements for vim-unimpaired
-nnoremap <silent> coh :set hlsearch!<cr>
-nnoremap <silent> cos :set spell!<cr>
-nnoremap <silent> cow :CleanWhitespace<cr>
-nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
-
-" after c{motion}, <leader>. jumps to next instance of text and replaces
-nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
-
-nnoremap <leader><leader> :cn<cr>
-nnoremap <leader>: :cp<cr>
-
-nnoremap <Leader>w :up<CR>
-nnoremap <leader>x :q<CR>
-nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
-
-" Movement between splits/windows/buffers
-nnoremap gw <c-w>
-nnoremap g= <c-w>=
-nnoremap gk <C-W>k
-nnoremap gj <C-W>j
-nnoremap gh <C-W>h
-nnoremap gl <C-W>l
-nnoremap gb :b#<cr>
-nnoremap <C-l> gt
-nnoremap <C-h> gT
-
-" create splits/tabs
-nnoremap <leader>v :vs<CR>
-nnoremap <leader>V :sp<CR>
-nnoremap <leader>t :tabnew<CR>
-
-" swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
-noremap ' `
-noremap ` '
-
-" J & K as page-up/page-down, orginal functions shadowed on <leader>
-nnoremap J 16j
-vnoremap J 16j
-nnoremap K 16k
-vnoremap K 16k
-nnoremap <leader>J J
-vnoremap <leader>J J
-nnoremap <leader>K K
-vnoremap <leader>K K
-
-" Insert empty lines on either side of visual selection / current line
-nnoremap ;<space> <esc>o<esc>kO<esc>j
-vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
-
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
 nmap <silent> <leader>r :MCRun!<cr>
 nmap <silent> <leader>R :MCRun<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
-augroup DsAutoCmd
-    autocmd!
-    " Open project in correct dev-env
-    if has("mac")
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
-    elseif has("win32")
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :J start devenv<cr>
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
-
-    endif
-
-    " Mappings for ease ds_cinder engine resizing
-    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DsFillEngine<cr>
-    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DsScaleEngine<cr>
-augroup END
-
+" Quickfix / MagicJob output
+nmap <leader>z :QfToggle<cr>
+nmap <leader>Z :call MagicBufferOpen()<cr>
+nnoremap <silent> <leader>o :MagicOpen<cr>
+nnoremap <silent> <leader>O :MagicOpen!<cr>
 " Custom operator-pending mappings & pairings
 map s <Plug>MagicStamp
 nmap S v$h<Plug>MagicStamp
@@ -210,22 +142,73 @@ nmap <leader>C v$h<Plug>MagicCalc
 map <leader>ms <Plug>MagicSearch
 map <leader>mc <Plug>MagicCinderSearch
 
-" Quickfix / MagicJob output
-nmap <leader>z :QfToggle<cr>
-nmap <leader>Z :call MagicBufferOpen()<cr>
+augroup DsAutoCmd
+    autocmd!
+    " Open project in correct dev-env
+    if has("mac")
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
+    elseif has("win32")
+        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :J start devenv<cr>
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
+    endif
+    " Mappings for ease ds_cinder engine resizing
+    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DsFillEngine<cr>
+    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DsScaleEngine<cr>
+augroup END
 
-" Open cwd or file directory
-if has("mac")
-    nnoremap <silent> <leader>o :J open .<cr>
-    nnoremap <silent> <leader>O :J open <c-r>=expand("%:p:h")<cr><cr>
-elseif has("unix")
-    nnoremap <silent> <leader>o :J exec caja .<cr>
-    nnoremap <silent> <leader>O :J exec caja <c-r>=expand("%:p:h")<cr><cr>
-elseif has("win32")
-    nnoremap <silent> <leader>o :J start explorer .<cr>
-    nnoremap <silent> <leader>O :J start explorer "<c-r>=substitute(expand("%:p:h"), '/', '\', 'g')<cr>"<cr>
-endif
+"Replacements for vim-unimpaired
+nnoremap <silent> coh :set hlsearch!<cr>
+nnoremap <silent> cos :set spell!<cr>
+nnoremap <silent> cow :CleanWhitespace<cr>
+nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
 
+" after c{motion}, <leader>. jumps to next instance of text and replaces
+nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
+
+" Quickfix next/prev
+nnoremap <leader><leader> :cn<cr>
+nnoremap <leader>: :cp<cr>
+
+"Yank till EOL
+nnoremap Y y$
+
+nnoremap <Leader>w :up<CR>
+nnoremap <leader>x :q<CR>
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+nnoremap - :20Lexplore<cr>
+
+" Splits/Windows/Buffers
+nnoremap <leader>v :vs<CR>
+nnoremap <leader>V :sp<CR>
+nnoremap <leader>t :tabnew<CR>
+nnoremap gw <c-w>
+nnoremap g= <c-w>=
+nnoremap gk <C-W>k
+nnoremap gj <C-W>j
+nnoremap gh <C-W>h
+nnoremap gl <C-W>l
+nnoremap gb :b#<cr>
+nnoremap <C-l> gt
+nnoremap <C-h> gT
+
+" swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
+noremap ' `
+noremap ` '
+
+" J & K as page-up/page-down, orginal functions shadowed on <leader>
+nnoremap J 16j
+vnoremap J 16j
+nnoremap K 16k
+vnoremap K 16k
+nnoremap <leader>J J
+vnoremap <leader>J J
+nnoremap <leader>K K
+vnoremap <leader>K K
+
+" Insert empty lines on either side of visual selection / current line
+nnoremap ;<space> <esc>o<esc>kO<esc>j
+vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
