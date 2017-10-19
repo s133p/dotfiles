@@ -24,8 +24,6 @@ Plug 'wellle/targets.vim'             " [targets.vim]        = Adds a beautiful 
 Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
 
 " Syntax & Visual
-Plug 'vim-airline/vim-airline'        " [vim-airline]        = Better tab/status line
-Plug 'vim-airline/vim-airline-themes' " [vim-airline-themes] = Themes for airline
 Plug 'plasticboy/vim-markdown'        " [vim-markdown]       = markdown highlighting
 Plug 'sheerun/vim-polyglot'           " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'          " [vim-log-syntax]     = Syntax highlighting for log files
@@ -81,9 +79,15 @@ set nohlsearch incsearch ignorecase smartcase showmatch
 " show whitespace
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
+set statusline=%!MagicStatusLine(1)
+set showtabline=2
+set tabline=%!MyTabLine()
+
 augroup myFileTypes
     au!
     autocmd FileType vim setlocal fdm=marker
+    autocmd FileType vim setlocal keywordprg=:help
+    autocmd FileType help setlocal keywordprg=:help
     autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
     autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
@@ -95,6 +99,9 @@ augroup myFileTypes
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4
+
+    autocmd! WinLeave * setlocal nocursorline statusline=%!MagicStatusLine(0)
+    autocmd! WinEnter * setlocal cursorline statusline=%!MagicStatusLine(1)
 augroup END
 "======== [END Settings] ========}}}
 
