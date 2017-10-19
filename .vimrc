@@ -79,6 +79,10 @@ set nohlsearch incsearch ignorecase smartcase showmatch
 " show whitespace
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
+set statusline=%!MagicStatusLine(1)
+set showtabline=2
+set tabline=%!MyTabLine()
+
 augroup myFileTypes
     au!
     autocmd FileType vim setlocal fdm=marker
@@ -99,9 +103,6 @@ augroup myFileTypes
     autocmd! WinLeave * setlocal nocursorline statusline=%!MagicStatusLine(0)
     autocmd! WinEnter * setlocal cursorline statusline=%!MagicStatusLine(1)
 augroup END
-
-set statusline=%!MagicStatusLine(1)
-set tabline=%!MyTabLine()
 "======== [END Settings] ========}}}
 
 "======== [MAPPINGS] ========{{{
