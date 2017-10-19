@@ -115,12 +115,11 @@ command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . 
 " Compile for OSX & Windows using MagicJob()
 nmap <silent> <leader>b :MCompile DEBUG<cr>
 nmap <silent> <leader>B :MCompile RELEASE<cr>
-nmap <silent> <leader>r :MCRun!<cr>
-nmap <silent> <leader>R :MCRun<cr>
+nmap <silent> <leader>r :MCRun<cr>
 nmap <silent> <leader>jk :call MagicJobKill()<cr>
 " Quickfix / MagicJob output
 nmap <leader>z :QfToggle<cr>
-nmap <leader>Z :call MagicBufferOpen()<cr>
+nmap <leader>Z :MagicBufferOpen<cr>
 nnoremap <silent> <leader>o :MagicOpen<cr>
 nnoremap <silent> <leader>O :MagicOpen!<cr>
 " Custom operator-pending mappings & pairings
