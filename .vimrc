@@ -1,6 +1,8 @@
+set encoding=utf-8
+scriptencoding utf-8
 set secure
 set shellslash
-let mapleader=';'
+let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
 call plug#begin('~/.vim/bundle')
@@ -35,18 +37,19 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
 Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
+Plug 'w0rp/ale', { 'on':  'ALEEnable' }
 
 Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
 
-if has("mac")
+if has('mac')
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
 endif
 
 " Quick file navigation
-if has("mac") || has("unix")
+if has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-elseif has("win32")
+elseif has('win32')
     Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
 endif
 
@@ -66,7 +69,6 @@ set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright
 set switchbuf=usetab
 set lazyredraw
-set encoding=utf8
 set t_Co=256
 set termguicolors
 set shortmess=Ia
@@ -151,9 +153,9 @@ map <leader>mc <Plug>MagicCinderSearch
 augroup DsAutoCmd
     autocmd!
     " Open project in correct dev-env
-    if has("mac")
+    if has('mac')
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
-    elseif has("win32")
+    elseif has('win32')
         autocmd FileType c,cpp nnoremap <buffer> <leader>gx :J start devenv<cr>
         autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
     endif
@@ -227,7 +229,7 @@ let g:jsx_ext_required = 1
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
-let g:netrw_browsex_viewer="open"
+let g:netrw_browsex_viewer='open'
 let g:netrw_banner = 0
 augroup netrwmaps
     autocmd!
@@ -293,26 +295,26 @@ augroup END
 
 " [vim-projectionist]{{{
 let g:projectionist_heuristics = {
-      \   "*": {
-      \     "src/*.cpp": {
-      \        "type": "cpp",
-      \        "alternate": "src/{}.h",
+      \   '*': {
+      \     'src/*.cpp': {
+      \        'type': 'cpp',
+      \        'alternate': 'src/{}.h',
       \     },
-      \     "src/*.h": {
-      \        "type": "hpp",
-      \        "alternate": "src/{}.cpp",
+      \     'src/*.h': {
+      \        'type': 'hpp',
+      \        'alternate': 'src/{}.cpp',
       \     },
-      \     "data/layouts/*.xml": {
-      \        "type": "lay",
-      \        "alternate": "src/{}.cpp",
+      \     'data/layouts/*.xml': {
+      \        'type': 'lay',
+      \        'alternate': 'src/{}.cpp',
       \     },
-      \     "settings/*.xml": {
-      \        "type": "set",
-      \        "template": ["<interface>","", "</interface>"]
+      \     'settings/*.xml': {
+      \        'type': 'set',
+      \        'template': ['<interface>','', '</interface>']
       \     },
-      \     "*.sh": {
-      \        "type": "script",
-      \        "template": ["#!/bin/bash",""]
+      \     '*.sh': {
+      \        'type': 'script',
+      \        'template': ['#!/bin/bash','']
       \     }
       \   }
       \ }
@@ -325,7 +327,7 @@ augroup END
 " [vim-projectionist]}}}
 
 " [ctrlp.vim]  {{{
-if has("win32")
+if has('win32')
     let g:ctrlp_map = '<leader>f'
     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
     nmap <silent> <leader>ub :CtrlPBuffer<cr>
@@ -341,8 +343,8 @@ endif
 " [END ctrlp.vim] }}}
 
 " [fzf.vim]  {{{
-if has("mac") || has("unix")
-    let g:fzf_layout = { 'down': '~40%' }
+if has('mac') || has('unix')
+    let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
     nmap <silent> <leader>f :Files<cr>
     nmap <silent> <leader>/ :Lines<cr>
@@ -381,12 +383,12 @@ nmap <leader>Gb :Gist -b<cr>
 augroup GuiVim
     au!
     set guioptions=c  "only console prompt, no other ui-chrome
-    if has("win32")
+    if has('win32')
         set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
         au GUIEnter * simalt ~x
         au GUIEnter * set visualbell t_vb=
-    elseif has("mac")
+    elseif has('mac')
         set guifont=Hack\ Regular:h12
     endif
 augroup END
