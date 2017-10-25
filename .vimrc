@@ -44,6 +44,8 @@ Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/ncm-clang'
 Plug 'w0rp/ale', { 'on':  'ALEEnable' }
 
+Plug 'chaoren/vim-wordmotion'
+
 Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
 
 if has('mac')
@@ -182,7 +184,7 @@ nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 nnoremap <leader><leader> :cn<cr>
 nnoremap <leader>: :cp<cr>
 
-"Yank till EOL
+" Yank till EOL
 nnoremap Y y$
 
 nnoremap <Leader>w :up<CR>
@@ -202,6 +204,7 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
+nnoremap gs :%s/\v
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 
