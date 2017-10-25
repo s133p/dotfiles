@@ -187,8 +187,8 @@ nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap - :20Lexplore<cr>
 
 " Splits/Windows/Buffers
-nnoremap <leader>v :vs<CR>
-nnoremap <leader>V :sp<CR>
+nnoremap <leader>v <c-w>v
+nnoremap <leader>V <c-w>s
 nnoremap <leader>t :tabnew<CR>
 nnoremap gw <c-w>
 nnoremap g= <c-w>=
