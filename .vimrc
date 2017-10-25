@@ -36,7 +36,12 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
-Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
+" Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-clang'
 Plug 'w0rp/ale', { 'on':  'ALEEnable' }
 
 Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
@@ -263,7 +268,15 @@ imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup myCompletor
     au!
     au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
 augroup END
+let g:ale_linters = {
+        \   'cpp': ['clang'],
+        \}
+
+    " (optional, for completion performance) run linters only when I save files
+    let g:ale_lint_on_text_changed = 'never'
+    let g:ale_lint_on_enter = 0
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
