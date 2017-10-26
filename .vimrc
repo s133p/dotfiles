@@ -36,12 +36,14 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 
 " Code / Language specific
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
-" Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
+if has('win32') && !has('nvim')
+    Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
 endif
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-clang'
+if has('nvim') || has('mac')
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'roxma/ncm-clang'
+endif
 Plug 'w0rp/ale', { 'on':  'ALEEnable' }
 
 Plug 'chaoren/vim-wordmotion'
@@ -122,7 +124,7 @@ iabbrev fales false
 iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
-set grepprg=grep
+set grepprg=ag
 command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
@@ -160,10 +162,8 @@ map <leader>mc <Plug>MagicCinderSearch
 augroup DsAutoCmd
     autocmd!
     " Open project in correct dev-env
-    if has('mac')
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :!open xcode/*.xcodeproj"<cr>
-    elseif has('win32')
-        autocmd FileType c,cpp nnoremap <buffer> <leader>gx :J start devenv<cr>
+    autocmd FileType c,cpp nmap <buffer> <leader>gx <Plug>DevOpen
+    if has('win32')
         autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
     endif
     " Mappings for ease ds_cinder engine resizing
@@ -271,15 +271,20 @@ imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 augroup myCompletor
     au!
     au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
+    if has('nvim') || has('mac')
+        autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
+    endif
 augroup END
-let g:ale_linters = {
-        \   'cpp': ['clang'],
-        \}
+
+if has('nvim') || has('mac')
+    let g:ale_linters = {
+                \   'cpp': ['clang'],
+                \}
 
     " (optional, for completion performance) run linters only when I save files
     let g:ale_lint_on_text_changed = 'never'
     let g:ale_lint_on_enter = 0
+endif
 " [END completor.vim] }}}
 
 " [vim-airline] {{{
@@ -350,11 +355,14 @@ if has('win32')
 
     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
     let g:ctrlp_custom_ignore = {
-                \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules))$',
-                \ 'file': '\v\.(exe|so|dll)$'
+                \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015))$',
+                \ 'file': '\v\.(exe|so|dll|png|jpeg|jpg|otf|ttf)$'
                 \ }
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
     let g:ctrlp_match_current_file = 1
+    if executable('ag')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    endif
 endif
 " [END ctrlp.vim] }}}
 
