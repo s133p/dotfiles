@@ -1,67 +1,56 @@
-set encoding=utf-8
-scriptencoding utf-8
 set secure
 set shellslash
 let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
 call plug#begin('~/.vim/bundle')
-Plug 'tpope/vim-sensible'             " [vim-sensible]       = Sensible defaults
-Plug 'tpope/vim-abolish'              " [vim-abolish]        = Coerce cases
-Plug 'tpope/vim-surround'             " [vim-surround]       = Does what it says on the tin
-Plug 'tpope/vim-repeat'               " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
-
-" Git / project
-Plug 'airblade/vim-rooter'            " [vim-rooter]         = Change directory to root of projects
-Plug 'tpope/vim-fugitive'             " [vim-fugitive]       = Git integration
-Plug 'tpope/vim-rhubarb'              " [vim-rhubarb]        = GitHub Specific git integration (for :Gbrowse)
-Plug 'junegunn/gv.vim'                " [gv]                 = Git log viewing
-Plug 'mattn/webapi-vim'               " [webapi-vim]         = Required for [gist-vim]
-Plug 'mattn/gist-vim'                 " [gist-vim]           = Gists from within vim
-Plug 'yssl/QFEnter'                   " [QFEnter]            = Better QF handling
-
-Plug 'spiiph/vim-space'               " [vim-space]          = Use spacebar to repeat last movement
-Plug 'cohama/lexima.vim'              " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
-Plug 'wellle/targets.vim'             " [targets.vim]        = Adds a beautiful slew of text-objects
-Plug 'junegunn/vim-easy-align'        " [vim-easy-align]     = Replacees tabular, includes text-obj mappings
-
-" Syntax & Visual
-Plug 'plasticboy/vim-markdown'        " [vim-markdown]       = markdown highlighting
-Plug 'sheerun/vim-polyglot'           " [vim-polyglot]       = Better FT/Syntax plugins
-Plug 'dzeban/vim-log-syntax'          " [vim-log-syntax]     = Syntax highlighting for log files
-Plug 'google/vim-searchindex'         " [vim-searchindex]    = Show current match # + total match count during search
-
-" Themes
-Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
-
-" Code / Language specific
-Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
-Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
-Plug 'w0rp/ale', { 'on':  'ALEEnable' }
-
-if has('win32') && !has('nvim')
-    Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
-endif
-if has('nvim') || has('mac')
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/ncm-clang'
-endif
-
-if has('mac')
-    Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
-endif
+Plug 'tpope/vim-abolish'         " [vim-abolish]       = Coerce cases
+Plug 'tpope/vim-surround'        " [vim-surround]      = Does what it says on the tin
+Plug 'tpope/vim-repeat'          " [vim-repeat]        = Allow plugin mappings to be repeated w/ '.'
+Plug 'spiiph/vim-space'          " [vim-space]         = Use spacebar to repeat last movement
+Plug 'cohama/lexima.vim'         " [lexima-vim]        = Auto-create pair & jump to end if matching pair typed
+Plug 'wellle/targets.vim'        " [targets.vim]       = Adds a beautiful slew of text-objects
+Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Replacees tabular, includes text-obj mappings
+Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
+Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
 
 " Quick file navigation
+Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 if has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
 elseif has('win32')
-    Plug 'ctrlpvim/ctrlp.vim'             " [ctrlp.vim]          = Fuzzy file finding
+    Plug 'ctrlpvim/ctrlp.vim'    " [ctrlp.vim]          = Fuzzy file finding
+endif
+
+" Git / project
+Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
+Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
+Plug 'tpope/vim-projectionist'   " [vim-projectionist] = Alternate files + templates for new files
+Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
+Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
+            \ { 'on': 'Gbrowse' }
+Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
+            \ { 'on': 'Gist' }
+
+" Syntax & Visual
+Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
+Plug 'plasticboy/vim-markdown'   " [vim-markdown]      = markdown highlighting
+Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
+Plug 'w0rp/ale',                 " [ale]               = Async Linting
+            \ { 'on':  'ALEEnable' }
+
+if has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'roxma/ncm-clang'
+else
+    Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
 
 " Personal functions
-Plug 's133p/personal-magic.vim'       " [personal-magic.vim] = A collection of person vim functions
+Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -88,15 +77,18 @@ set nohlsearch incsearch ignorecase smartcase showmatch
 " show whitespace
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
+" Theme
+set background=dark termguicolors
+let g:gruvbox_contrast_dark='medium'
+colorscheme gruvbox
+
 set statusline=%!MagicStatusLine(1)
 set showtabline=2
 set tabline=%!MyTabLine()
 
 augroup myFileTypes
     au!
-    autocmd FileType vim setlocal fdm=marker
-    autocmd FileType vim setlocal keywordprg=:help
-    autocmd FileType help setlocal keywordprg=:help
+    autocmd FileType vim setlocal fdm=marker keywordprg=:help
     autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
     autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
@@ -139,57 +131,55 @@ nmap <leader>Z :MagicBufferOpen<cr>
 nnoremap <silent> <leader>o :MagicOpen<cr>
 nnoremap <silent> <leader>O :MagicOpen!<cr>
 " Custom operator-pending mappings & pairings
-map s <Plug>MagicStamp
-nmap S v$h<Plug>MagicStamp
-nmap ss V<Plug>MagicStamp
-
-map <leader>y <Plug>MagicClip
-nmap <leader>Y v$h<Plug>MagicClip
-
-map <leader>s <Plug>MagicPaste
-nmap <leader>S v$h<Plug>MagicPaste
+map s <Plug>(MagicStamp)
+nmap S v$h<Plug>(MagicStamp)
+nmap ss V<Plug>(MagicStamp)
+map <leader>y <Plug>(MagicClip)
+nmap <leader>Y v$h<Plug>(MagicClip)
+map <leader>s <Plug>(MagicPaste)
+nmap <leader>S v$h<Plug>(MagicPaste)
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
-
-map <leader>c <Plug>MagicCalc
-nmap <leader>C v$h<Plug>MagicCalc
-
-map <leader>ms <Plug>MagicSearch
-map <leader>mc <Plug>MagicCinderSearch
+map <leader>c <Plug>(MagicCalc)
+nmap <leader>C v$h<Plug>(MagicCalc)
+map <leader>ms <Plug>(MagicSearch)
+map <leader>mc <Plug>(MagicCinderSearch)
+map <leader>mm <Plug>(MagicMathBuf)
 
 augroup DsAutoCmd
     autocmd!
     " Open project in correct dev-env
-    autocmd FileType c,cpp nmap <buffer> <leader>gx <Plug>DevOpen
-    if has('win32')
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
-    endif
+    autocmd FileType c,cpp nmap <buffer> <leader>gx <Plug>(DevOpen)
     " Mappings for ease ds_cinder engine resizing
     autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DsFillEngine<cr>
     autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DsScaleEngine<cr>
+    " Call yaml generator
+    if has('win32')
+        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
+    endif
 augroup END
 
 "Replacements for vim-unimpaired
 nnoremap <silent> coh :set hlsearch!<cr>
 nnoremap <silent> cos :set spell!<cr>
 nnoremap <silent> cow :CleanWhitespace<cr>
-nnoremap cof :w<cr>:CFormat!<cr>:w<cr>
+nnoremap cof :up<cr>:CFormat!<cr>:up<cr>
 
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 " Quickfix next/prev
-nnoremap <leader><leader> :cn<cr>
-nnoremap <leader>: :cp<cr>
+nnoremap <leader>cn :cn<cr>
+nnoremap <leader>cp :cp<cr>
 
 " Yank till EOL
 nnoremap Y y$
 
+nnoremap <leader><leader> q:
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
-nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>Gwgf
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
-nnoremap - :20Lexplore<cr>
 
 " Splits/Windows/Buffers
 nnoremap <leader>v <c-w>v
@@ -217,8 +207,8 @@ nnoremap K 16k
 vnoremap K 16k
 nnoremap <leader>J J
 vnoremap <leader>J J
-nnoremap <leader>K K
-vnoremap <leader>K K
+nnoremap g? K
+vnoremap g? K
 
 " Insert empty lines on either side of visual selection / current line
 nnoremap ;<space> <esc>o<esc>kO<esc>j
@@ -231,71 +221,41 @@ vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
 let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
 
-" [netrw] {{{
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_liststyle=3
-let g:netrw_browse_split=4
-let g:netrw_browsex_viewer='open'
-let g:netrw_banner = 0
-augroup netrwmaps
+" [vim-dirvish] {{{
+nmap - <Plug>(dirvish_up)
+let g:dirvish_mode = 'sort ,^.*[^\/],'
+augroup dervish
     autocmd!
-    autocmd FileType netrw nnoremap <buffer> <esc> :bd<cr>
-    autocmd FileType netrw setlocal bufhidden=wipe
+    autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
 augroup END
-" [END netrw] }}}
+" [END vim-dirvish] }}}
 
 " [vim-easy-align] {{{
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-if !exists('g:easy_align_delimiters')
-    let g:easy_align_delimiters = {}
-endif
 " [END vim-easy-align] }}}
 
-" [Themes] {{{
-set background=dark
-set termguicolors     " enable true colors support
-let g:gruvbox_contrast_dark='medium'
-colorscheme gruvbox
-" [END Themes] }}}
-
 " [completor.vim] {{{
-let g:completor_completion_delay=40
-let g:completor_refresh_always=0
-
-imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-augroup myCompletor
-    au!
-    au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    if has('nvim') || has('mac')
-        autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
-    endif
-augroup END
-
-if has('nvim') || has('mac')
-    let g:ale_linters = {
-                \   'cpp': ['clang'],
-                \}
-
-    " (optional, for completion performance) run linters only when I save files
+if has('nvim')
+    let g:ale_linters = { 'cpp': ['clang'] }
     let g:ale_lint_on_text_changed = 'never'
     let g:ale_lint_on_enter = 0
+else
+    let g:completor_completion_delay=40
+    let g:completor_refresh_always=0
+
+    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    augroup myCompletor
+        au!
+        au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+        if has('nvim')
+            autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
+        endif
+    augroup END
 endif
 " [END completor.vim] }}}
-
-" [vim-airline] {{{
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#tab_nr_type = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline_section_z=''
-let g:airline#extensions#tabline#fnamemod = ':p:t'
-" [END vim-airline] }}}
 
 " [vim-rooter] {{{
 let g:rooter_change_directory_for_non_project_files = '.'
@@ -337,7 +297,7 @@ let g:projectionist_heuristics = {
       \     }
       \   }
       \ }
-augroup avimmap
+augroup MyProjectionist
     autocmd!
     " Map split commands
     autocmd FileType c,cpp,xml nmap <buffer> <leader>iv :AV<cr>
@@ -345,12 +305,11 @@ augroup avimmap
 augroup END
 " [vim-projectionist]}}}
 
-" [ctrlp.vim]  {{{
+" [fzf.vim] [ctrlp.vim]  {{{
 if has('win32')
     let g:ctrlp_map = '<leader>f'
     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
     nmap <silent> <leader>ub :CtrlPBuffer<cr>
-
     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
     let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015))$',
@@ -361,11 +320,7 @@ if has('win32')
     if executable('ag')
         let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     endif
-endif
-" [END ctrlp.vim] }}}
-
-" [fzf.vim]  {{{
-if has('mac') || has('unix')
+elseif has('mac') || has('unix')
     let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
     nmap <silent> <leader>f :Files<cr>
@@ -373,7 +328,7 @@ if has('mac') || has('unix')
     nmap <silent> <leader>ur :History<cr>
     nmap <silent> <leader>ub :Buffers<cr>
 endif
-" [fzf.vim] }}}
+" [END ctrlp.vim & fzf.vim] }}}
 
 " [vim-fugitive] & [gist-vim] {{{
 nmap <leader>gs :Gstatus<cr>
@@ -383,7 +338,6 @@ nmap <leader>gu :MagicJob git pull<cr>
 nmap <leader>gb :Gbrowse<cr>
 nmap <leader>gB :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
-nmap <leader>gl :GV<cr>
 
 augroup MyFugitive
     autocmd!
@@ -404,14 +358,12 @@ nmap <leader>Gb :Gist -b<cr>
 "======== [Gvim / MacVim] ========{{{
 augroup GuiVim
     au!
-    set guioptions=c  "only console prompt, no other ui-chrome
-    if has('win32')
+    if has('win32') && has('gvim')
+        set guioptions=c  "only console prompt, no other ui-chrome
         set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
         au GUIEnter * simalt ~x
         au GUIEnter * set visualbell t_vb=
-    elseif has('mac')
-        set guifont=Hack\ Regular:h12
     endif
 augroup END
 "======== [END Gvim / MacVim] ========}}}
