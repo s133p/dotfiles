@@ -38,6 +38,7 @@ Plug 'morhetz/gruvbox'                " [gruvbox]            = Pretty theme!
 Plug 'tomtom/tcomment_vim'            " [tcomment]           = Shortcuts for commenting
 Plug 'tpope/vim-projectionist'        " [vim-projectionist]  = Alternate files + templates for new files
 Plug 'w0rp/ale', { 'on':  'ALEEnable' }
+
 if has('win32') && !has('nvim')
     Plug 'maralla/completor.vim'          " [completor.vim]      = Autocomplete
 endif
@@ -46,7 +47,6 @@ if has('nvim') || has('mac')
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
 endif
-
 
 if has('mac')
     Plug 'fatih/vim-go'               " [vim-go]             = Lots of nice go features
