@@ -1,3 +1,4 @@
+set encoding=utf-8
 set secure
 set shellslash
 let g:mapleader=';'
@@ -29,22 +30,19 @@ Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
 Plug 'tpope/vim-projectionist'   " [vim-projectionist] = Alternate files + templates for new files
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
 Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
-            \ { 'on': 'Gbrowse' }
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
-            \ { 'on': 'Gist' }
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'plasticboy/vim-markdown'   " [vim-markdown]      = markdown highlighting
 Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
-Plug 'w0rp/ale',                 " [ale]               = Async Linting
-            \ { 'on':  'ALEEnable' }
 
 if has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
+    Plug 'w0rp/ale',                 " [ale]               = Async Linting
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -59,15 +57,12 @@ call plug#end()
 filetype indent plugin on
 syntax on
 set hidden noswapfile
-set showcmd confirm cmdheight=2 nostartofline
+set showcmd confirm cmdheight=2 nostartofline lazyredraw
 set novisualbell t_vb= mouse=a backspace=2
 set notimeout ttimeout ttimeoutlen=200
-set splitbelow splitright
-set switchbuf=usetab
-set lazyredraw
-set t_Co=256
-set termguicolors
-set shortmess=Ia
+set splitbelow splitright switchbuf=usetab
+set t_Co=256 termguicolors
+set shortmess=Ia laststatus=2
 
 set relativenumber number
 set cursorline scrolloff=6 nowrap
@@ -114,7 +109,11 @@ iabbrev fales false
 iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
-set grepprg=ag
+if executable('ag')
+    set grepprg=ag
+elseif executable('grep')
+    set grepprg=grep
+endif
 command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
 command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
 command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
@@ -358,7 +357,7 @@ nmap <leader>Gb :Gist -b<cr>
 "======== [Gvim / MacVim] ========{{{
 augroup GuiVim
     au!
-    if has('win32') && has('gvim')
+    if has('win32') && has('gui')
         set guioptions=c  "only console prompt, no other ui-chrome
         set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
