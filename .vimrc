@@ -1,6 +1,6 @@
 set encoding=utf-8
-set secure
-set shellslash
+scriptencoding utf-8
+set secure shellslash
 let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
@@ -14,9 +14,26 @@ Plug 'wellle/targets.vim'        " [targets.vim]       = Adds a beautiful slew o
 Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Replacees tabular, includes text-obj mappings
 Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
 Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
-
-" Quick file navigation
+Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
+Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
+Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
+Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
+
+" Syntax & Visual
+Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
+Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
+
+" Git / project
+Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
+Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
+Plug 'tpope/vim-projectionist'   " [vim-projectionist] = Alternate files + templates for new files
+
+" Personal functions
+Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
+
+" Fuzzy Finder
 if has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
@@ -24,21 +41,8 @@ elseif has('win32')
     Plug 'ctrlpvim/ctrlp.vim'    " [ctrlp.vim]          = Fuzzy file finding
 endif
 
-" Git / project
-Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
-Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
-Plug 'tpope/vim-projectionist'   " [vim-projectionist] = Alternate files + templates for new files
-Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
-Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
-Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
-
-" Syntax & Visual
-Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
-Plug 'plasticboy/vim-markdown'   " [vim-markdown]      = markdown highlighting
-Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
-Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
-
-if has('nvim')
+" Completion
+if has('nvim') || has('mac')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
@@ -46,9 +50,6 @@ if has('nvim')
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
-
-" Personal functions
-Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -76,10 +77,6 @@ set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 set background=dark termguicolors
 let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
-
-set statusline=%!MagicStatusLine(1)
-set showtabline=2
-set tabline=%!MyTabLine()
 
 augroup myFileTypes
     au!
@@ -119,61 +116,13 @@ command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . 
 command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
 command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
 command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/**/*.{cpp,h} \| copen"
-" Compile for OSX & Windows using MagicJob()
-nmap <silent> <leader>b :MCompile DEBUG<cr>
-nmap <silent> <leader>B :MCompile RELEASE<cr>
-nmap <silent> <leader>r :MCRun<cr>
-nmap <silent> <leader>jk :call MagicJobKill()<cr>
-" Quickfix / MagicJob output
-nmap <leader>z :QfToggle<cr>
-nmap <leader>Z :MagicBufferOpen<cr>
-nnoremap <silent> <leader>o :MagicOpen<cr>
-nnoremap <silent> <leader>O :MagicOpen!<cr>
-" Custom operator-pending mappings & pairings
-map s <Plug>(MagicStamp)
-nmap S v$h<Plug>(MagicStamp)
-nmap ss V<Plug>(MagicStamp)
-map <leader>y <Plug>(MagicClip)
-nmap <leader>Y v$h<Plug>(MagicClip)
-map <leader>s <Plug>(MagicPaste)
-nmap <leader>S v$h<Plug>(MagicPaste)
-nnoremap <leader>p "*p
-nnoremap <leader>P "*P
-map <leader>c <Plug>(MagicCalc)
-nmap <leader>C v$h<Plug>(MagicCalc)
-map <leader>ms <Plug>(MagicSearch)
-map <leader>mc <Plug>(MagicCinderSearch)
-map <leader>mm <Plug>(MagicMathBuf)
-
-augroup DsAutoCmd
-    autocmd!
-    " Open project in correct dev-env
-    autocmd FileType c,cpp nmap <buffer> <leader>gx <Plug>(DevOpen)
-    " Mappings for ease ds_cinder engine resizing
-    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>ef :DsFillEngine<cr>
-    autocmd BufReadPost engine.xml nnoremap <buffer> <leader>es :DsScaleEngine<cr>
-    " Call yaml generator
-    if has('win32')
-        autocmd BufReadPost model.yml nnoremap <buffer> <leader>G :!start /Users/luke.purcell/Documents/git/ds_cinder/utility/yaml_importer/yaml_importer.exe %<cr>
-    endif
-augroup END
-
-"Replacements for vim-unimpaired
-nnoremap <silent> coh :set hlsearch!<cr>
-nnoremap <silent> cos :set spell!<cr>
-nnoremap <silent> cow :CleanWhitespace<cr>
-nnoremap cof :up<cr>:CFormat!<cr>:up<cr>
 
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
-" Quickfix next/prev
+nnoremap Y y$
 nnoremap <leader>cn :cn<cr>
 nnoremap <leader>cp :cp<cr>
-
-" Yank till EOL
-nnoremap Y y$
-
 nnoremap <leader><leader> q:
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
@@ -208,14 +157,15 @@ nnoremap <leader>J J
 vnoremap <leader>J J
 nnoremap g? K
 vnoremap g? K
-
-" Insert empty lines on either side of visual selection / current line
-nnoremap ;<space> <esc>o<esc>kO<esc>j
-vnoremap ;<space> <esc>'>o<esc>'<O<esc>j
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
-"
+
+" [personal-magic.vim] {{{
+let g:MagicStatusEnable=1
+let g:MagicMapAll=1
+" [END personal-magic.vim] }}}
+
 " [vim-polyglot] {{{
 let g:jsx_ext_required = 1
 " [END vim-polyglot] }}}
@@ -226,6 +176,9 @@ let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup dervish
     autocmd!
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
+    if has('mac')
+        autocmd FileType dirvish nmap <buffer> <leader>o 0Y:!open "<c-r>""<cr>
+    endif
 augroup END
 " [END vim-dirvish] }}}
 
@@ -237,8 +190,15 @@ nmap ga <Plug>(EasyAlign)
 " [completor.vim] {{{
 if has('nvim')
     let g:ale_linters = { 'cpp': ['clang'] }
-    let g:ale_lint_on_text_changed = 'never'
+    " let g:ale_lint_on_text_changed = 'never'
     let g:ale_lint_on_enter = 0
+    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    augroup myCompletor
+        au!
+        au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+        au BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
+    augroup END
 else
     let g:completor_completion_delay=40
     let g:completor_refresh_always=0
