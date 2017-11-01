@@ -172,6 +172,7 @@ let g:jsx_ext_required = 1
 
 " [vim-dirvish] {{{
 nmap - <Plug>(dirvish_up)
+command! -nargs=1 -complete=dir E exe 'Dirvish <args>'
 let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup dervish
     autocmd!
@@ -224,10 +225,10 @@ let g:rooter_targets = '/,*'
 " [vim-markdown] {{{
 augroup markdown
     au!
-    autocmd BufNewFile,BufReadPost *.md set ft=markdown
-    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=100 linebreak spell nofoldenable
-    autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
-    autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
+    " autocmd BufNewFile,BufReadPost *.md set ft=markdown
+    autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
+    autocmd Filetype markdown nnoremap <buffer> j gj
+    autocmd Filetype markdown nnoremap <buffer> k gk
 augroup END
 " [vim-markdown] }}}
 
@@ -245,14 +246,15 @@ let g:projectionist_heuristics = {
       \     'data/layouts/*.xml': {
       \        'type': 'lay',
       \        'alternate': 'src/{}.cpp',
+      \        'template': ['<interface>','','</interface>']
       \     },
       \     'settings/*.xml': {
       \        'type': 'set',
-      \        'template': ['<interface>','', '</interface>']
+      \        'template': ['<interface>','','</interface>']
       \     },
       \     '*.sh': {
       \        'type': 'script',
-      \        'template': ['#!/bin/bash','']
+      \        'template': ['#!/bin/bash','#','']
       \     }
       \   }
       \ }
