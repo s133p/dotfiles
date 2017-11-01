@@ -17,7 +17,7 @@ Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commentin
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
-Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
+Plug 'tpope/vim-rhubarb'         " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
 
 " Syntax & Visual
@@ -46,7 +46,7 @@ if has('nvim') || has('mac')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    Plug 'w0rp/ale',                 " [ale]               = Async Linting
+    Plug 'w0rp/ale'                  " [ale]               = Async Linting
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -80,7 +80,7 @@ colorscheme gruvbox
 
 augroup myFileTypes
     au!
-    autocmd FileType vim setlocal fdm=marker keywordprg=:help
+    autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
     autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
     autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
@@ -140,9 +140,9 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
-nnoremap gs :%s/\v
 nnoremap <C-l> gt
 nnoremap <C-h> gT
+nmap gs ysiW
 
 " swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
 noremap ' `
