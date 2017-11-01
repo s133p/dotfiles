@@ -18,7 +18,7 @@ Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commentin
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
-Plug 'tpope/vim-rhubarb',        " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
+Plug 'tpope/vim-rhubarb'         " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
 
 " Syntax & Visual
@@ -47,7 +47,7 @@ if has('nvim') || has('mac')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    Plug 'w0rp/ale',                 " [ale]               = Async Linting
+    Plug 'w0rp/ale'                  " [ale]               = Async Linting
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -81,7 +81,7 @@ colorscheme gruvbox
 
 augroup myFileTypes
     au!
-    autocmd FileType vim setlocal fdm=marker keywordprg=:help
+    autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
     autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
     autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
@@ -141,9 +141,9 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
-nnoremap gs :%s/\v
 nnoremap <C-l> gt
 nnoremap <C-h> gT
+nmap gs ysiW
 
 " swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
 noremap ' `
@@ -173,6 +173,7 @@ let g:jsx_ext_required = 1
 
 " [vim-dirvish] {{{
 nmap - <Plug>(dirvish_up)
+command! -nargs=1 -complete=dir E exe 'Dirvish <args>'
 let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup dervish
     autocmd!
@@ -225,10 +226,10 @@ let g:rooter_targets = '/,*'
 " [vim-markdown] {{{
 augroup markdown
     au!
-    autocmd BufNewFile,BufReadPost *.md set ft=markdown
-    autocmd BufNewFile,BufReadPost *.md setlocal wrap textwidth=100 linebreak spell nofoldenable
-    autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> j gj
-    autocmd BufNewFile,BufReadPost *.md nnoremap <buffer> k gk
+    " autocmd BufNewFile,BufReadPost *.md set ft=markdown
+    autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
+    autocmd Filetype markdown nnoremap <buffer> j gj
+    autocmd Filetype markdown nnoremap <buffer> k gk
 augroup END
 " [vim-markdown] }}}
 
@@ -246,14 +247,15 @@ let g:projectionist_heuristics = {
       \     'data/layouts/*.xml': {
       \        'type': 'lay',
       \        'alternate': 'src/{}.cpp',
+      \        'template': ['<interface>','','</interface>']
       \     },
       \     'settings/*.xml': {
       \        'type': 'set',
-      \        'template': ['<interface>','', '</interface>']
+      \        'template': ['<interface>','','</interface>']
       \     },
       \     '*.sh': {
       \        'type': 'script',
-      \        'template': ['#!/bin/bash','']
+      \        'template': ['#!/bin/bash','#','']
       \     }
       \   }
       \ }
