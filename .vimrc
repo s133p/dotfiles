@@ -1,6 +1,7 @@
 set encoding=utf-8
 scriptencoding utf-8
-set secure shellslash
+set secure
+set shellslash
 let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
