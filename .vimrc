@@ -295,8 +295,6 @@ endif
 " [vim-fugitive] & [gist-vim] {{{
 nmap <leader>gs :Gstatus<cr>
 nmap <leader>gc :Gcommit<cr>
-nmap <leader>gp :MagicJob git push<cr>
-nmap <leader>gu :MagicJob git pull<cr>
 nmap <leader>gb :Gbrowse<cr>
 nmap <leader>gB :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
