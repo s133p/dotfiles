@@ -219,8 +219,8 @@ endif
 " [END completor.vim] }}}
 
 " [vim-rooter] {{{
-let g:rooter_change_directory_for_non_project_files = '.'
-let g:rooter_targets = '/,*'
+let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_silent_chdir = 1
 " [END vim-rooter] }}}
 
 " [vim-markdown] {{{
@@ -253,6 +253,14 @@ let g:projectionist_heuristics = {
       \        'type': 'set',
       \        'template': ['<interface>','','</interface>']
       \     },
+      \     '*.frag': {
+      \        'type': 'frag',
+      \        'alternate': '{}.vert',
+      \     },
+      \     '*.vert': {
+      \        'type': 'vert',
+      \        'alternate': '{}.frag',
+      \     },
       \     '*.sh': {
       \        'type': 'script',
       \        'template': ['#!/bin/bash','#','']
@@ -262,8 +270,8 @@ let g:projectionist_heuristics = {
 augroup MyProjectionist
     autocmd!
     " Map split commands
-    autocmd FileType c,cpp,xml nmap <buffer> <leader>iv :AV<cr>
-    autocmd FileType c,cpp,xml nmap <buffer> <leader>iV :AS<cr>
+    autocmd FileType c,cpp,xml,glsl nmap <buffer> <leader>iv :AV<cr>
+    autocmd FileType c,cpp,xml,glsl nmap <buffer> <leader>iV :AS<cr>
 augroup END
 " [vim-projectionist]}}}
 
