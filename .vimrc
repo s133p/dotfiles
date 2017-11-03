@@ -47,7 +47,7 @@ if has('nvim') || has('mac')
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    Plug 'w0rp/ale'                  " [ale]               = Async Linting
+    Plug 'w0rp/ale', { 'on': 'ALEEnable' }                  " [ale]               = Async Linting
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -190,16 +190,16 @@ nmap ga <Plug>(EasyAlign)
 " [END vim-easy-align] }}}
 
 " [completor.vim] {{{
-if has('nvim')
+if has('nvim') || has('mac')
     let g:ale_linters = { 'cpp': ['clang'] }
-    " let g:ale_lint_on_text_changed = 'never'
+    let g:ale_lint_on_text_changed = 'never'
     let g:ale_lint_on_enter = 0
     imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     augroup myCompletor
         au!
         au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-        au BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
+        " au BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
     augroup END
 else
     let g:completor_completion_delay=40
