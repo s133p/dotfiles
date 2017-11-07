@@ -15,10 +15,8 @@ Plug 'wellle/targets.vim'        " [targets.vim]       = Adds a beautiful slew o
 Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Replacees tabular, includes text-obj mappings
 Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
 Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
-Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
-Plug 'tpope/vim-rhubarb'         " [vim-rhubarb]       = GitHub Specific git integration (for :Gbrowse)
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
 
 " Syntax & Visual
@@ -38,18 +36,17 @@ Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person
 if has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-elseif has('win32') && has('nvim')
-    Plug 'Shougo/denite.nvim'    " [ctrlp.vim]          = Fuzzy file finding
-else
+elseif has('win32')
     Plug 'ctrlpvim/ctrlp.vim'    " [ctrlp.vim]          = Fuzzy file finding
 endif
 
 " Completion
 if has('nvim') || has('mac')
-    Plug 'roxma/vim-hug-neovim-rpc'
+    if !has('nvim')
+        Plug 'roxma/vim-hug-neovim-rpc'
+    endif
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    Plug 'w0rp/ale', { 'on': 'ALEEnable' }                  " [ale]               = Async Linting
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -84,20 +81,15 @@ colorscheme gruvbox
 augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
-    autocmd FileType c,cpp setlocal fdm=syntax
     " Transform path-names for 'gf' in cpp files
-    autocmd FileType c,cpp,xml setlocal includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
-    autocmd FileType vim,c,cpp set nofoldenable foldopen=all foldclose=all foldnestmax=10
+    autocmd FileType c,cpp,xml setlocal fdm=syntax includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
+    autocmd FileType vim,c,cpp setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
 
     autocmd BufReadPost *.log.txt set ft=log
-    autocmd BufReadPost fugitive://* setlocal foldopen=
 
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
-    autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2
-    autocmd FileType yaml setlocal softtabstop=4 tabstop=4
-
-    autocmd! WinLeave * setlocal nocursorline statusline=%!MagicStatusLine(0)
-    autocmd! WinEnter * setlocal cursorline statusline=%!MagicStatusLine(1)
+    autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
+    autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
 augroup END
 "======== [END Settings] ========}}}
 
@@ -114,18 +106,11 @@ if executable('ag')
 elseif executable('grep')
     set grepprg=grep
 endif
-command! -nargs=1 -complete=buffer VGall exe "noautocmd vimgrep /" . <q-args> . "/j **/* \| copen"
-command! -nargs=1 -complete=buffer VGsrc exe "noautocmd vimgrep /" . <q-args> . "/j src/**/* \| copen"
-command! -nargs=1 -complete=buffer VGlay exe "noautocmd vimgrep /" . <q-args> . "/j data/layout*/**/* \| copen"
-command! -nargs=1 -complete=buffer VGset exe "noautocmd vimgrep /" . <q-args> . "/j settings/**/* \| copen"
-command! -nargs=1 -complete=buffer VGcin exe "noautocmd vimgrep /" . <q-args> . "/j ~/Documents/git/ds_cinder_090/**/*.{cpp,h} \| copen"
-
+"
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 nnoremap Y y$
-nnoremap <leader>cn :cn<cr>
-nnoremap <leader>cp :cp<cr>
 nnoremap <leader><leader> q:
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
@@ -177,12 +162,9 @@ let g:jsx_ext_required = 1
 nmap - <Plug>(dirvish_up)
 command! -nargs=1 -complete=dir E exe 'Dirvish <args>'
 let g:dirvish_mode = 'sort ,^.*[^\/],'
-augroup dervish
+augroup myDirvish
     autocmd!
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
-    if has('mac')
-        autocmd FileType dirvish nmap <buffer> <leader>o 0Y:!open "<c-r>""<cr>
-    endif
 augroup END
 " [END vim-dirvish] }}}
 
@@ -191,32 +173,20 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " [END vim-easy-align] }}}
 
-" [completor.vim] {{{
+" [completor.vim & nvim-completion-manager] {{{
 if has('nvim') || has('mac')
-    let g:ale_linters = { 'cpp': ['clang'] }
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_lint_on_enter = 0
+    " Use Nvim-completion manager
     imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    augroup myCompletor
-        au!
-        au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-        " au BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
-    augroup END
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 else
+    " Use Completor
     let g:completor_completion_delay=40
     let g:completor_refresh_always=0
 
     imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    augroup myCompletor
-        au!
-        au Filetype c,cpp,js,xml,vim imap <buffer> <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-        if has('nvim')
-            autocmd BufEnter *.cpp,*.h,*.hpp,*.hxx let g:ale_cpp_clang_options = join(ncm_clang#compilation_info()['args'], ' ')
-        endif
-    augroup END
 endif
 " [END completor.vim] }}}
 
@@ -228,7 +198,6 @@ let g:rooter_silent_chdir = 1
 " [vim-markdown] {{{
 augroup markdown
     au!
-    " autocmd BufNewFile,BufReadPost *.md set ft=markdown
     autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
     autocmd Filetype markdown nnoremap <buffer> j gj
     autocmd Filetype markdown nnoremap <buffer> k gk
@@ -269,27 +238,13 @@ let g:projectionist_heuristics = {
       \     }
       \   }
       \ }
-augroup MyProjectionist
-    autocmd!
-    " Map split commands
-    autocmd FileType c,cpp,xml,glsl nmap <buffer> <leader>iv :AV<cr>
-    autocmd FileType c,cpp,xml,glsl nmap <buffer> <leader>iV :AS<cr>
-augroup END
+nmap <leader>iv :AV<cr>
+nmap <leader>iV :AS<cr>
 " [vim-projectionist]}}}
 
 " [fzf.vim] [ctrlp.vim]  {{{
-if has('win32') && has('nvim')
-call denite#custom#var('file_rec', 'command',
-	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    nmap <leader>f :Denite -direction=topleft buffer file_rec<cr>
-    nmap <leader>ub :Denite -direction=topleft buffer<cr>
-    nmap <leader>ur :Denite -direction=topleft file_old<cr>
-    nmap <leader>/ :Denite -direction=topleft line<cr>
-    nmap <leader>uc :Denite -direction=topleft change<cr>
-elseif has('win32') && !has('nvim')
-    let g:ctrlp_map = '<leader>f'
-    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
-    nmap <silent> <leader>ub :CtrlPBuffer<cr>
+if has('win32')
+    if executable('ag') | let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' | endif
     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
     let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015))$',
@@ -297,9 +252,9 @@ elseif has('win32') && !has('nvim')
                 \ }
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
     let g:ctrlp_match_current_file = 1
-    if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    endif
+    let g:ctrlp_map = '<leader>f'
+    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
+    nmap <silent> <leader>ub :CtrlPBuffer<cr>
 elseif has('mac') || has('unix')
     let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
@@ -319,7 +274,7 @@ nmap <leader>gd :Gdiff<cr>
 
 augroup MyFugitive
     autocmd!
-    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd BufReadPost fugitive://* setlocal bufhidden=delete foldopen=
     autocmd BufEnter .git/index nmap <buffer> n <c-n>
     autocmd BufEnter .git/index nmap <buffer> p <c-p>
 augroup END
@@ -334,14 +289,14 @@ nmap <leader>Gb :Gist -b<cr>
 "======== [END Plugin mappings/settings] ========}}}
 
 "======== [Gvim / MacVim] ========{{{
-augroup GuiVim
-    au!
-    if has('win32') && has('gui')
+if has('win32') && has('gui')
+    augroup GuiVim
+        au!
         set guioptions=c  "only console prompt, no other ui-chrome
         set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI:qDRAFT
         " Fullscreen on app-start
         au GUIEnter * simalt ~x
         au GUIEnter * set visualbell t_vb=
-    endif
-augroup END
+    augroup END
+endif
 "======== [END Gvim / MacVim] ========}}}
