@@ -38,7 +38,9 @@ Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person
 if has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-elseif has('win32')
+elseif has('win32') && has('nvim')
+    Plug 'Shougo/denite.nvim'    " [ctrlp.vim]          = Fuzzy file finding
+else
     Plug 'ctrlpvim/ctrlp.vim'    " [ctrlp.vim]          = Fuzzy file finding
 endif
 
@@ -276,7 +278,15 @@ augroup END
 " [vim-projectionist]}}}
 
 " [fzf.vim] [ctrlp.vim]  {{{
-if has('win32')
+if has('win32') && has('nvim')
+call denite#custom#var('file_rec', 'command',
+	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    nmap <leader>f :Denite -direction=topleft buffer file_rec<cr>
+    nmap <leader>ub :Denite -direction=topleft buffer<cr>
+    nmap <leader>ur :Denite -direction=topleft file_old<cr>
+    nmap <leader>/ :Denite -direction=topleft line<cr>
+    nmap <leader>uc :Denite -direction=topleft change<cr>
+elseif has('win32') && !has('nvim')
     let g:ctrlp_map = '<leader>f'
     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
     nmap <silent> <leader>ub :CtrlPBuffer<cr>
