@@ -240,8 +240,8 @@ let g:projectionist_heuristics = {
       \     }
       \   }
       \ }
-nmap <leader>iv :AV<cr>
-nmap <leader>iV :AS<cr>
+nmap <leader>av :AV<cr>
+nmap <leader>aV :AS<cr>
 " [vim-projectionist]}}}
 
 " [fzf.vim] [ctrlp.vim]  {{{
