@@ -18,6 +18,7 @@ Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commentin
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
+Plug 'junegunn/gv.vim'
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
