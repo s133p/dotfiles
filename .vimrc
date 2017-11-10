@@ -166,6 +166,7 @@ let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup myDirvish
     autocmd!
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
+    autocmd FileType dirvish nmap <buffer><Esc> q
 augroup END
 " [END vim-dirvish] }}}
 
