@@ -48,7 +48,7 @@ if has('nvim') || has('mac')
     endif
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    Plug 'w0rp/ale'
+    " Plug 'w0rp/ale'
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
