@@ -162,7 +162,6 @@ let g:jsx_ext_required = 1
 
 " [vim-dirvish] {{{
 nmap - <Plug>(dirvish_up)
-command! -nargs=1 -complete=dir E exe 'Dirvish <args>'
 let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup myDirvish
     autocmd!
