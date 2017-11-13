@@ -153,7 +153,7 @@ vnoremap g? K
 " [personal-magic.vim] {{{
 let g:MagicStatusEnable=1
 let g:MagicMapAll=1
-let g:MagicStatusGitExtra=0
+" let g:MagicStatusGitExtra=0
 " [END personal-magic.vim] }}}
 
 " [vim-polyglot] {{{
