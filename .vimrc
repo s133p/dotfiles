@@ -103,7 +103,8 @@ iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
 if executable('ag')
-    set grepprg=ag
+    let &grepprg='ag --vimgrep'
+    let &grepformat='%f:%l:%c:%m,%f:%l%m,%f  %l%m'
 elseif executable('grep')
     set grepprg=grep
 endif
@@ -190,6 +191,9 @@ else
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 endif
+let g:ale_linters = {
+\   'markdown': ['proselint', 'write-good'],
+\}
 " [END completor.vim] }}}
 
 " [vim-rooter] {{{
