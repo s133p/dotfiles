@@ -48,6 +48,7 @@ if has('nvim') || has('mac')
     endif
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
+    " Plug 'w0rp/ale'
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -103,7 +104,8 @@ iabbrev teh the
 
 " Vimgrep shorcuts for ds_cinder projects
 if executable('ag')
-    set grepprg=ag
+    let &grepprg='ag --vimgrep'
+    let &grepformat='%f:%l:%c:%m,%f:%l%m,%f  %l%m'
 elseif executable('grep')
     set grepprg=grep
 endif
@@ -153,7 +155,7 @@ vnoremap g? K
 " [personal-magic.vim] {{{
 let g:MagicStatusEnable=1
 let g:MagicMapAll=1
-let g:MagicStatusGitExtra=0
+" let g:MagicStatusGitExtra=0
 " [END personal-magic.vim] }}}
 
 " [vim-polyglot] {{{
@@ -162,7 +164,6 @@ let g:jsx_ext_required = 1
 
 " [vim-dirvish] {{{
 nmap - <Plug>(dirvish_up)
-command! -nargs=1 -complete=dir E exe 'Dirvish <args>'
 let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup myDirvish
     autocmd!
@@ -191,6 +192,9 @@ else
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 endif
+let g:ale_linters = {
+\   'markdown': ['proselint', 'write-good'],
+\}
 " [END completor.vim] }}}
 
 " [vim-rooter] {{{
