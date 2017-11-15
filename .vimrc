@@ -83,7 +83,7 @@ augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
     " Transform path-names for 'gf' in cpp files
-    autocmd FileType c,cpp,xml setlocal fdm=syntax includeexpr=substitute(v:fname,'%APP%',getcwd(),'g')
+    autocmd FileType c,cpp,xml setlocal fdm=syntax
     autocmd FileType vim,c,cpp setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
 
     autocmd BufReadPost *.log.txt set ft=log
