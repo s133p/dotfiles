@@ -66,13 +66,10 @@ set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright switchbuf=usetab
 set t_Co=256 termguicolors
 set shortmess=Ia laststatus=2
-
 set relativenumber number
 set cursorline scrolloff=6 nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
-
-" show whitespace
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
 
 " Theme
@@ -83,7 +80,6 @@ colorscheme gruvbox
 augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
-    " Transform path-names for 'gf' in cpp files
     autocmd FileType c,cpp,xml setlocal fdm=syntax
     autocmd FileType vim,c,cpp setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
 
@@ -92,6 +88,10 @@ augroup myFileTypes
     autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
+
+    autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
+    autocmd Filetype markdown nnoremap <buffer> j gj
+    autocmd Filetype markdown nnoremap <buffer> k gk
 augroup END
 "======== [END Settings] ========}}}
 
@@ -133,7 +133,7 @@ nnoremap gl <C-W>l
 nnoremap gb :b#<cr>
 nnoremap <C-l> gt
 nnoremap <C-h> gT
-nmap gs ysiW
+nmap gs ys
 
 " swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
 noremap ' `
@@ -202,16 +202,9 @@ let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
 " [END vim-rooter] }}}
 
-" [vim-markdown] {{{
-augroup markdown
-    au!
-    autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
-    autocmd Filetype markdown nnoremap <buffer> j gj
-    autocmd Filetype markdown nnoremap <buffer> k gk
-augroup END
-" [vim-markdown] }}}
-
 " [vim-projectionist]{{{
+nmap <leader>av :AV<cr>
+nmap <leader>aV :AS<cr>
 let g:projectionist_heuristics = {
       \   '*': {
       \     'src/*.cpp': {
@@ -245,8 +238,6 @@ let g:projectionist_heuristics = {
       \     }
       \   }
       \ }
-nmap <leader>av :AV<cr>
-nmap <leader>aV :AS<cr>
 " [vim-projectionist]}}}
 
 " [fzf.vim] [ctrlp.vim]  {{{
@@ -295,7 +286,7 @@ nmap <leader>Gb :Gist -b<cr>
 
 "======== [END Plugin mappings/settings] ========}}}
 
-"======== [Gvim / MacVim] ========{{{
+"======== [Gvim] ========{{{
 if has('win32') && has('gui')
     augroup GuiVim
         au!
