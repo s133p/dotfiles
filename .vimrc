@@ -250,9 +250,10 @@ if has('win32')
                 \ }
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
     let g:ctrlp_match_current_file = 1
-    let g:ctrlp_map = '<leader>f'
-    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
-    nmap <silent> <leader>ub :CtrlPBuffer<cr>
+    " let g:ctrlp_map = '<leader>f'
+    nmap <leader>f :e **/
+    nmap <leader>ur :CtrlPMRUFiles<cr>
+    nmap <leader>ub :b **/
 elseif has('mac') || has('unix')
     let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
