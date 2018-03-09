@@ -234,8 +234,8 @@ nmap <leader>Gl :Gist -l<cr>
 nmap <leader>Gb :Gist -b<cr>
 
 " [targets.vim]
-let g:targets_aiAI = 'aIAi'              " Swap ciX and cIX
-let g:targets_pairs = '()p {}b []B <>'   " Use p for (), b for {} and B for []
+" let g:targets_aiAI = 'aiAI'              " Swap ciX and cIX
+" let g:targets_pairs = '()p {}b []B <>'   " Use p for (), b for {} and B for []
 
 "======== [END Plugin mappings/settings] ========}}}
 
