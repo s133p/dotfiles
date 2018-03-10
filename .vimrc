@@ -18,7 +18,7 @@ Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commentin
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
 Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
@@ -28,7 +28,6 @@ Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for
 " Git / project
 Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
 Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
-Plug 'tpope/vim-projectionist'   " [vim-projectionist] = Alternate files + templates for new files
 
 " Personal functions
 Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
@@ -48,7 +47,6 @@ if has('nvim') || has('mac')
     endif
     Plug 'roxma/nvim-completion-manager'
     Plug 'roxma/ncm-clang'
-    " Plug 'w0rp/ale'
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -66,7 +64,6 @@ set notimeout ttimeout ttimeoutlen=200
 set splitbelow splitright switchbuf=usetab
 set t_Co=256 termguicolors
 set shortmess=Ia laststatus=2
-set relativenumber number
 set cursorline scrolloff=6 nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
@@ -130,7 +127,8 @@ nnoremap gk <C-W>k
 nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
-nnoremap gb :b#<cr>
+nnoremap gb <c-^>
+nnoremap <bs> <c-^>
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 nmap gs ys
@@ -140,10 +138,10 @@ noremap ' `
 noremap ` '
 
 " J & K as page-up/page-down, orginal functions shadowed on <leader>
-nnoremap J 16j
-vnoremap J 16j
-nnoremap K 16k
-vnoremap K 16k
+nnoremap J <c-d>
+vnoremap J <c-d>
+nnoremap K <c-u>
+vnoremap K <c-u>
 nnoremap <leader>J J
 vnoremap <leader>J J
 nnoremap g? K
@@ -152,17 +150,15 @@ vnoremap g? K
 
 "======== [Plugin mappings/settings] ========{{{
 
-" [personal-magic.vim] {{{
+" [personal-magic.vim]
 let g:MagicStatusEnable=1
 let g:MagicMapAll=1
 " let g:MagicStatusGitExtra=0
-" [END personal-magic.vim] }}}
 
-" [vim-polyglot] {{{
+" [vim-polyglot]
 let g:jsx_ext_required = 1
-" [END vim-polyglot] }}}
 
-" [vim-dirvish] {{{
+" [vim-dirvish]
 nmap - <Plug>(dirvish_up)
 let g:dirvish_mode = 'sort ,^.*[^\/],'
 augroup myDirvish
@@ -170,14 +166,12 @@ augroup myDirvish
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
     autocmd FileType dirvish nmap <buffer><Esc> q
 augroup END
-" [END vim-dirvish] }}}
 
-" [vim-easy-align] {{{
+" [vim-easy-align]
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-" [END vim-easy-align] }}}
 
-" [completor.vim & nvim-completion-manager] {{{
+" [completor.vim & nvim-completion-manager]
 if has('nvim') || has('mac')
     " Use Nvim-completion manager
     imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -192,55 +186,12 @@ else
     imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 endif
-let g:ale_linters = {
-\   'markdown': ['proselint', 'write-good'],
-\}
-" [END completor.vim] }}}
 
-" [vim-rooter] {{{
+" [vim-rooter]
 let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
-" [END vim-rooter] }}}
 
-" [vim-projectionist]{{{
-nmap <leader>av :AV<cr>
-nmap <leader>aV :AS<cr>
-let g:projectionist_heuristics = {
-      \   '*': {
-      \     'src/*.cpp': {
-      \        'type': 'cpp',
-      \        'alternate': 'src/{}.h',
-      \     },
-      \     'src/*.h': {
-      \        'type': 'hpp',
-      \        'alternate': 'src/{}.cpp',
-      \     },
-      \     'data/layouts/*.xml': {
-      \        'type': 'lay',
-      \        'alternate': 'src/{}.cpp',
-      \        'template': ['<interface>','','</interface>']
-      \     },
-      \     'settings/*.xml': {
-      \        'type': 'set',
-      \        'template': ['<interface>','','</interface>']
-      \     },
-      \     '*.frag': {
-      \        'type': 'frag',
-      \        'alternate': '{}.vert',
-      \     },
-      \     '*.vert': {
-      \        'type': 'vert',
-      \        'alternate': '{}.frag',
-      \     },
-      \     '*.sh': {
-      \        'type': 'script',
-      \        'template': ['#!/bin/bash','#','']
-      \     }
-      \   }
-      \ }
-" [vim-projectionist]}}}
-
-" [fzf.vim] [ctrlp.vim]  {{{
+" [fzf.vim] [ctrlp.vim]
 if has('win32')
     if executable('ag') | let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' | endif
     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
@@ -250,10 +201,9 @@ if has('win32')
                 \ }
     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
     let g:ctrlp_match_current_file = 1
-    " let g:ctrlp_map = '<leader>f'
-    nmap <leader>f :e **/
-    nmap <leader>ur :CtrlPMRUFiles<cr>
-    nmap <leader>ub :b **/
+    let g:ctrlp_map = '<leader>f'
+    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
+    nmap <silent> <leader>ub :CtrlPBuffer<cr>
 elseif has('mac') || has('unix')
     let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
@@ -262,9 +212,8 @@ elseif has('mac') || has('unix')
     nmap <silent> <leader>ur :History<cr>
     nmap <silent> <leader>ub :Buffers<cr>
 endif
-" [END ctrlp.vim & fzf.vim] }}}
 
-" [vim-fugitive] & [gist-vim] {{{
+" [vim-fugitive] & [gist-vim]
 nmap <leader>gs :Gstatus<cr>
 nmap <leader>gc :Gcommit<cr>
 nmap <leader>gb :Gbrowse<cr>
@@ -283,7 +232,10 @@ let g:gist_show_privates = 1
 let g:gist_open_browser_after_post = 0
 nmap <leader>Gl :Gist -l<cr>
 nmap <leader>Gb :Gist -b<cr>
-" [END vim-fugitive] }}}
+
+" [targets.vim]
+" let g:targets_aiAI = 'aiAI'              " Swap ciX and cIX
+" let g:targets_pairs = '()p {}b []B <>'   " Use p for (), b for {} and B for []
 
 "======== [END Plugin mappings/settings] ========}}}
 
