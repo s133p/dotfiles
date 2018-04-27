@@ -68,6 +68,7 @@ set cursorline scrolloff=6 nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
+set fdm=syntax nofoldenable
 
 " Theme
 set background=dark termguicolors
@@ -77,8 +78,7 @@ colorscheme gruvbox
 augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
-    autocmd FileType c,cpp,xml setlocal fdm=syntax
-    autocmd FileType vim,c,cpp setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
+    autocmd FileType vim,c,cpp,json setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
 
     autocmd BufReadPost *.log.txt set ft=log
 
@@ -119,7 +119,7 @@ nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Splits/Windows/Buffers
 nnoremap <leader>v <c-w>v
-nnoremap <leader>V <c-w>s
+nnoremap <leader>h <c-w>s
 nnoremap <leader>t :tabnew<CR>
 nnoremap gw <c-w>
 nnoremap g= <c-w>=
@@ -128,20 +128,16 @@ nnoremap gj <C-W>j
 nnoremap gh <C-W>h
 nnoremap gl <C-W>l
 nnoremap gb <c-^>
-nnoremap <bs> <c-^>
-nnoremap <C-l> gt
-nnoremap <C-h> gT
-nmap gs ys
 
 " swap defauly behavior of ' and ` (jump to mark/jump to mark @ col)
 noremap ' `
 noremap ` '
 
 " J & K as page-up/page-down, orginal functions shadowed on <leader>
-nnoremap J <c-d>
-vnoremap J <c-d>
-nnoremap K <c-u>
-vnoremap K <c-u>
+nnoremap J }
+vnoremap J }
+nnoremap K {
+vnoremap K {
 nnoremap <leader>J J
 vnoremap <leader>J J
 nnoremap g? K
