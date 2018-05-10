@@ -24,6 +24,7 @@ Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
+Plug 'justinj/vim-pico8-syntax'
 
 " Git / project
 Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
