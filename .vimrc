@@ -25,6 +25,7 @@ Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
 Plug 'justinj/vim-pico8-syntax'
+Plug 'junegunn/goyo.vim'
 
 " Git / project
 Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
@@ -46,8 +47,15 @@ if has('nvim') || has('mac')
     if !has('nvim')
         Plug 'roxma/vim-hug-neovim-rpc'
     endif
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/ncm-clang'
+    if has('win32')
+        Plug 'roxma/nvim-completion-manager'
+        Plug 'roxma/ncm-clang'
+    else
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'zchee/deoplete-clang'
+        Plug 'fszymanski/deoplete-emoji'
+        Plug 'joereynolds/vim-minisnip'
+    endif
 else
     Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
 endif
@@ -169,11 +177,26 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " [completor.vim & nvim-completion-manager]
+let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
+let g:deoplete#enable_at_startup = 1
+let g:minisnip_trigger = '<C-j>'
+let g:deoplete#sources#clang#libclang_path="/usr/local/Cellar/llvm/6.0.0/lib/libclang.dylib"
+let g:deoplete#sources#clang#clang_header="/usr/local/Cellar/llvm/6.0.0/include"
 if has('nvim') || has('mac')
-    " Use Nvim-completion manager
-    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    if has('mac') && has('nvim')
+        augroup DeoLocal
+            autocmd!
+            autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+        augroup END
+        imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+        imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+        imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    else
+        " Use Nvim-completion manager
+        imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+        imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+        imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    endif
 else
     " Use Completor
     let g:completor_completion_delay=40
