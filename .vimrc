@@ -67,7 +67,7 @@ set shortmess=Ia laststatus=2
 set cursorline scrolloff=6 nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
 set nohlsearch incsearch ignorecase smartcase showmatch
-set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:\|-
+set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:→\ 
 set fdm=syntax nofoldenable
 
 " Theme
