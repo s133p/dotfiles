@@ -44,9 +44,8 @@ endif
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/nvim-completion-manager' 
 Plug 'roxma/ncm-clang'
-endif
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
