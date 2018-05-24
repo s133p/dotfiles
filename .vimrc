@@ -16,16 +16,13 @@ Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Replacees tabular, incl
 Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
 Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
-Plug 'mattn/webapi-vim'          " [webapi-vim]        = Required for [gist-vim]
-Plug 'mattn/gist-vim'            " [gist-vim]          = Gists from within vim
 Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
+Plug 'skywind3000/asyncrun.vim'  " [asyncrun.vim]      = Easy async jobbies
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
 Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
-Plug 'justinj/vim-pico8-syntax'
-Plug 'junegunn/goyo.vim'
 
 " Git / project
 Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
@@ -33,6 +30,7 @@ Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
 
 " Personal functions
 Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
+Plug 'joereynolds/vim-minisnip'  " [vim-minisnip]       = Snippits!
 
 " Fuzzy Finder
 if has('mac') || has('unix')
@@ -43,21 +41,11 @@ elseif has('win32')
 endif
 
 " Completion
-if has('nvim') || has('mac')
-    if !has('nvim')
-        Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-    if has('win32')
-        Plug 'roxma/nvim-completion-manager'
-        Plug 'roxma/ncm-clang'
-    else
-        Plug 'Shougo/deoplete.nvim'
-        Plug 'zchee/deoplete-clang'
-        Plug 'fszymanski/deoplete-emoji'
-        Plug 'joereynolds/vim-minisnip'
-    endif
-else
-    Plug 'maralla/completor.vim' " [completor.vim]      = Autocomplete
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-clang'
 endif
 
 call plug#end()
@@ -87,7 +75,7 @@ colorscheme gruvbox
 augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
-    autocmd FileType vim,c,cpp,json setlocal nofoldenable foldopen=all foldclose=all foldnestmax=10
+    autocmd FileType vim,c,cpp,json setlocal nofoldenable foldnestmax=10
 
     autocmd BufReadPost *.log.txt set ft=log
 
@@ -178,25 +166,12 @@ nmap ga <Plug>(EasyAlign)
 
 " [completor.vim & nvim-completion-manager]
 let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
-let g:deoplete#enable_at_startup = 1
 let g:minisnip_trigger = '<C-j>'
-let g:deoplete#sources#clang#libclang_path="/usr/local/Cellar/llvm/6.0.0/lib/libclang.dylib"
-let g:deoplete#sources#clang#clang_header="/usr/local/Cellar/llvm/6.0.0/include"
 if has('nvim') || has('mac')
-    if has('mac') && has('nvim')
-        augroup DeoLocal
-            autocmd!
-            autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-        augroup END
-        imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-        imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-        imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    else
-        " Use Nvim-completion manager
-        imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-        imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-        imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-    endif
+    " Use Nvim-completion manager
+    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 else
     " Use Completor
     let g:completor_completion_delay=40
@@ -247,15 +222,8 @@ augroup MyFugitive
     autocmd BufEnter .git/index nmap <buffer> p <c-p>
 augroup END
 
-let g:gist_post_private = 1
-let g:gist_show_privates = 1
-let g:gist_open_browser_after_post = 0
-nmap <leader>Gl :Gist -l<cr>
-nmap <leader>Gb :Gist -b<cr>
-
-" [targets.vim]
-" let g:targets_aiAI = 'aiAI'              " Swap ciX and cIX
-" let g:targets_pairs = '()p {}b []B <>'   " Use p for (), b for {} and B for []
+" [asyncrun.vim]
+let g:asyncrun_open = 8
 
 "======== [END Plugin mappings/settings] ========}}}
 
