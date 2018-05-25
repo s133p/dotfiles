@@ -153,6 +153,7 @@ let g:jsx_ext_required = 1
 " [vim-dirvish]
 nmap - <Plug>(dirvish_up)
 let g:dirvish_mode = 'sort ,^.*[^\/],'
+let g:dirvish_relative_paths = 1
 augroup myDirvish
     autocmd!
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
