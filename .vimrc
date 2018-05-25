@@ -12,11 +12,10 @@ Plug 'tpope/vim-repeat'          " [vim-repeat]        = Allow plugin mappings t
 Plug 'spiiph/vim-space'          " [vim-space]         = Use spacebar to repeat last movement
 Plug 'cohama/lexima.vim'         " [lexima-vim]        = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'        " [targets.vim]       = Adds a beautiful slew of text-objects
-Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Replacees tabular, includes text-obj mappings
+Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Align text & tables
 Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
 Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
-Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
 Plug 'skywind3000/asyncrun.vim'  " [asyncrun.vim]      = Easy async jobbies
 
 " Syntax & Visual
@@ -27,6 +26,7 @@ Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for
 " Git / project
 Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
 Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
+Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
 
 " Personal functions
 Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
@@ -209,9 +209,7 @@ endif
 
 " [vim-fugitive] & [gist-vim]
 nmap <leader>gs :Gstatus<cr>
-nmap <leader>gc :Gcommit<cr>
-nmap <leader>gb :Gbrowse<cr>
-nmap <leader>gB :Gblame<cr>
+nmap <leader>gb :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
 
 augroup MyFugitive
