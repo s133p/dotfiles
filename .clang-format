@@ -12,5 +12,5 @@ AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
 BreakConstructorInitializersBeforeComma: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
-AllowShortFunctionsOnASingleLine: false
-Standard: Cpp11
+AllowShortFunctionsOnASingleLine: empty
+Standard: Cpp14
