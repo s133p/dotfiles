@@ -17,6 +17,7 @@ Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
 Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
 Plug 'skywind3000/asyncrun.vim'  " [asyncrun.vim]      = Easy async jobbies
+Plug 'plasticboy/vim-markdown'
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
@@ -85,6 +86,7 @@ augroup myFileTypes
     autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
     autocmd Filetype markdown nnoremap <buffer> j gj
     autocmd Filetype markdown nnoremap <buffer> k gk
+    autocmd Filetype markdown nnoremap <buffer> gq gw
 augroup END
 "======== [END Settings] ========}}}
 
@@ -221,7 +223,7 @@ augroup MyFugitive
 augroup END
 
 " [asyncrun.vim]
-let g:asyncrun_open = 8
+let g:asyncrun_open = 14
 
 "======== [END Plugin mappings/settings] ========}}}
 
