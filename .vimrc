@@ -6,28 +6,30 @@ let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
 call plug#begin('~/.vim/bundle')
-Plug 'tpope/vim-abolish'         " [vim-abolish]       = Coerce cases
-Plug 'tpope/vim-surround'        " [vim-surround]      = Does what it says on the tin
-Plug 'tpope/vim-repeat'          " [vim-repeat]        = Allow plugin mappings to be repeated w/ '.'
-Plug 'spiiph/vim-space'          " [vim-space]         = Use spacebar to repeat last movement
-Plug 'cohama/lexima.vim'         " [lexima-vim]        = Auto-create pair & jump to end if matching pair typed
-Plug 'wellle/targets.vim'        " [targets.vim]       = Adds a beautiful slew of text-objects
-Plug 'junegunn/vim-easy-align'   " [vim-easy-align]    = Align text & tables
-Plug 'yssl/QFEnter'              " [QFEnter]           = Better QF opening
-Plug 'tomtom/tcomment_vim'       " [tcomment]          = Shortcuts for commenting
-Plug 'justinmk/vim-dirvish'      " [vim-dirvish]       = File browsing
-Plug 'skywind3000/asyncrun.vim'  " [asyncrun.vim]      = Easy async jobbies
+Plug 'tpope/vim-abolish'          " [vim-abolish]       = Coerce cases
+Plug 'tpope/vim-surround'         " [vim-surround]      = Does what it says on the tin
+Plug 'tpope/vim-repeat'           " [vim-repeat]        = Allow plugin mappings to be repeated w/ '.'
+Plug 'spiiph/vim-space'           " [vim-space]         = Use spacebar to repeat last movement
+Plug 'cohama/lexima.vim'          " [lexima-vim]        = Auto-create pair & jump to end if matching pair typed
+Plug 'wellle/targets.vim'         " [targets.vim]       = Adds a beautiful slew of text-objects
+Plug 'junegunn/vim-easy-align'    " [vim-easy-align]    = Align text & tables
+Plug 'yssl/QFEnter'               " [QFEnter]           = Better QF opening
+Plug 'tomtom/tcomment_vim'        " [tcomment]          = Shortcuts for commenting
+Plug 'justinmk/vim-dirvish'       " [vim-dirvish]       = File browsing
+Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]      = Easy async jobbies
 Plug 'plasticboy/vim-markdown'
 
 " Syntax & Visual
-Plug 'morhetz/gruvbox'           " [gruvbox]           = Can't seem to beat it
-Plug 'sheerun/vim-polyglot'      " [vim-polyglot]      = Better FT/Syntax plugins
-Plug 'dzeban/vim-log-syntax'     " [vim-log-syntax]    = Syntax highlighting for log files
+Plug 'morhetz/gruvbox'            " [gruvbox]           = Can't seem to beat it
+Plug 'sheerun/vim-polyglot'       " [vim-polyglot]      = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]    = Syntax highlighting for log files
 
 " Git / project
-Plug 'airblade/vim-rooter'       " [vim-rooter]        = Change directory to root of projects
-Plug 'tpope/vim-fugitive'        " [vim-fugitive]      = Git integration
-Plug 'junegunn/gv.vim'           " [GV-vim]            = Pretty git history/log
+Plug 'airblade/vim-rooter'        " [vim-rooter]        = Change directory to root of projects
+Plug 'tpope/vim-fugitive'         " [vim-fugitive]      = Git integration
+Plug 'junegunn/gv.vim'            " [GV-vim]            = Pretty git history/log
+Plug 'LucHermitte/lh-vim-lib'
+Plug 'LucHermitte/alternate-lite' " [alternate-lite]    = Switch to alternate file
 
 " Personal functions
 Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
@@ -62,7 +64,7 @@ set splitbelow splitright switchbuf=usetab
 set t_Co=256 termguicolors
 set shortmess=Ia laststatus=2
 set cursorline scrolloff=6 nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=120
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=100
 set nohlsearch incsearch ignorecase smartcase showmatch
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:→\ 
 set fdm=syntax nofoldenable
@@ -75,11 +77,8 @@ colorscheme gruvbox
 augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
-    autocmd FileType vim,c,cpp,json setlocal nofoldenable foldnestmax=10
-
     autocmd BufReadPost *.log.txt set ft=log
 
-    autocmd BufNewFile,BufReadPost *.tag set ft=javascript.jsx
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
 
@@ -109,7 +108,6 @@ endif
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 nnoremap Y y$
-nnoremap <leader><leader> q:
 nnoremap <Leader>w :up<CR>
 nnoremap <leader>x :q<CR>
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>Gwgf
@@ -147,7 +145,6 @@ vnoremap g? K
 " [personal-magic.vim]
 let g:MagicStatusEnable=1
 let g:MagicMapAll=1
-" let g:MagicStatusGitExtra=0
 
 " [vim-polyglot]
 let g:jsx_ext_required = 1
@@ -201,6 +198,7 @@ if has('win32')
     let g:ctrlp_map = '<leader>f'
     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
     nmap <silent> <leader>ub :CtrlPBuffer<cr>
+    nmap <silent> <leader>u/ :CtrlPLine<cr>
 elseif has('mac') || has('unix')
     let g:fzf_layout = { 'down': '~24%' }
     let g:fzf_buffers_jump = 1
