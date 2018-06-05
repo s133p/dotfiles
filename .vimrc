@@ -95,6 +95,7 @@ iabbrev ture true
 iabbrev flase false
 iabbrev fales false
 iabbrev teh the
+iabbrev :shrug: ¯\_(ツ)_/¯
 
 " Vimgrep shorcuts for ds_cinder projects
 if executable('ag')
