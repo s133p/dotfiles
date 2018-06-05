@@ -65,6 +65,7 @@ set t_Co=256 termguicolors
 set shortmess=Ia laststatus=2
 set cursorline scrolloff=6 nowrap
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=100
+set nowrap nolinebreak
 set nohlsearch incsearch ignorecase smartcase showmatch
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:→\ 
 set fdm=syntax nofoldenable
