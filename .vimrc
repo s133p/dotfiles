@@ -6,41 +6,41 @@ let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
 call plug#begin('~/.vim/bundle')
-Plug 'tpope/vim-abolish'          " [vim-abolish]       = Coerce cases
-Plug 'tpope/vim-surround'         " [vim-surround]      = Does what it says on the tin
-Plug 'tpope/vim-repeat'           " [vim-repeat]        = Allow plugin mappings to be repeated w/ '.'
-Plug 'spiiph/vim-space'           " [vim-space]         = Use spacebar to repeat last movement
-Plug 'cohama/lexima.vim'          " [lexima-vim]        = Auto-create pair & jump to end if matching pair typed
-Plug 'wellle/targets.vim'         " [targets.vim]       = Adds a beautiful slew of text-objects
-Plug 'junegunn/vim-easy-align'    " [vim-easy-align]    = Align text & tables
-Plug 'yssl/QFEnter'               " [QFEnter]           = Better QF opening
-Plug 'tomtom/tcomment_vim'        " [tcomment]          = Shortcuts for commenting
-Plug 'justinmk/vim-dirvish'       " [vim-dirvish]       = File browsing
-Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]      = Easy async jobbies
-Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-abolish'          " [vim-abolish]        = Coerce cases
+Plug 'tpope/vim-surround'         " [vim-surround]       = Does what it says on the tin
+Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
+Plug 'cohama/lexima.vim'          " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
+Plug 'junegunn/vim-easy-align'    " [vim-easy-align]     = Align text & tables
+Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
+Plug 'tomtom/tcomment_vim'        " [tcomment]           = Shortcuts for commenting
+Plug 'justinmk/vim-dirvish'       " [vim-dirvish]        = File browsing
+Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]       = Easy async jobbies
+Plug 'plasticboy/vim-markdown'    " [vim-markdown]       = Nice markdown helpers
 
 " Syntax & Visual
-Plug 'morhetz/gruvbox'            " [gruvbox]           = Can't seem to beat it
-Plug 'sheerun/vim-polyglot'       " [vim-polyglot]      = Better FT/Syntax plugins
-Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]    = Syntax highlighting for log files
+Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
+Plug 'sheerun/vim-polyglot'       " [vim-polyglot]       = Better FT/Syntax plugins
+Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]     = Syntax highlighting for log files
 
 " Git / project
-Plug 'airblade/vim-rooter'        " [vim-rooter]        = Change directory to root of projects
-Plug 'tpope/vim-fugitive'         " [vim-fugitive]      = Git integration
-Plug 'junegunn/gv.vim'            " [GV-vim]            = Pretty git history/log
+Plug 'airblade/vim-rooter'        " [vim-rooter]         = Change directory to root of projects
+Plug 'tpope/vim-fugitive'         " [vim-fugitive]       = Git integration
+Plug 'junegunn/gv.vim'            " [GV-vim]             = Pretty git history/log
 Plug 'LucHermitte/lh-vim-lib'
-Plug 'LucHermitte/alternate-lite' " [alternate-lite]    = Switch to alternate file
+Plug 'LucHermitte/alternate-lite' " [alternate-lite]     = Switch to alternate file
 
 " Personal functions
-Plug 's133p/personal-magic.vim'  " [personal-magic.vim] = A collection of person vim functions
-Plug 'joereynolds/vim-minisnip'  " [vim-minisnip]       = Snippits!
+Plug 's133p/personal-magic.vim'   " [personal-magic.vim] = A collection of person vim functions
+Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Fuzzy Finder
-if has('mac') || has('unix')
+if has('win32')
+    Plug 'ctrlpvim/ctrlp.vim'     " [ctrlp.vim]          = Fuzzy file finding
+elseif has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
-elseif has('win32')
-    Plug 'ctrlpvim/ctrlp.vim'    " [ctrlp.vim]          = Fuzzy file finding
 endif
 
 " Completion
@@ -106,7 +106,7 @@ if executable('ag')
 elseif executable('grep')
     set grepprg=grep
 endif
-"
+
 " after c{motion}, <leader>. jumps to next instance of text and replaces
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
