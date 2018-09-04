@@ -64,7 +64,7 @@ set splitbelow splitright switchbuf=usetab
 set t_Co=256 termguicolors
 set shortmess=Ia laststatus=2
 set cursorline scrolloff=6 nowrap
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab textwidth=100
+set shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab textwidth=100
 set nowrap nolinebreak
 set nohlsearch incsearch ignorecase smartcase showmatch
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:→\ 
@@ -97,6 +97,7 @@ iabbrev flase false
 iabbrev fales false
 iabbrev teh the
 iabbrev :shrug: ¯\_(ツ)_/¯
+iabbrev flaot float
 
 " Vimgrep shorcuts for ds_cinder projects
 if executable('ag')
