@@ -17,12 +17,13 @@ Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
 Plug 'tomtom/tcomment_vim'        " [tcomment]           = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'       " [vim-dirvish]        = File browsing
 Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]       = Easy async jobbies
-Plug 'plasticboy/vim-markdown'    " [vim-markdown]       = Nice markdown helpers
+Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Syntax & Visual
 Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
 Plug 'sheerun/vim-polyglot'       " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]     = Syntax highlighting for log files
+Plug 'plasticboy/vim-markdown'    " [vim-markdown]       = Nice markdown helpers
 
 " Git / project
 Plug 'airblade/vim-rooter'        " [vim-rooter]         = Change directory to root of projects
@@ -33,7 +34,6 @@ Plug 'LucHermitte/alternate-lite' " [alternate-lite]     = Switch to alternate f
 
 " Personal functions
 Plug 's133p/personal-magic.vim'   " [personal-magic.vim] = A collection of person vim functions
-Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Fuzzy Finder
 if has('win32')
@@ -47,7 +47,7 @@ endif
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'roxma/nvim-completion-manager' 
+Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/ncm-clang'
 
 call plug#end()
@@ -99,7 +99,7 @@ iabbrev teh the
 iabbrev :shrug: ¯\_(ツ)_/¯
 iabbrev flaot float
 
-" Vimgrep shorcuts for ds_cinder projects
+" Use ag for grep if possible
 if executable('ag')
     let &grepprg='ag --vimgrep'
     let &grepformat='%f:%l:%c:%m,%f:%l%m,%f  %l%m'
@@ -171,9 +171,10 @@ let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
 let g:minisnip_trigger = '<C-j>'
 if has('nvim') || has('mac')
     " Use Nvim-completion manager
-    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
+    " Use <TAB> to select the popup menu:
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 else
     " Use Completor
     let g:completor_completion_delay=40
