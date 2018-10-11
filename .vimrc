@@ -9,6 +9,8 @@ call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-abolish'          " [vim-abolish]        = Coerce cases
 Plug 'tpope/vim-surround'         " [vim-surround]       = Does what it says on the tin
 Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings to be repeated w/ '.'
+Plug 'tpope/vim-unimpaired'       " [vim-unimpaired]     = Lovely & simple paired mappings
+
 Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
 Plug 'cohama/lexima.vim'          " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
