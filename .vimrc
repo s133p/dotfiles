@@ -49,8 +49,13 @@ endif
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-clang'
+" Plug 'roxma/nvim-completion-manager'
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-pyclang'
+"Plug 'roxma/ncm-clang'
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -177,6 +182,13 @@ if has('nvim') || has('mac')
     " Use <TAB> to select the popup menu:
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+	augroup MyNcm
+		autocmd BufEnter * call ncm2#enable_for_buffer()
+	augroup END
+	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
+	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+	set completeopt=noinsert,menuone,noselect
 else
     " Use Completor
     let g:completor_completion_delay=40
