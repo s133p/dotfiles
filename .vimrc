@@ -184,6 +184,7 @@ if has('nvim') || has('mac')
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 	augroup MyNcm
+		autocmd!
 		autocmd BufEnter * call ncm2#enable_for_buffer()
 	augroup END
 	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
