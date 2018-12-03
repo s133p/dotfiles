@@ -186,6 +186,7 @@ if has('nvim') || has('mac')
 	augroup MyNcm
 		autocmd!
 		autocmd BufEnter * call ncm2#enable_for_buffer()
+		autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
 	augroup END
 	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
 	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
