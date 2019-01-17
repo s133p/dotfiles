@@ -12,7 +12,8 @@ Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings
 Plug 'tpope/vim-unimpaired'       " [vim-unimpaired]     = Lovely & simple paired mappings
 
 Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
-Plug 'cohama/lexima.vim'          " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+" Plug 'cohama/lexima.vim'          " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
+Plug 'tmsvg/pear-tree'
 Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'    " [vim-easy-align]     = Align text & tables
 Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
@@ -52,10 +53,10 @@ endif
 " Plug 'roxma/nvim-completion-manager'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-pyclang'
-"Plug 'roxma/ncm-clang'
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -242,6 +243,11 @@ augroup END
 
 " [asyncrun.vim]
 let g:asyncrun_open = 14
+
+" [pear-tree]
+let g:pear_tree_smart_openers = 1
+let g:pear_tree_smart_closers = 1
+let g:pear_tree_smart_backspace = 1
 
 "======== [END Plugin mappings/settings] ========}}}
 
