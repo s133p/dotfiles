@@ -57,6 +57,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-pyclang'
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -90,8 +91,8 @@ augroup myFileTypes
 
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
-
-    autocmd Filetype markdown setlocal wrap textwidth=100 linebreak spell nofoldenable
+    autocmd FileType vim,markdown setlocal expandtab textwidth=80
+    autocmd Filetype markdown setlocal wrap linebreak spell
     autocmd Filetype markdown nnoremap <buffer> j gj
     autocmd Filetype markdown nnoremap <buffer> k gk
     autocmd Filetype markdown nnoremap <buffer> gq gw
@@ -189,7 +190,16 @@ if has('nvim') || has('mac')
 		autocmd BufEnter * call ncm2#enable_for_buffer()
 		autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
 	augroup END
-	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
+
+	if has('win32')
+		let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
+	else
+		let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/7.0.0_1/lib'
+	endif
+	let g:ncm2_pyclang#database_path = [
+				\ 'compile_commands.json',
+				\ 'build/compile_commands.json'
+				\ ]
 	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
 	set completeopt=noinsert,menuone,noselect
 else
