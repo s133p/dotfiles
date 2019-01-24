@@ -12,8 +12,7 @@ Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings
 Plug 'tpope/vim-unimpaired'       " [vim-unimpaired]     = Lovely & simple paired mappings
 
 Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
-" Plug 'cohama/lexima.vim'          " [lexima-vim]         = Auto-create pair & jump to end if matching pair typed
-Plug 'tmsvg/pear-tree'
+Plug 'tmsvg/pear-tree'            " [pear-tree]          = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'    " [vim-easy-align]     = Align text & tables
 Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
@@ -50,14 +49,12 @@ endif
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-" Plug 'roxma/nvim-completion-manager'
-Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-pyclang'
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
@@ -215,6 +212,15 @@ endif
 " [vim-rooter]
 let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
+
+" [alternate-lite]
+" call lh#alternate#register_extension('g', 'frag'  , g:alternates.extensions.frag + ['vert'])
+" call lh#alternate#register_extension('g', 'vert', g:alternates.extensions. + ['frag'])
+call lh#alternate#register_extension('g', 'frag', ['vert'])
+call lh#alternate#register_extension('g', 'vert', ['frag'])
+
+" The {filetype -> extensions} map
+" let g:alternates.fts.glsl += ['frag', 'vert']
 
 " [fzf.vim] [ctrlp.vim]
 if has('win32')
