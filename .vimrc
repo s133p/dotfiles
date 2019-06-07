@@ -185,19 +185,21 @@ if has('nvim') || has('mac')
 	augroup MyNcm
 		autocmd!
 		autocmd BufEnter * call ncm2#enable_for_buffer()
+        autocmd BufReadPost fugitive://* call ncm2#disable_for_buffer()
 		autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
 	augroup END
 
 	if has('win32')
-		let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin'
+		let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin/libclang.dll'
+		let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+        let g:ncm2_pyclang#sys_inc_args_fallback = {'': ''}
 	else
 		let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/7.0.0_1/lib'
+		let g:ncm2_pyclang#database_path = [
+					\ 'compile_commands.json',
+					\ 'build/compile_commands.json'
+					\ ]
 	endif
-	let g:ncm2_pyclang#database_path = [
-				\ 'compile_commands.json',
-				\ 'build/compile_commands.json'
-				\ ]
-	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
 	set completeopt=noinsert,menuone,noselect
 else
     " Use Completor
