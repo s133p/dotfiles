@@ -1,7 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 set secure
-set shellslash
 let g:mapleader=';'
 
 "======== [PLUGINS] ========{{{
@@ -22,6 +21,7 @@ Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]       = Easy async jobbies
 Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Syntax & Visual
+Plug 'sainnhe/gruvbox-material'   " [gruvbox-material]
 Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
 Plug 'sheerun/vim-polyglot'       " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]     = Syntax highlighting for log files
@@ -46,20 +46,22 @@ elseif has('mac') || has('unix')
 endif
 
 " Completion
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-pyclang'
+" if !has('nvim')
+"     Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'ncm2/ncm2'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-pyclang'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
 "======== [Settings] ========{{{
+set shellslash
 filetype indent plugin on
 syntax on
 set hidden noswapfile
@@ -80,6 +82,10 @@ set fdm=syntax nofoldenable
 set background=dark termguicolors
 let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
+" let g:gruvbox_material_background='medium'
+" let g:gruvbox_material_foreground='mix'
+" let g:gruvbox_material_statusline_style='mix'
+" colorscheme gruvbox-material
 
 augroup myFileTypes
     au!
@@ -88,11 +94,12 @@ augroup myFileTypes
 
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
-    autocmd FileType vim,markdown setlocal expandtab textwidth=80
+    autocmd FileType vim,markdown setlocal expandtab textwidth=120
     autocmd Filetype markdown setlocal wrap linebreak spell
     autocmd Filetype markdown nnoremap <buffer> j gj
     autocmd Filetype markdown nnoremap <buffer> k gk
     autocmd Filetype markdown nnoremap <buffer> gq gw
+    autocmd Filetype vimwiki setlocal wrap linebreak spell textwidth=120
 augroup END
 "======== [END Settings] ========}}}
 
@@ -103,6 +110,7 @@ iabbrev flase false
 iabbrev fales false
 iabbrev teh the
 iabbrev :shrug: ¯\_(ツ)_/¯
+iabbrev &shrug; ¯\_(ツ)_/¯
 iabbrev flaot float
 
 " Use ag for grep if possible
@@ -147,6 +155,13 @@ nnoremap <leader>J J
 vnoremap <leader>J J
 nnoremap g? K
 vnoremap g? K
+
+" Jump through the errorlist
+nnoremap ;; :cn<cr>
+nnoremap ;: :cp<cr>
+
+nnoremap ;' :ln<cr>
+nnoremap ;" :lp<cr>
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -165,7 +180,7 @@ let g:dirvish_relative_paths = 1
 augroup myDirvish
     autocmd!
     autocmd FileType dirvish silent keeppatterns g@\v/\.[^\/]+/?$@d _
-    autocmd FileType dirvish nmap <buffer><Esc> q
+    autocmd FileType dirvish nmap <buffer><Esc> gq
 augroup END
 
 " [vim-easy-align]
@@ -177,30 +192,100 @@ let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
 let g:minisnip_trigger = '<C-j>'
 if has('nvim') || has('mac')
     " Use Nvim-completion manager
-    inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
-    " Use <TAB> to select the popup menu:
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    " inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
+    " " Use <TAB> to select the popup menu:
+    " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    "
+	" augroup MyNcm
+	" 	autocmd!
+	" 	autocmd BufEnter * call ncm2#enable_for_buffer()
+    "     autocmd BufReadPre fugitive://* call ncm2#disable_for_buffer()
+	" 	autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
+	" augroup END
+    "
+	" if has('win32')
+	" 	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin/libclang.dll'
+	" 	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+    "     let g:ncm2_pyclang#sys_inc_args_fallback = {'': ''}
+	" else
+	" 	let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/7.0.0_1/lib'
+	" 	let g:ncm2_pyclang#database_path = [
+	" 				\ 'compile_commands.json',
+	" 				\ 'build/compile_commands.json'
+	" 				\ ]
+	" endif
+	" set completeopt=noinsert,menuone,noselect
+    set signcolumn=number
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ CheckBackspace() ? "\<TAB>" :
+          \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    function! CheckBackspace() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+    inoremap <silent><expr> <c-space> coc#refresh()
+    " Make <CR> auto-select the first completion item and notify coc.nvim to
+    " format on enter, <cr> could be remapped by other vim plugin
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-	augroup MyNcm
-		autocmd!
-		autocmd BufEnter * call ncm2#enable_for_buffer()
-        autocmd BufReadPost fugitive://* call ncm2#disable_for_buffer()
-		autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
-	augroup END
+    " Use `[g` and `]g` to navigate diagnostics
+    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-	if has('win32')
-		let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin/libclang.dll'
-		let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-        let g:ncm2_pyclang#sys_inc_args_fallback = {'': ''}
-	else
-		let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/7.0.0_1/lib'
-		let g:ncm2_pyclang#database_path = [
-					\ 'compile_commands.json',
-					\ 'build/compile_commands.json'
-					\ ]
-	endif
-	set completeopt=noinsert,menuone,noselect
+    " GoTo code navigation.
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window.
+    nnoremap <silent> <leader>k :call ShowDocumentation()<CR>
+
+    function! ShowDocumentation()
+      if CocAction('hasProvider', 'hover')
+        call CocActionAsync('doHover')
+      else
+        call feedkeys('K', 'in')
+      endif
+    endfunction
+
+    " Highlight the symbol and its references when holding the cursor.
+    " autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Symbol renaming.
+    nmap <leader><space>r <Plug>(coc-rename)
+    " Mappings for CoCList
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <leader><space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions.
+    nnoremap <silent><nowait> <leader><space>e  :<C-u>CocList extensions<cr>
+    " Show commands.
+    nnoremap <silent><nowait> <leader><space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document.
+    nnoremap <silent><nowait> <leader><space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols.
+    nnoremap <silent><nowait> <leader><space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent><nowait> <leader><space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent><nowait> <leader><space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list.
+    nnoremap <silent><nowait> <leader><space>p  :<C-u>CocListResume<CR>
+
+    " Give more space for displaying messages.
+    set cmdheight=2
+
+    " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+    " delays and poor user experience.
+    set updatetime=300
+
+    " Don't pass messages to |ins-completion-menu|.
+    set shortmess+=c
 else
     " Use Completor
     let g:completor_completion_delay=40
@@ -216,13 +301,8 @@ let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
 
 " [alternate-lite]
-" call lh#alternate#register_extension('g', 'frag'  , g:alternates.extensions.frag + ['vert'])
-" call lh#alternate#register_extension('g', 'vert', g:alternates.extensions. + ['frag'])
 call lh#alternate#register_extension('g', 'frag', ['vert'])
 call lh#alternate#register_extension('g', 'vert', ['frag'])
-
-" The {filetype -> extensions} map
-" let g:alternates.fts.glsl += ['frag', 'vert']
 
 " [fzf.vim] [ctrlp.vim]
 if has('win32')
@@ -248,7 +328,7 @@ elseif has('mac') || has('unix')
 endif
 
 " [vim-fugitive] & [gist-vim]
-nmap <leader>gs :Gstatus<cr>
+nmap <leader>gs :Git<cr>
 nmap <leader>gb :Gblame<cr>
 nmap <leader>gd :Gdiff<cr>
 
