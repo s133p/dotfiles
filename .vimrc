@@ -11,18 +11,20 @@ Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings
 Plug 'tpope/vim-unimpaired'       " [vim-unimpaired]     = Lovely & simple paired mappings
 
 Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
-Plug 'tmsvg/pear-tree'            " [pear-tree]          = Auto-create pair & jump to end if matching pair typed
+" Plug 'tmsvg/pear-tree'            " [pear-tree]          = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'    " [vim-easy-align]     = Align text & tables
 Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
 Plug 'tomtom/tcomment_vim'        " [tcomment]           = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'       " [vim-dirvish]        = File browsing
+Plug 'skywind3000/asynctasks.vim' " [asynctasks.vim]     = Extends asyncrun
 Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]       = Easy async jobbies
 Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Syntax & Visual
 Plug 'sainnhe/gruvbox-material'   " [gruvbox-material]
-Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
+" Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'sheerun/vim-polyglot'       " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]     = Syntax highlighting for log files
 Plug 'plasticboy/vim-markdown'    " [vim-markdown]       = Nice markdown helpers
@@ -37,9 +39,20 @@ Plug 'LucHermitte/alternate-lite' " [alternate-lite]     = Switch to alternate f
 " Personal functions
 Plug 's133p/personal-magic.vim'   " [personal-magic.vim] = A collection of person vim functions
 
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'folke/zen-mode.nvim'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'renerocksai/calendar-vim'
+Plug 'nvim-telescope/telescope-symbols.nvim'
+Plug 'renerocksai/telekasten.nvim'
+Plug 'jakewvincent/mkdnflow.nvim'
+
+
 " Fuzzy Finder
 if has('win32')
-    Plug 'ctrlpvim/ctrlp.vim'     " [ctrlp.vim]          = Fuzzy file finding
+    " Plug 'ctrlpvim/ctrlp.vim'     " [ctrlp.vim]          = Fuzzy file finding
 elseif has('mac') || has('unix')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
@@ -59,6 +72,235 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
+
+nnoremap <leader><leader> :ZenMode<cr>
+lua << EOF
+require("zen-mode").setup {
+window = {
+    backdrop = 0.95, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
+    -- height and width can be:
+    -- * an absolute number of cells when > 1
+    -- * a percentage of the width / height of the editor when <= 1
+    -- * a function that returns the width or the height
+    width = 180, -- width of the Zen window
+    height = 1, -- height of the Zen window
+    -- by default, no options are changed for the Zen window
+    -- uncomment any of the options below, or add other vim.wo options you want to apply
+    options = {
+      -- signcolumn = "no", -- disable signcolumn
+      -- number = false, -- disable number column
+      -- relativenumber = false, -- disable relative numbers
+      -- cursorline = false, -- disable cursorline
+      -- cursorcolumn = false, -- disable cursor column
+      -- foldcolumn = "0", -- disable fold column
+      -- list = false, -- disable whitespace characters
+    },
+  },
+-- your configuration comes here
+-- or leave it empty to use the default settings
+-- refer to the configuration section below
+}
+require("gruvbox").setup({
+  undercurl = true,
+  underline = true,
+  bold = true,
+  italic = false,
+  strikethrough = true,
+  invert_selection = false,
+  invert_signs = false,
+  invert_tabline = false,
+  invert_intend_guides = false,
+  inverse = true, -- invert background for search, diffs, statuslines and errors
+  contrast = "", -- can be "hard", "soft" or empty string
+  palette_overrides = {},
+  overrides = {},
+  dim_inactive = false,
+  transparent_mode = false,
+})
+
+-- Load custom tree-sitter grammar for org filetype
+-- Tree-sitter configuration
+require'nvim-treesitter.configs'.setup {
+  -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = {'cpp', 'markdown'}, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
+  },
+  ensure_installed = {'cpp', 'markdown', 'markdown_inline'}, -- Or run :TSUpdate org
+}
+
+require('mkdnflow').setup({
+    -- Config goes here; leave blank for defaults
+})
+
+local home = vim.fn.expand("~/zettelkasten")
+-- NOTE for Windows users:
+-- - don't use Windows
+-- - try WSL2 on Windows and pretend you're on Linux
+-- - if you **must** use Windows, use "/Users/myname/zettelkasten" instead of "~/zettelkasten"
+-- - NEVER use "C:\Users\myname" style paths
+-- - Using `vim.fn.expand("~/zettelkasten")` should work now but mileage will vary with anything outside of finding and opening files
+require('telekasten').setup({
+    home         = home,
+
+    -- if true, telekasten will be enabled when opening a note within the configured home
+    take_over_my_home = true,
+
+    -- auto-set telekasten filetype: if false, the telekasten filetype will not be used
+    --                               and thus the telekasten syntax will not be loaded either
+    auto_set_filetype = true,
+
+    -- dir names for special notes (absolute path or subdir name)
+    dailies      = home .. '/' .. 'daily',
+    weeklies     = home .. '/' .. 'weekly',
+    templates    = home .. '/' .. 'templates',
+
+    -- image (sub)dir for pasting
+    -- dir name (absolute path or subdir name)
+    -- or nil if pasted images shouldn't go into a special subdir
+    image_subdir = "img",
+
+    -- markdown file extension
+    extension    = ".md",
+
+    -- Generate note filenames. One of:
+    -- "title" (default) - Use title if supplied, uuid otherwise
+    -- "uuid" - Use uuid
+    -- "uuid-title" - Prefix title by uuid
+    -- "title-uuid" - Suffix title with uuid
+    new_note_filename = "title",
+    -- file uuid type ("rand" or input for os.date()")
+    uuid_type = "%Y%m%d%H%M",
+    -- UUID separator
+    uuid_sep = "-",
+
+    -- following a link to a non-existing note will create it
+    follow_creates_nonexisting = true,
+    dailies_create_nonexisting = true,
+    weeklies_create_nonexisting = true,
+
+    -- skip telescope prompt for goto_today and goto_thisweek
+    journal_auto_open = false,
+
+    -- template for new notes (new_note, follow_link)
+    -- set to `nil` or do not specify if you do not want a template
+    template_new_note = home .. '/' .. 'templates/new_note.md',
+
+    -- template for newly created daily notes (goto_today)
+    -- set to `nil` or do not specify if you do not want a template
+    template_new_daily = home .. '/' .. 'templates/daily.md',
+
+    -- template for newly created weekly notes (goto_thisweek)
+    -- set to `nil` or do not specify if you do not want a template
+    template_new_weekly= home .. '/' .. 'templates/weekly.md',
+
+    -- image link style
+    -- wiki:     ![[image name]]
+    -- markdown: ![](image_subdir/xxxxx.png)
+    image_link_style = "markdown",
+
+    -- default sort option: 'filename', 'modified'
+    sort = "filename",
+
+    -- integrate with calendar-vim
+    plug_into_calendar = true,
+    calendar_opts = {
+        -- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
+        weeknm = 4,
+        -- use monday as first day of week: 1 .. true, 0 .. false
+        calendar_monday = 1,
+        -- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
+        calendar_mark = 'left-fit',
+    },
+
+    -- telescope actions behavior
+    close_after_yanking = false,
+    insert_after_inserting = true,
+
+    -- tag notation: '#tag', ':tag:', 'yaml-bare'
+    tag_notation = "#tag",
+
+    -- command palette theme: dropdown (window) or ivy (bottom panel)
+    command_palette_theme = "popup",
+
+    -- tag list theme:
+    -- get_cursor: small tag list at cursor; ivy and dropdown like above
+    show_tags_theme = "ivy",
+
+    -- when linking to a note in subdir/, create a [[subdir/title]] link
+    -- instead of a [[title only]] link
+    subdirs_in_links = true,
+
+    -- template_handling
+    -- What to do when creating a new note via `new_note()` or `follow_link()`
+    -- to a non-existing note
+    -- - prefer_new_note: use `new_note` template
+    -- - smart: if day or week is detected in title, use daily / weekly templates (default)
+    -- - always_ask: always ask before creating a note
+    template_handling = "smart",
+
+    -- path handling:
+    --   this applies to:
+    --     - new_note()
+    --     - new_templated_note()
+    --     - follow_link() to non-existing note
+    --
+    --   it does NOT apply to:
+    --     - goto_today()
+    --     - goto_thisweek()
+    --
+    --   Valid options:
+    --     - smart: put daily-looking notes in daily, weekly-looking ones in weekly,
+    --              all other ones in home, except for notes/with/subdirs/in/title.
+    --              (default)
+    --
+    --     - prefer_home: put all notes in home except for goto_today(), goto_thisweek()
+    --                    except for notes with subdirs/in/title.
+    --
+    --     - same_as_current: put all new notes in the dir of the current note if
+    --                        present or else in home
+    --                        except for notes/with/subdirs/in/title.
+    new_note_location = "smart",
+
+    -- should all links be updated when a file is renamed
+    rename_update_links = true,
+
+    -- how to preview media files
+    -- "telescope-media-files" if you have telescope-media-files.nvim installed
+    -- "catimg-previewer" if you have catimg installed
+    media_previewer = "telescope-media-files",
+})
+
+EOF
+
+nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
+nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
+nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
+nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
+nnoremap <leader>zT :lua require('telekasten').goto_today()<CR>
+nnoremap <leader>zW :lua require('telekasten').goto_thisweek()<CR>
+nnoremap <leader>zw :lua require('telekasten').find_weekly_notes()<CR>
+nnoremap <leader>zn :lua require('telekasten').new_note()<CR>
+nnoremap <leader>zN :lua require('telekasten').new_templated_note()<CR>
+nnoremap <leader>zy :lua require('telekasten').yank_notelink()<CR>
+nnoremap <leader>zc :lua require('telekasten').show_calendar()<CR>
+nnoremap <leader>zC :CalendarT<CR>
+nnoremap <leader>zi :lua require('telekasten').paste_img_and_link()<CR>
+nnoremap <leader>zt :lua require('telekasten').toggle_todo()<CR>
+nnoremap <leader>zb :lua require('telekasten').show_backlinks()<CR>
+nnoremap <leader>zF :lua require('telekasten').find_friends()<CR>
+nnoremap <leader>zI :lua require('telekasten').insert_img_link({ i=true })<CR>
+nnoremap <leader>zp :lua require('telekasten').preview_img()<CR>
+nnoremap <leader>zm :lua require('telekasten').browse_media()<CR>
+nnoremap <leader>za :lua require('telekasten').show_tags()<CR>
+nnoremap <leader># :lua require('telekasten').show_tags()<CR>
+nnoremap <leader>zr :lua require('telekasten').rename_note()<CR>
+" on hesitation, bring up the panel
+nnoremap <leader>z :lua require('telekasten').panel()<CR>
+
+nmap <silent> <leader>ur :Telescope oldfiles<cr>
+nmap <silent> <leader>ub :Telescope buffers<cr>
+nmap <silent> <leader>u/ :Telescope current_buffer_fuzzy_find<cr>
 
 "======== [Settings] ========{{{
 set shellslash
@@ -80,7 +322,7 @@ set fdm=syntax nofoldenable
 
 " Theme
 set background=dark termguicolors
-let g:gruvbox_contrast_dark='medium'
+" let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
 " let g:gruvbox_material_background='medium'
 " let g:gruvbox_material_foreground='mix'
@@ -91,6 +333,7 @@ augroup myFileTypes
     au!
     autocmd FileType vim,help setlocal fdm=marker keywordprg=:help
     autocmd BufReadPost *.log.txt set ft=log
+    autocmd BufReadPost *.comp set ft=glsl
 
     autocmd FileType javascript,javascript.jsx,css,less setlocal softtabstop=2 tabstop=2 shiftwidth=2
     autocmd FileType yaml setlocal softtabstop=4 tabstop=4 shiftwidth=4
@@ -157,11 +400,11 @@ nnoremap g? K
 vnoremap g? K
 
 " Jump through the errorlist
-nnoremap ;; :cn<cr>
-nnoremap ;: :cp<cr>
-
-nnoremap ;' :ln<cr>
-nnoremap ;" :lp<cr>
+" nnoremap ;; :cn<cr>
+" nnoremap ;: :cp<cr>
+"
+" nnoremap ;' :ln<cr>
+" nnoremap ;" :lp<cr>
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
@@ -229,8 +472,12 @@ if has('nvim') || has('mac')
     inoremap <silent><expr> <c-space> coc#refresh()
     " Make <CR> auto-select the first completion item and notify coc.nvim to
     " format on enter, <cr> could be remapped by other vim plugin
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    " imap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+    "                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    "inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<Plug>(PearTreeExpand)"
+    "inoremap <expr> <Esc> pumvisible() ? "\<Esc>" : "\<Plug>(PearTreeFinishExpansion)"
+    " imap <BS> <Plug>(PearTreeBackspace)
 
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -305,27 +552,27 @@ call lh#alternate#register_extension('g', 'frag', ['vert'])
 call lh#alternate#register_extension('g', 'vert', ['frag'])
 
 " [fzf.vim] [ctrlp.vim]
-if has('win32')
-    if executable('ag') | let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' | endif
-    let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
-    let g:ctrlp_custom_ignore = {
-                \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015))$',
-                \ 'file': '\v\.(exe|so|dll|png|jpeg|jpg|otf|ttf)$'
-                \ }
-    let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
-    let g:ctrlp_match_current_file = 1
-    let g:ctrlp_map = '<leader>f'
-    nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
-    nmap <silent> <leader>ub :CtrlPBuffer<cr>
-    nmap <silent> <leader>u/ :CtrlPLine<cr>
-elseif has('mac') || has('unix')
-    let g:fzf_layout = { 'down': '~24%' }
-    let g:fzf_buffers_jump = 1
-    nmap <silent> <leader>f :Files<cr>
-    nmap <silent> <leader>/ :Lines<cr>
-    nmap <silent> <leader>ur :History<cr>
-    nmap <silent> <leader>ub :Buffers<cr>
-endif
+" if has('win32')
+"     if executable('ag') | let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' | endif
+"     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
+"     let g:ctrlp_custom_ignore = {
+"                 \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015|vs2019|build|cmake))$',
+"                 \ 'file': '\v\.(exe|so|dll|png|jpeg|jpg|otf|ttf)$'
+"                 \ }
+"     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
+"     let g:ctrlp_match_current_file = 1
+"     let g:ctrlp_map = '<leader>f'
+"     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
+"     nmap <silent> <leader>ub :CtrlPBuffer<cr>
+"     nmap <silent> <leader>u/ :CtrlPLine<cr>
+" elseif has('mac') || has('unix')
+"     let g:fzf_layout = { 'down': '~24%' }
+"     let g:fzf_buffers_jump = 1
+"     nmap <silent> <leader>f :Files<cr>
+"     nmap <silent> <leader>/ :Lines<cr>
+"     nmap <silent> <leader>ur :History<cr>
+"     nmap <silent> <leader>ub :Buffers<cr>
+" endif
 
 " [vim-fugitive] & [gist-vim]
 nmap <leader>gs :Git<cr>
@@ -340,12 +587,16 @@ augroup MyFugitive
 augroup END
 
 " [asyncrun.vim]
-let g:asyncrun_open = 14
+let g:asyncrun_open = 10
+let g:asynctasks_profile = 'release'
+
 
 " [pear-tree]
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
+let g:pear_tree_ft_disabled = ["TelescopePrompt"]
+let g:pear_tree_map_special_keys = 1
 
 "======== [END Plugin mappings/settings] ========}}}
 
@@ -361,3 +612,10 @@ if has('win32') && has('gui')
     augroup END
 endif
 "======== [END Gvim / MacVim] ========}}}
+
+if exists('g:neovide')
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
+    let g:neovid_cursor_animation_length=0.008
+endif
+
+
