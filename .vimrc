@@ -40,40 +40,20 @@ Plug 'LucHermitte/alternate-lite' " [alternate-lite]     = Switch to alternate f
 Plug 's133p/personal-magic.vim'   " [personal-magic.vim] = A collection of person vim functions
 
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'folke/zen-mode.nvim'
-
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'folke/zen-mode.nvim'
 Plug 'renerocksai/calendar-vim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'renerocksai/telekasten.nvim'
 Plug 'jakewvincent/mkdnflow.nvim'
 
-
-" Fuzzy Finder
-if has('win32')
-    " Plug 'ctrlpvim/ctrlp.vim'     " [ctrlp.vim]          = Fuzzy file finding
-elseif has('mac') || has('unix')
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
-endif
-
 " Completion
-" if !has('nvim')
-"     Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'ncm2/ncm2'
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-pyclang'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 "======== [PLUGINS END] ========}}}
 
-nnoremap <leader><leader> :ZenMode<cr>
 lua << EOF
 require("zen-mode").setup {
 window = {
@@ -120,7 +100,7 @@ require("gruvbox").setup({
 
 -- Load custom tree-sitter grammar for org filetype
 -- Tree-sitter configuration
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
   highlight = {
     enable = true,
@@ -130,6 +110,41 @@ require'nvim-treesitter.configs'.setup {
 }
 
 require('mkdnflow').setup({
+    mappings = {
+        MkdnEnter = {{'n', 'v'}, '<CR>'},
+        MkdnTab = false,
+        MkdnSTab = false,
+        MkdnNextLink = {'n', '<Tab>'},
+        MkdnPrevLink = {'n', '<S-Tab>'},
+        MkdnNextHeading = {'n', ']]'},
+        MkdnPrevHeading = {'n', '[['},
+        MkdnGoBack = {'n', '<BS>'},
+        MkdnGoForward = {'n', '<Del>'},
+        MkdnFollowLink = false, -- see MkdnEnter
+        MkdnDestroyLink = {'n', '<M-CR>'},
+        MkdnTagSpan = {'v', '<M-CR>'},
+        MkdnMoveSource = {'n', '<F2>'},
+        MkdnYankAnchorLink = {'n', 'ya'},
+        MkdnYankFileAnchorLink = {'n', 'yfa'},
+        MkdnIncreaseHeading = false,
+        MkdnDecreaseHeading = false,
+        MkdnToggleToDo = {{'n', 'v'}, '<C-Space>'},
+        MkdnNewListItem = false,
+        MkdnNewListItemBelowInsert = {'n', 'o'},
+        MkdnNewListItemAboveInsert = {'n', 'O'},
+        MkdnExtendList = false,
+        MkdnUpdateNumbering = {'n', '<leader>nn'},
+        MkdnTableNextCell = {'i', '<Tab>'},
+        MkdnTablePrevCell = {'i', '<S-Tab>'},
+        MkdnTableNextRow = false,
+        MkdnTablePrevRow = {'i', '<M-CR>'},
+        MkdnTableNewRowBelow = {'n', '<leader>ir'},
+        MkdnTableNewRowAbove = {'n', '<leader>iR'},
+        MkdnTableNewColAfter = {'n', '<leader>ic'},
+        MkdnTableNewColBefore = {'n', '<leader>iC'},
+        MkdnFoldSection = {'n', '<leader>f'},
+        MkdnUnfoldSection = {'n', '<leader>F'}
+    }
     -- Config goes here; leave blank for defaults
 })
 
@@ -273,31 +288,32 @@ require('telekasten').setup({
 
 EOF
 
-nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
-nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
-nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
-nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
-nnoremap <leader>zT :lua require('telekasten').goto_today()<CR>
-nnoremap <leader>zW :lua require('telekasten').goto_thisweek()<CR>
-nnoremap <leader>zw :lua require('telekasten').find_weekly_notes()<CR>
-nnoremap <leader>zn :lua require('telekasten').new_note()<CR>
-nnoremap <leader>zN :lua require('telekasten').new_templated_note()<CR>
-nnoremap <leader>zy :lua require('telekasten').yank_notelink()<CR>
-nnoremap <leader>zc :lua require('telekasten').show_calendar()<CR>
-nnoremap <leader>zC :CalendarT<CR>
-nnoremap <leader>zi :lua require('telekasten').paste_img_and_link()<CR>
-nnoremap <leader>zt :lua require('telekasten').toggle_todo()<CR>
-nnoremap <leader>zb :lua require('telekasten').show_backlinks()<CR>
-nnoremap <leader>zF :lua require('telekasten').find_friends()<CR>
-nnoremap <leader>zI :lua require('telekasten').insert_img_link({ i=true })<CR>
-nnoremap <leader>zp :lua require('telekasten').preview_img()<CR>
-nnoremap <leader>zm :lua require('telekasten').browse_media()<CR>
-nnoremap <leader>za :lua require('telekasten').show_tags()<CR>
-nnoremap <leader># :lua require('telekasten').show_tags()<CR>
-nnoremap <leader>zr :lua require('telekasten').rename_note()<CR>
+" nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
+" nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
+" nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
+" nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
+" nnoremap <leader>zT :lua require('telekasten').goto_today()<CR>
+" nnoremap <leader>zW :lua require('telekasten').goto_thisweek()<CR>
+" nnoremap <leader>zw :lua require('telekasten').find_weekly_notes()<CR>
+" nnoremap <leader>zn :lua require('telekasten').new_note()<CR>
+" nnoremap <leader>zN :lua require('telekasten').new_templated_note()<CR>
+" nnoremap <leader>zy :lua require('telekasten').yank_notelink()<CR>
+" nnoremap <leader>zc :lua require('telekasten').show_calendar()<CR>
+" nnoremap <leader>zC :CalendarT<CR>
+" nnoremap <leader>zi :lua require('telekasten').paste_img_and_link()<CR>
+" nnoremap <leader>zt :lua require('telekasten').toggle_todo()<CR>
+" nnoremap <leader>zb :lua require('telekasten').show_backlinks()<CR>
+" nnoremap <leader>zF :lua require('telekasten').find_friends()<CR>
+" nnoremap <leader>zI :lua require('telekasten').insert_img_link({ i=true })<CR>
+" nnoremap <leader>zp :lua require('telekasten').preview_img()<CR>
+" nnoremap <leader>zm :lua require('telekasten').browse_media()<CR>
+" nnoremap <leader>za :lua require('telekasten').show_tags()<CR>
+" nnoremap <leader># :lua require('telekasten').show_tags()<CR>
+" nnoremap <leader>zr :lua require('telekasten').rename_note()<CR>
 " on hesitation, bring up the panel
-nnoremap <leader>z :lua require('telekasten').panel()<CR>
 
+nnoremap <leader><leader> :ZenMode<cr>
+nnoremap <silent> <leader>un :lua require('telekasten').panel()<CR>
 nmap <silent> <leader>ur :Telescope oldfiles<cr>
 nmap <silent> <leader>ub :Telescope buffers<cr>
 nmap <silent> <leader>u/ :Telescope current_buffer_fuzzy_find<cr>
