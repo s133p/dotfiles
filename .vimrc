@@ -11,20 +11,15 @@ Plug 'tpope/vim-repeat'           " [vim-repeat]         = Allow plugin mappings
 Plug 'tpope/vim-unimpaired'       " [vim-unimpaired]     = Lovely & simple paired mappings
 
 Plug 'spiiph/vim-space'           " [vim-space]          = Use spacebar to repeat last movement
-" Plug 'tmsvg/pear-tree'            " [pear-tree]          = Auto-create pair & jump to end if matching pair typed
 Plug 'wellle/targets.vim'         " [targets.vim]        = Adds a beautiful slew of text-objects
 Plug 'junegunn/vim-easy-align'    " [vim-easy-align]     = Align text & tables
-Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
-Plug 'tomtom/tcomment_vim'        " [tcomment]           = Shortcuts for commenting
 Plug 'justinmk/vim-dirvish'       " [vim-dirvish]        = File browsing
 Plug 'skywind3000/asynctasks.vim' " [asynctasks.vim]     = Extends asyncrun
 Plug 'skywind3000/asyncrun.vim'   " [asyncrun.vim]       = Easy async jobbies
-Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
 
 " Syntax & Visual
-Plug 'sainnhe/gruvbox-material'   " [gruvbox-material]
-" Plug 'morhetz/gruvbox'            " [gruvbox]            = Can't seem to beat it
-Plug 'ellisonleao/gruvbox.nvim'
+Plug 'sainnhe/gruvbox-material'   " [gruvbox-material]   = Gruvbox Material
+Plug 'ellisonleao/gruvbox.nvim'   " [gruvbox.nvim]       = Neovim gruvbox
 Plug 'sheerun/vim-polyglot'       " [vim-polyglot]       = Better FT/Syntax plugins
 Plug 'dzeban/vim-log-syntax'      " [vim-log-syntax]     = Syntax highlighting for log files
 Plug 'plasticboy/vim-markdown'    " [vim-markdown]       = Nice markdown helpers
@@ -41,12 +36,21 @@ Plug 's133p/personal-magic.vim'   " [personal-magic.vim] = A collection of perso
 
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.x' }
 Plug 'folke/zen-mode.nvim'
 Plug 'renerocksai/calendar-vim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'renerocksai/telekasten.nvim'
 Plug 'jakewvincent/mkdnflow.nvim'
+Plug 'ahmedkhalf/project.nvim'
+Plug 'rcarriga/nvim-notify'
+
+" Under consideration
+Plug 'b3nj5m1n/kommentary'        " [tcomment]           = Shortcuts for commenting
+"Plug 'tomtom/tcomment_vim'        " [tcomment]           = Shortcuts for commenting
+Plug 'yssl/QFEnter'               " [QFEnter]            = Better QF opening
+" Plug 'joereynolds/vim-minisnip'   " [vim-minisnip]       = Snippits!
+" Plug 'tmsvg/pear-tree'            " [pear-tree]          = Auto-create pair & jump to end if matching pair typed
 
 " Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -55,30 +59,33 @@ call plug#end()
 "======== [PLUGINS END] ========}}}
 
 lua << EOF
+require('kommentary.config').configure_language("rust", {
+    single_line_comment_string = "//",
+    multi_line_comment_strings = {"/*", "*/"},
+})
+
+local actions = require("telescope.actions")
+require('telescope').setup{
+  defaults = {
+    mappings = {
+        i = {
+            ["<esc>"] = actions.close
+        },
+    },
+    layout_config = {
+      vertical = { width = 0.5 }
+    },
+  },
+}
+
 require("zen-mode").setup {
 window = {
     backdrop = 0.95, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-    -- height and width can be:
-    -- * an absolute number of cells when > 1
-    -- * a percentage of the width / height of the editor when <= 1
-    -- * a function that returns the width or the height
     width = 180, -- width of the Zen window
     height = 1, -- height of the Zen window
-    -- by default, no options are changed for the Zen window
-    -- uncomment any of the options below, or add other vim.wo options you want to apply
     options = {
-      -- signcolumn = "no", -- disable signcolumn
-      -- number = false, -- disable number column
-      -- relativenumber = false, -- disable relative numbers
-      -- cursorline = false, -- disable cursorline
-      -- cursorcolumn = false, -- disable cursor column
-      -- foldcolumn = "0", -- disable fold column
-      -- list = false, -- disable whitespace characters
     },
   },
--- your configuration comes here
--- or leave it empty to use the default settings
--- refer to the configuration section below
 }
 require("gruvbox").setup({
   undercurl = true,
@@ -106,7 +113,7 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     additional_vim_regex_highlighting = {'cpp', 'markdown'}, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
   },
-  ensure_installed = {'cpp', 'markdown', 'markdown_inline'}, -- Or run :TSUpdate org
+  ensure_installed = {'cpp', 'markdown', 'markdown_inline', 'lua'}, -- Or run :TSUpdate org
 }
 
 require('mkdnflow').setup({
@@ -149,174 +156,60 @@ require('mkdnflow').setup({
 })
 
 local home = vim.fn.expand("~/zettelkasten")
--- NOTE for Windows users:
--- - don't use Windows
--- - try WSL2 on Windows and pretend you're on Linux
--- - if you **must** use Windows, use "/Users/myname/zettelkasten" instead of "~/zettelkasten"
--- - NEVER use "C:\Users\myname" style paths
--- - Using `vim.fn.expand("~/zettelkasten")` should work now but mileage will vary with anything outside of finding and opening files
 require('telekasten').setup({
     home         = home,
-
-    -- if true, telekasten will be enabled when opening a note within the configured home
     take_over_my_home = true,
-
-    -- auto-set telekasten filetype: if false, the telekasten filetype will not be used
-    --                               and thus the telekasten syntax will not be loaded either
     auto_set_filetype = true,
-
-    -- dir names for special notes (absolute path or subdir name)
     dailies      = home .. '/' .. 'daily',
     weeklies     = home .. '/' .. 'weekly',
     templates    = home .. '/' .. 'templates',
-
-    -- image (sub)dir for pasting
-    -- dir name (absolute path or subdir name)
-    -- or nil if pasted images shouldn't go into a special subdir
     image_subdir = "img",
-
-    -- markdown file extension
     extension    = ".md",
-
-    -- Generate note filenames. One of:
-    -- "title" (default) - Use title if supplied, uuid otherwise
-    -- "uuid" - Use uuid
-    -- "uuid-title" - Prefix title by uuid
-    -- "title-uuid" - Suffix title with uuid
     new_note_filename = "title",
-    -- file uuid type ("rand" or input for os.date()")
     uuid_type = "%Y%m%d%H%M",
-    -- UUID separator
     uuid_sep = "-",
-
-    -- following a link to a non-existing note will create it
     follow_creates_nonexisting = true,
     dailies_create_nonexisting = true,
     weeklies_create_nonexisting = true,
-
-    -- skip telescope prompt for goto_today and goto_thisweek
     journal_auto_open = false,
-
-    -- template for new notes (new_note, follow_link)
-    -- set to `nil` or do not specify if you do not want a template
     template_new_note = home .. '/' .. 'templates/new_note.md',
-
-    -- template for newly created daily notes (goto_today)
-    -- set to `nil` or do not specify if you do not want a template
     template_new_daily = home .. '/' .. 'templates/daily.md',
-
-    -- template for newly created weekly notes (goto_thisweek)
-    -- set to `nil` or do not specify if you do not want a template
     template_new_weekly= home .. '/' .. 'templates/weekly.md',
-
-    -- image link style
-    -- wiki:     ![[image name]]
-    -- markdown: ![](image_subdir/xxxxx.png)
     image_link_style = "markdown",
-
-    -- default sort option: 'filename', 'modified'
     sort = "filename",
-
-    -- integrate with calendar-vim
     plug_into_calendar = true,
     calendar_opts = {
-        -- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
         weeknm = 4,
-        -- use monday as first day of week: 1 .. true, 0 .. false
         calendar_monday = 1,
-        -- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
         calendar_mark = 'left-fit',
     },
-
-    -- telescope actions behavior
     close_after_yanking = false,
     insert_after_inserting = true,
-
-    -- tag notation: '#tag', ':tag:', 'yaml-bare'
     tag_notation = "#tag",
-
-    -- command palette theme: dropdown (window) or ivy (bottom panel)
     command_palette_theme = "popup",
-
-    -- tag list theme:
-    -- get_cursor: small tag list at cursor; ivy and dropdown like above
     show_tags_theme = "ivy",
-
-    -- when linking to a note in subdir/, create a [[subdir/title]] link
-    -- instead of a [[title only]] link
     subdirs_in_links = true,
-
-    -- template_handling
-    -- What to do when creating a new note via `new_note()` or `follow_link()`
-    -- to a non-existing note
-    -- - prefer_new_note: use `new_note` template
-    -- - smart: if day or week is detected in title, use daily / weekly templates (default)
-    -- - always_ask: always ask before creating a note
     template_handling = "smart",
-
-    -- path handling:
-    --   this applies to:
-    --     - new_note()
-    --     - new_templated_note()
-    --     - follow_link() to non-existing note
-    --
-    --   it does NOT apply to:
-    --     - goto_today()
-    --     - goto_thisweek()
-    --
-    --   Valid options:
-    --     - smart: put daily-looking notes in daily, weekly-looking ones in weekly,
-    --              all other ones in home, except for notes/with/subdirs/in/title.
-    --              (default)
-    --
-    --     - prefer_home: put all notes in home except for goto_today(), goto_thisweek()
-    --                    except for notes with subdirs/in/title.
-    --
-    --     - same_as_current: put all new notes in the dir of the current note if
-    --                        present or else in home
-    --                        except for notes/with/subdirs/in/title.
     new_note_location = "smart",
-
-    -- should all links be updated when a file is renamed
     rename_update_links = true,
-
-    -- how to preview media files
-    -- "telescope-media-files" if you have telescope-media-files.nvim installed
-    -- "catimg-previewer" if you have catimg installed
     media_previewer = "telescope-media-files",
 })
 
+
+require("project_nvim").setup {
+  manual_mode = false,
+  detection_methods = { "lsp", "pattern" },
+  patterns = { ".git" },
+  ignore_lsp = {},
+  exclude_dirs = {},
+  show_hidden = false,
+  silent_chdir = true,
+  scope_chdir = 'global',
+  datapath = vim.fn.stdpath("data"),
+  }
+require('telescope').load_extension('projects')
+
 EOF
-
-" nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
-" nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
-" nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
-" nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
-" nnoremap <leader>zT :lua require('telekasten').goto_today()<CR>
-" nnoremap <leader>zW :lua require('telekasten').goto_thisweek()<CR>
-" nnoremap <leader>zw :lua require('telekasten').find_weekly_notes()<CR>
-" nnoremap <leader>zn :lua require('telekasten').new_note()<CR>
-" nnoremap <leader>zN :lua require('telekasten').new_templated_note()<CR>
-" nnoremap <leader>zy :lua require('telekasten').yank_notelink()<CR>
-" nnoremap <leader>zc :lua require('telekasten').show_calendar()<CR>
-" nnoremap <leader>zC :CalendarT<CR>
-" nnoremap <leader>zi :lua require('telekasten').paste_img_and_link()<CR>
-" nnoremap <leader>zt :lua require('telekasten').toggle_todo()<CR>
-" nnoremap <leader>zb :lua require('telekasten').show_backlinks()<CR>
-" nnoremap <leader>zF :lua require('telekasten').find_friends()<CR>
-" nnoremap <leader>zI :lua require('telekasten').insert_img_link({ i=true })<CR>
-" nnoremap <leader>zp :lua require('telekasten').preview_img()<CR>
-" nnoremap <leader>zm :lua require('telekasten').browse_media()<CR>
-" nnoremap <leader>za :lua require('telekasten').show_tags()<CR>
-" nnoremap <leader># :lua require('telekasten').show_tags()<CR>
-" nnoremap <leader>zr :lua require('telekasten').rename_note()<CR>
-" on hesitation, bring up the panel
-
-nnoremap <leader><leader> :ZenMode<cr>
-nnoremap <silent> <leader>un :lua require('telekasten').panel()<CR>
-nmap <silent> <leader>ur :Telescope oldfiles<cr>
-nmap <silent> <leader>ub :Telescope buffers<cr>
-nmap <silent> <leader>u/ :Telescope current_buffer_fuzzy_find<cr>
 
 "======== [Settings] ========{{{
 set shellslash
@@ -335,15 +228,11 @@ set nowrap nolinebreak
 set nohlsearch incsearch ignorecase smartcase showmatch
 set list listchars=nbsp:⦸,extends:»,precedes:«,trail:•,tab:→\ 
 set fdm=syntax nofoldenable
+set nobackup nowritebackup
 
 " Theme
 set background=dark termguicolors
-" let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
-" let g:gruvbox_material_background='medium'
-" let g:gruvbox_material_foreground='mix'
-" let g:gruvbox_material_statusline_style='mix'
-" colorscheme gruvbox-material
 
 augroup myFileTypes
     au!
@@ -415,15 +304,22 @@ vnoremap <leader>J J
 nnoremap g? K
 vnoremap g? K
 
-" Jump through the errorlist
-" nnoremap ;; :cn<cr>
-" nnoremap ;: :cp<cr>
-"
-" nnoremap ;' :ln<cr>
-" nnoremap ;" :lp<cr>
+" Zen
+nnoremap <leader><leader> :ZenMode<cr>
+
+" Telescope powers
+nnoremap <silent> <leader>un :lua require('telekasten').panel()<CR>
+nnoremap <silent> <leader>ur :Telescope oldfiles<cr>
+nnoremap <silent> <leader>ub :Telescope buffers<cr>
+nnoremap <silent> <leader>up :Telescope projects<cr>
+nnoremap <silent> <leader>u/ :Telescope current_buffer_fuzzy_find<cr>
+
 "======== [END MAPPINGS] ========}}}
 
 "======== [Plugin mappings/settings] ========{{{
+
+" [calendar]
+let g:calendar_no_mappings=1
 
 " [personal-magic.vim]
 let g:MagicStatusEnable=1
@@ -447,53 +343,38 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " [completor.vim & nvim-completion-manager]
-let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
-let g:minisnip_trigger = '<C-j>'
+" let g:minisnip_dir = '~/.vim/bundle/personal-magic.vim/templates/minisnip'
+" let g:minisnip_trigger = '<C-j>'
 if has('nvim') || has('mac')
-    " Use Nvim-completion manager
-    " inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
-    " " Use <TAB> to select the popup menu:
-    " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    "
-	" augroup MyNcm
-	" 	autocmd!
-	" 	autocmd BufEnter * call ncm2#enable_for_buffer()
-    "     autocmd BufReadPre fugitive://* call ncm2#disable_for_buffer()
-	" 	autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
-	" augroup END
-    "
-	" if has('win32')
-	" 	let g:ncm2_pyclang#library_path = '/Program Files/LLVM/bin/libclang.dll'
-	" 	let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-    "     let g:ncm2_pyclang#sys_inc_args_fallback = {'': ''}
-	" else
-	" 	let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/7.0.0_1/lib'
-	" 	let g:ncm2_pyclang#database_path = [
-	" 				\ 'compile_commands.json',
-	" 				\ 'build/compile_commands.json'
-	" 				\ ]
-	" endif
-	" set completeopt=noinsert,menuone,noselect
-    set signcolumn=number
+    set signcolumn=yes
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " NOTE: There's always complete item selected by default, you may want to enable
+    " no select by `"suggest.noselect": true` in your configuration file.
+    " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+    " other plugin before putting this into your config.
     inoremap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ CheckBackspace() ? "\<TAB>" :
+          \ coc#pum#visible() ? coc#pum#next(1) :
+          \ CheckBackspace() ? "\<Tab>" :
           \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+    " Make <CR> to accept selected completion item or notify coc.nvim to format
+    " <C-g>u breaks current undo, please make your own choice.
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
     function! CheckBackspace() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
-    inoremap <silent><expr> <c-space> coc#refresh()
-    " Make <CR> auto-select the first completion item and notify coc.nvim to
-    " format on enter, <cr> could be remapped by other vim plugin
-    " imap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-    "                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-    "inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<Plug>(PearTreeExpand)"
-    "inoremap <expr> <Esc> pumvisible() ? "\<Esc>" : "\<Plug>(PearTreeFinishExpansion)"
-    " imap <BS> <Plug>(PearTreeBackspace)
+    " Use <c-space> to trigger completion.
+    if has('nvim')
+      inoremap <silent><expr> <c-space> coc#refresh()
+    else
+      inoremap <silent><expr> <c-@> coc#refresh()
+    endif
 
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -510,35 +391,66 @@ if has('nvim') || has('mac')
     nnoremap <silent> <leader>k :call ShowDocumentation()<CR>
 
     function! ShowDocumentation()
-      if CocAction('hasProvider', 'hover')
-        call CocActionAsync('doHover')
-      else
-        call feedkeys('K', 'in')
-      endif
+        if CocAction('hasProvider', 'hover')
+            call CocActionAsync('doHover')
+        else
+            call feedkeys('K', 'in')
+        endif
     endfunction
 
-    " Highlight the symbol and its references when holding the cursor.
-    " autocmd CursorHold * silent call CocActionAsync('highlight')
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+    nmap cof gg;fG''
 
+    nmap <silent> <leader>da  <Plug>(coc-codeaction)
+    nmap <silent> <leader>df  <Plug>(coc-fix-current)
+    nmap <silent> <leader>dl  <Plug>(coc-codelens-action)
+    nmap <silent> <leader>Re <Plug>(coc-refactor)
+    xmap <silent> <leader>R  <Plug>(coc-codeaction-refactor-selected)
+    nmap <silent> <leader>R  <Plug>(coc-codeaction-refactor-selected)
     " Symbol renaming.
-    nmap <leader><space>r <Plug>(coc-rename)
+    nmap <leader>dr <Plug>(coc-rename)
+
+    " Run the Code Lens action on the current line.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    " Highlight the symbol and its references when holding the cursor.
+    augroup mycocgroup
+        autocmd!
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+        " Setup formatexpr specified filetype(s).
+        autocmd FileType typescript,json,cpp,markdown,xml,rust setl formatexpr=CocAction('formatSelected')
+        autocmd FileType typescript,json,cpp,markdown,xml,rust xnoremap <buffer> = <Plug>(coc-format-selected)
+        autocmd FileType typescript,json,cpp,markdown,xml,rust nnoremap <buffer> = <Plug>(coc-format-selected)
+        " Update signature help on jump placeholder.
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+
     " Mappings for CoCList
     " Show all diagnostics.
-    nnoremap <silent><nowait> <leader><space>a  :<C-u>CocList diagnostics<cr>
+    " nnoremap <silent><nowait> <leader>cd  :<C-u>CocList diagnostics<cr>
     " Manage extensions.
-    nnoremap <silent><nowait> <leader><space>e  :<C-u>CocList extensions<cr>
+    " nnoremap <silent><nowait> <leader>ce  :<C-u>CocList extensions<cr>
     " Show commands.
-    nnoremap <silent><nowait> <leader><space>c  :<C-u>CocList commands<cr>
+    " nnoremap <silent><nowait> <leader>cc  :<C-u>CocList commands<cr>
     " Find symbol of current document.
-    nnoremap <silent><nowait> <leader><space>o  :<C-u>CocList outline<cr>
+    " nnoremap <silent><nowait> <leader>co  :<C-u>CocList outline<cr>
     " Search workspace symbols.
-    nnoremap <silent><nowait> <leader><space>s  :<C-u>CocList -I symbols<cr>
+    " nnoremap <silent><nowait> <leader>cs  :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
-    nnoremap <silent><nowait> <leader><space>j  :<C-u>CocNext<CR>
+    " nnoremap <silent><nowait> <leader>cj  :<C-u>CocNext<CR>
     " Do default action for previous item.
-    nnoremap <silent><nowait> <leader><space>k  :<C-u>CocPrev<CR>
+    " nnoremap <silent><nowait> <leader>ck  :<C-u>CocPrev<CR>
     " Resume latest coc list.
-    nnoremap <silent><nowait> <leader><space>p  :<C-u>CocListResume<CR>
+    " nnoremap <silent><nowait> <leader>cp  :<C-u>CocListResume<CR>
 
     " Give more space for displaying messages.
     set cmdheight=2
@@ -549,14 +461,119 @@ if has('nvim') || has('mac')
 
     " Don't pass messages to |ins-completion-menu|.
     set shortmess+=c
-else
-    " Use Completor
-    let g:completor_completion_delay=40
-    let g:completor_refresh_always=0
+    let g:coc_global_extensions = ['coc-json', 'coc-pairs', 'coc-tsserver', 'coc-clangd', 'coc-calc', 'coc-toml', 'coc-clang-format-style-options', 'coc-cmake', 'coc-snippets', 'coc-tasks', 'coc-vimlsp', 'coc-xml']
 
-    imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+    " Extension specific
+
+    function! s:MagicDo(type, what_magic, ...)
+        echo a:what_magic
+        let l:sel_save = &selection
+        let &selection = 'inclusive'
+        let l:reg_save = @@
+
+        if a:type ==? 'v'  " Invoked from Visual mode, use gv command.
+            silent exe 'normal! gv' . a:what_magic
+        elseif a:type ==? 'line'
+            silent exe "normal! '[V']" . a:what_magic
+        else
+            silent exe 'normal! `[v`]' . a:what_magic
+        endif
+
+        let &selection = l:sel_save
+        let @@ = l:reg_save
+    endfunction
+    function! MyCocCalc(type, ...)
+        call s:MagicDo(a:type, "c\<c-r>=CocAction('runCommand', 'calc.calculate', '\<c-r>\"')\<cr>", a:000)
+    endfunction
+    nnoremap <Plug>(MyCocCalc) :set opfunc=MyCocCalc<CR>g@
+    vnoremap <Plug>(MyCocCalc) :<C-U>call MyCocCalc(visualmode())<CR>
+    map <leader>c <Plug>(MyCocCalc)
+    nmap <leader>C <Plug>(coc-calc-result-replace)
+
+lua << EOF
+vim.notify = require("notify")
+
+local coc_status_record = {}
+
+function coc_status_notify(msg, level)
+  local notify_opts = { title = "LSP Status", timeout = 500, hide_from_history = true, on_close = reset_coc_status_record }
+  -- if coc_status_record is not {} then add it to notify_opts to key called "replace"
+  if coc_status_record ~= {} then
+    notify_opts["replace"] = coc_status_record.id
+  end
+  coc_status_record = vim.notify(msg, level, notify_opts)
+end
+
+function reset_coc_status_record(window)
+  coc_status_record = {}
+end
+
+local coc_diag_record = {}
+
+function coc_diag_notify(msg, level)
+  local notify_opts = { title = "LSP Diagnostics", timeout = 500, on_close = reset_coc_diag_record }
+  -- if coc_diag_record is not {} then add it to notify_opts to key called "replace"
+  if coc_diag_record ~= {} then
+    notify_opts["replace"] = coc_diag_record.id
+  end
+  coc_diag_record = vim.notify(msg, level, notify_opts)
+end
+
+function reset_coc_diag_record(window)
+  coc_diag_record = {}
+end
+EOF
+
+    function! s:DiagnosticNotify() abort
+      let l:info = get(b:, 'coc_diagnostic_info', {})
+      if empty(l:info) | return '' | endif
+      let l:msgs = []
+      let l:level = 'info'
+       if get(l:info, 'warning', 0)
+        let l:level = 'warn'
+      endif
+      if get(l:info, 'error', 0)
+        let l:level = 'error'
+      endif
+
+      if get(l:info, 'error', 0)
+        call add(l:msgs, '🚩 Errors: ' . l:info['error'])
+      endif
+      if get(l:info, 'warning', 0)
+        call add(l:msgs, '🔥 Warnings: ' . l:info['warning'])
+      endif
+      if get(l:info, 'information', 0)
+        call add(l:msgs, 'ℹ️ Infos: ' . l:info['information'])
+      endif
+      if get(l:info, 'hint', 0)
+        call add(l:msgs, '💯 Hints: ' . l:info['hint'])
+      endif
+      let l:msg = join(l:msgs, "\n")
+      if empty(l:msg) | let l:msg = ' All OK' | endif
+      call v:lua.coc_diag_notify(l:msg, l:level)
+    endfunction
+
+    function! s:StatusNotify() abort
+      let l:status = get(g:, 'coc_status', '')
+      let l:level = 'info'
+      if empty(l:status) | return '' | endif
+      call v:lua.coc_status_notify(l:status, l:level)
+    endfunction
+
+    function! s:InitCoc() abort
+      execute "lua vim.notify('Initialized coc.nvim for LSP support', 'info', { title = 'LSP Status' })"
+    endfunction
+
+    " notifications
+    augroup MyCoCThigns
+        autocmd!
+        autocmd User CocNvimInit call s:InitCoc()
+        autocmd User CocDiagnosticChange call s:DiagnosticNotify()
+        autocmd User CocStatusChange call s:StatusNotify()
+    augroup END
+
+    nmap <space>e <Cmd>CocCommand explorer<cr>
+
 endif
 
 " [vim-rooter]
@@ -566,29 +583,6 @@ let g:rooter_silent_chdir = 1
 " [alternate-lite]
 call lh#alternate#register_extension('g', 'frag', ['vert'])
 call lh#alternate#register_extension('g', 'vert', ['frag'])
-
-" [fzf.vim] [ctrlp.vim]
-" if has('win32')
-"     if executable('ag') | let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' | endif
-"     let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*\|/private/.*\|\.git/*'
-"     let g:ctrlp_custom_ignore = {
-"                 \ 'dir':  '\v[\/](\.(git|hg|svn)|(vs2013|xcode|node_modules|vs2015|vs2019|build|cmake))$',
-"                 \ 'file': '\v\.(exe|so|dll|png|jpeg|jpg|otf|ttf)$'
-"                 \ }
-"     let g:ctrlp_match_window = 'top,order:ttb,min:1,max:16,results:16'
-"     let g:ctrlp_match_current_file = 1
-"     let g:ctrlp_map = '<leader>f'
-"     nmap <silent> <leader>ur :CtrlPMRUFiles<cr>
-"     nmap <silent> <leader>ub :CtrlPBuffer<cr>
-"     nmap <silent> <leader>u/ :CtrlPLine<cr>
-" elseif has('mac') || has('unix')
-"     let g:fzf_layout = { 'down': '~24%' }
-"     let g:fzf_buffers_jump = 1
-"     nmap <silent> <leader>f :Files<cr>
-"     nmap <silent> <leader>/ :Lines<cr>
-"     nmap <silent> <leader>ur :History<cr>
-"     nmap <silent> <leader>ub :Buffers<cr>
-" endif
 
 " [vim-fugitive] & [gist-vim]
 nmap <leader>gs :Git<cr>
@@ -602,9 +596,31 @@ augroup MyFugitive
     autocmd BufEnter .git/index nmap <buffer> p <c-p>
 augroup END
 
-" [asyncrun.vim]
+" [asyncrun.vim & asynctasks.vim]
 let g:asyncrun_open = 10
 let g:asynctasks_profile = 'release'
+let g:asynctasks_term_close=1
+function! CloseQfOnSuccess()
+    if g:asyncrun_code == 0
+        cclose
+        lua vim.notify("✅ Build succeeded", "info", {title = 'test'})
+    else
+        lua vim.notify("🚩 Build failed!", "error", {title = 'test'})
+        copen
+        norm gwp
+    endif
+endfunction
+function! CloseQfForBuild()
+    if g:asynctasks_last != 'run' && g:asynctasks_last != 'test'
+        cclose
+    endif
+endfunction
+augroup MyAsyncRun
+    autocmd!
+    autocmd User AsyncRunStart call CloseQfForBuild()
+    autocmd User AsyncRunStart lua vim.notify(vim.api.nvim_get_var("asynctasks_last") .. "ing " .. vim.api.nvim_get_var("asynctasks_profile"), "AsyncTasks")
+    autocmd User AsyncRunStop call CloseQfOnSuccess()
+augroup END
 
 
 " [pear-tree]
