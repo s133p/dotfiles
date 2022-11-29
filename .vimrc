@@ -492,6 +492,18 @@ if has('nvim') || has('mac')
 
 lua << EOF
 vim.notify = require("notify")
+vim.notify.setup({
+    top_down = false,
+    icons = {
+        DEBUG = " ",
+        ERROR = "🛑 ",
+        INFO = "ℹ️ ",
+        TRACE = "✎ ",
+        WARN = "🔥 "
+        },
+    render = "default",
+    timeout = 1000
+})
 
 local coc_status_record = {}
 
@@ -567,9 +579,9 @@ EOF
     " notifications
     augroup MyCoCThigns
         autocmd!
-        autocmd User CocNvimInit call s:InitCoc()
-        autocmd User CocDiagnosticChange call s:DiagnosticNotify()
-        autocmd User CocStatusChange call s:StatusNotify()
+        " autocmd User CocNvimInit call s:InitCoc()
+        " autocmd User CocDiagnosticChange call s:DiagnosticNotify()
+        " autocmd User CocStatusChange call s:StatusNotify()
     augroup END
 
     nmap <space>e <Cmd>CocCommand explorer<cr>
@@ -603,9 +615,9 @@ let g:asynctasks_term_close=1
 function! CloseQfOnSuccess()
     if g:asyncrun_code == 0
         cclose
-        lua vim.notify("✅ Build succeeded", "info", {title = 'test'})
+        lua vim.notify("Build succeeded", "info", {title = 'Build'})
     else
-        lua vim.notify("🚩 Build failed!", "error", {title = 'test'})
+        lua vim.notify("Build failed!", "error", {title = 'Build'})
         copen
         norm gwp
     endif
@@ -618,7 +630,7 @@ endfunction
 augroup MyAsyncRun
     autocmd!
     autocmd User AsyncRunStart call CloseQfForBuild()
-    autocmd User AsyncRunStart lua vim.notify(vim.api.nvim_get_var("asynctasks_last") .. "ing " .. vim.api.nvim_get_var("asynctasks_profile"), "AsyncTasks")
+    autocmd User AsyncRunStart lua vim.notify(vim.api.nvim_get_var("asynctasks_last") .. "ing " .. vim.api.nvim_get_var("asynctasks_profile"), "info", {title = "Build"})
     autocmd User AsyncRunStop call CloseQfOnSuccess()
 augroup END
 
