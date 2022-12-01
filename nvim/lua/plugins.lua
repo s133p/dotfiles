@@ -46,7 +46,7 @@ return require('packer').startup(function(use)
 	use 'spiiph/vim-space'
 	use 'wellle/targets.vim'
 	use 'junegunn/vim-easy-align'
-	use 'justinmk/vim-dirvish'
+	-- use 'justinmk/vim-dirvish'
 	use 'joereynolds/vim-minisnip'
 	use 'rgroli/other.nvim'
 	use 'folke/zen-mode.nvim'
@@ -70,5 +70,11 @@ return require('packer').startup(function(use)
 	use 'skywind3000/asynctasks.vim'
 	use 'skywind3000/asyncrun.vim'
 	use 's133p/personal-magic.vim'
+	use 'tamago324/lir.nvim'
+	use 'kyazdani42/nvim-web-devicons'
+	use {
+		'nvim-lualine/lualine.nvim',
+		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+	}
 
 end)

@@ -15,7 +15,8 @@ require("config/project")
 require("config/asynctasks")
 require("config/notify")
 require("config/dap")
+require("config/lir")
+require("config/barbar")
 
 require("options")
 require("mappings")
-

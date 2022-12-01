@@ -1,6 +1,6 @@
 vim.opt.shortmess:append { s = true, I = true, a = true } -- disable startup message
 vim.opt.backspace = vim.opt.backspace + { "nostop" } -- Don't stop backspace at insert
-vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard
+-- vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard
 vim.opt.cmdheight = 2 -- hide command line unless needed
 vim.opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion
 vim.opt.copyindent = true -- Copy the previous indentation on autoindenting
