@@ -1,7 +1,7 @@
 vim.opt.shortmess:append { s = true, I = true, a = true } -- disable startup message
 vim.opt.backspace = vim.opt.backspace + { "nostop" } -- Don't stop backspace at insert
 -- vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard
-vim.opt.cmdheight = 2 -- hide command line unless needed
+vim.opt.cmdheight = 1 -- hide command line unless needed
 vim.opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion
 vim.opt.copyindent = true -- Copy the previous indentation on autoindenting
 vim.opt.cursorline = true -- Highlight the text line of the cursor
@@ -67,11 +67,20 @@ vim.cmd("iabbrev &shrug; ¯\\_(ツ)_/¯")
 vim.cmd("iabbrev flaot float")
 
 -- Colors
-vim.cmd("colorscheme gruvbox")
+vim.g.gruvbox_material_background = 'medium'
+vim.g.gruvbox_material_foreground = 'mix'
+vim.g.gruvbox_material_menu_selection_background = 'blue'
+vim.g.gruvbox_material_better_performance = 1
+vim.cmd("colorscheme gruvbox-material")
 
 if (vim.fn.executable('ag') == 1) then
   vim.opt.grepprg = "ag --vimgrep"
   vim.opt.grepformat = '%f:%l:%c:%m,%f:%l%m,%f  %l%m'
+end
+
+if vim.g.neovide ~= '' then
+	vim.opt.guifont = 'JetBrainsMono NFM:h10'
+	vim.g.neovide_cursor_animation_length=0.02
 end
 
 

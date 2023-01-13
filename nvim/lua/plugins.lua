@@ -6,7 +6,7 @@ return require('packer').startup(function(use)
 	-- Treesitter
 	use {
 		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'
+		-- run = ':TSUpdate'
 	}
 
 	-- LSP + Completion
@@ -14,8 +14,8 @@ return require('packer').startup(function(use)
 		'neovim/nvim-lspconfig',
 		'williamboman/mason.nvim',
 		'williamboman/mason-lspconfig.nvim',
-		'mfussenegger/nvim-dap',
-		'jayp0521/mason-nvim-dap.nvim',
+		-- 'mfussenegger/nvim-dap',
+		-- 'jayp0521/mason-nvim-dap.nvim',
 		'jose-elias-alvarez/null-ls.nvim',
 		'jayp0521/mason-null-ls.nvim',
 		'onsails/lspkind.nvim',
@@ -46,21 +46,38 @@ return require('packer').startup(function(use)
 	use 'spiiph/vim-space'
 	use 'wellle/targets.vim'
 	use 'junegunn/vim-easy-align'
-	-- use 'justinmk/vim-dirvish'
+	use 'tamago324/lir.nvim'
 	use 'joereynolds/vim-minisnip'
 	use 'rgroli/other.nvim'
 	use 'folke/zen-mode.nvim'
 	use 'rcarriga/nvim-notify'
 	use 'b3nj5m1n/kommentary'
 	use 'jakewvincent/mkdnflow.nvim'
+	use({
+    	"iamcco/markdown-preview.nvim",
+    	run = function() vim.fn["mkdp#util#install"]() end,
+	})
 	use {
 		"windwp/nvim-autopairs",
 		config = function() require("nvim-autopairs").setup {} end
 	}
 
-	-- Colors
+	-- Colors + fancy ui
 	use 'sainnhe/gruvbox-material'
 	use 'ellisonleao/gruvbox.nvim'
+	-- use 'jacoborus/tender.vim'
+	-- use 'savq/melange'
+	-- use 'glepnir/zephyr-nvim'
+	-- use 'sainnhe/edge'
+	-- use 'Th3Whit3Wolf/one-nvim'
+	-- use 'Th3Whit3Wolf/space-nvim'
+	-- use 'ofirgall/ofirkai.nvim'
+	-- use 'lourenci/github-colors'
+	use 'kyazdani42/nvim-web-devicons'
+	use {
+		'nvim-lualine/lualine.nvim',
+		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+	}
 
 	-- GIT
 	use 'tpope/vim-fugitive'
@@ -70,11 +87,5 @@ return require('packer').startup(function(use)
 	use 'skywind3000/asynctasks.vim'
 	use 'skywind3000/asyncrun.vim'
 	use 's133p/personal-magic.vim'
-	use 'tamago324/lir.nvim'
-	use 'kyazdani42/nvim-web-devicons'
-	use {
-		'nvim-lualine/lualine.nvim',
-		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-	}
 
 end)

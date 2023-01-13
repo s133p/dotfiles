@@ -17,13 +17,17 @@ vim.api.nvim_create_autocmd("FileType", {
 		command = "nmap <buffer><Esc> gq",
 		group = dirvishGrp
 }) ]]
--- vim.keymap.set('n', '-', "<Cmd>execute 'e ' .. expand('%:p:h')<CR>")
 
-vim.keymap.set("n", "-", "<Cmd>lua require'lir.float'.init()<cr>")
+-- Browse in current buffer
+vim.keymap.set('n', '-', "<Cmd>execute 'e ' .. expand('%:p:h')<CR>")
+-- Browse in float
+-- vim.keymap.set("n", "-", "<Cmd>lua require'lir.float'.init()<cr>")
 
 -- EasyAlign
 vim.keymap.set("n", "ga", "<Plug>(EasyAlign)")
 vim.keymap.set("n", "ga", "<Plug>(EasyAlign)")
+vim.keymap.set("v", "ga", "<Plug>(EasyAlign)")
+vim.keymap.set("v", "ga", "<Plug>(EasyAlign)")
 
 -- Inline math
 vim.keymap.set("v", "gf", 'c<c-r>=<c-r>"<cr>')
@@ -69,6 +73,8 @@ vim.keymap.set("n", "<leader>ur", "<Cmd>Telescope oldfiles<cr>")
 vim.keymap.set("n", "<leader>ub", "<Cmd>Telescope buffers<cr>")
 
 vim.keymap.set("n", "<leader>un", "<Cmd>Telekasten<CR>")
+vim.keymap.set("n", "<leader>uN", "<Cmd>Telekasten goto_today<CR>")
+vim.keymap.set("n", "<leader>uw", "<Cmd>Telekasten goto_thisweek<CR>")
 vim.keymap.set("n", "<leader>up", "<Cmd>Telescope projects<cr>")
 vim.keymap.set("n", "<leader>us", "<Cmd>Telescope symbols<cr>")
 

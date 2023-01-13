@@ -1,5 +1,39 @@
 require('mkdnflow').setup({
-	-- Config goes here; leave blank for defaults
+	modules = {
+		bib = true,
+		buffers = true,
+		conceal = false,
+		cursor = true,
+		folds = true,
+		links = true,
+		lists = true,
+		maps = true,
+		paths = true,
+		tables = true
+	},
+	filetypes = {md = true, rmd = true, markdown = true},
+	create_dirs = true,             
+	perspective = {
+		priority = 'first',
+		fallback = 'current',
+		root_tell = false,
+		nvim_wd_heel = true
+	},    
+	wrap = true,
+	silent = false,
+	links = {
+		style = 'markdown',
+		name_is_source = false,
+		conceal = true,
+		implicit_extension = nil,
+		transform_implicit = false,
+		--[[ transform_explicit = function(text)
+			text = text:gsub(" ", "-")
+			text = text:lower()
+			text = os.date('%Y-%m-%d_')..text
+			return(text)
+		end ]]
+	},
 	mappings = {
 		MkdnEnter = {{'n', 'v', 'i'}, '<CR>'},
 		MkdnTab = false,
@@ -35,3 +69,9 @@ require('mkdnflow').setup({
 		MkdnUnfoldSection = {'n', '<leader>F'}
 	}
 })
+
+--[[ require('mkdnflow').setup({
+	-- Config goes here; leave blank for defaults
+	mappings = {
+	}
+}) ]]
